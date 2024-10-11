@@ -276,7 +276,7 @@ export const Register = () => {
             </div>
           </div>
         </form>
-        <div className="hidden lg:flex w-full bg-black justify-center items-center">
+        <div className="hidden lg:flex w-full bg-slate-200 justify-center items-center">
           <img
             className="object-cover h-full w-full"
             src={pets_register}
