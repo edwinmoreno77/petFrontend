@@ -1,6 +1,6 @@
 
 
-export function authLogin(email, password) {
+function authLogin(email, password) {
     let url = `http://localhost:5004/login`;
     let options = {
       method: "POST",
@@ -16,5 +16,5 @@ export function authLogin(email, password) {
       .catch((error) => console.log(error));
 }
 
-
+export default authLogin;
     
