@@ -6,9 +6,9 @@ function FormLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handlerSubmit = () => {
+  const handlerSubmit = async () => {
     // authLogin(email, password).then((result) => console.log(result));
-    const user = authLogin(email, password);
+    const user = await authLogin(email, password);
     console.log(user);
     setEmail("");
     setPassword("");

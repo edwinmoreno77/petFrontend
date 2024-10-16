@@ -1,6 +1,6 @@
 
 
-function authLogin(email, password) {
+async function authLogin(email, password) {
     let url = `http://localhost:5004/login`;
     let options = {
       method: "POST",
@@ -10,10 +10,9 @@ function authLogin(email, password) {
       body: JSON.stringify({email, password}),
     };
 
-    fetch(url, options)
-      .then((response) => response.json())
-      .then((result) => result) 
-      .catch((error) => console.log(error));
+    let response = await fetch(url, options)
+      let result = await response.json()
+      return result
 }
 
 export default authLogin;
