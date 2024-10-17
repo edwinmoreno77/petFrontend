@@ -7,11 +7,9 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route
-            path="/"
-            element={<h1 className="text-center">hola mundo</h1>}
-          />
+          <Route path="/" element={<h1 className="text-center">INICIO</h1>} />
           <Route path="/register" element={<Register />} />
+          <Route path="/perfil"element={<h1 className="text-center">PERFIL</h1>}/>
           <Route path="*" element={<h1>Not found</h1>} />
         </Routes>
       </BrowserRouter>

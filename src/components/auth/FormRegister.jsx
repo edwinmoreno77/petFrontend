@@ -1,38 +1,47 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2'
 import { useForm } from "../../hooks/useForm";
 import { createUser } from "../../api/authRegister";
 import { citiesByRegion } from "../../const/citiesByRegion";
 import add from "../../assets/addImages.svg";
 
-export const FormRegister = () => {
-  const registerFormFields = {
-    name: "",
-    lastName: "",
-    rut: "",
-    email: "",
-    password: "",
-    region: "",
-    comuna: "",
-    direction: "",
-    cellphone: "",
-    image: "",
-  };
+const registerFormFields = {
+  name: "",
+  lastName: "",
+  rut: "",
+  email: "",
+  password: "",
+  region: "",
+  comuna: "",
+  direction: "",
+  cellphone: "",
+  image: "",
+};
 
-  const { formState, onInputChange, setFormState } =
-    useForm(registerFormFields);
+export const FormRegister = () => {
 
   const [availableComunas, setAvailableComunas] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
+  const { formState, onInputChange, setFormState, onResetForm } =
+    useForm(registerFormFields);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
 
     if (file) {
+      const validExtensions = ["png", "jpg", "gif", "jpeg"];
+      const extension = file.name.split(".")[1];
+      if (!validExtensions.includes(extension)) {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "La imagen debe ser de tipo: png, jpg, gif, jpeg ",
+        });
+      }
+
       setSelectedImage(URL.createObjectURL(file));
-      const formData = new FormData();
-      formData.append("image", file);
-      setFormState({ ...formState, image: formData });
+      setFormState({ ...formState, image: file });
     }
   };
 
@@ -43,14 +52,61 @@ export const FormRegister = () => {
       setAvailableComunas([]);
     }
   }, [formState.region]);
+
   const inputFileRef = useRef(null);
 
   const handleClick = () => {
     inputFileRef.current.click();
   };
 
-  const handlerCreateUser = (formState) => {
-    createUser(formState);
+  const navigate = useNavigate();
+
+  //TODO: hook handler error messages
+  const handlerCreateUser = async (e, formState) => {
+    e.preventDefault();
+
+    const form = e.target.closest('form');
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return; 
+    }
+
+    const formData = new FormData();
+
+    Object.keys(formState).forEach((key) => {
+      formData.append(key, formState[key]);
+    });
+
+    const message = await createUser(formData);
+
+    if (message.message == "User already exists") {
+      
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: message.message,
+      });
+
+    } else if (message.message == "User created successfully") {
+
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: message.message,
+        showConfirmButton: false,
+        timer: 2000
+      });
+      onResetForm();
+      navigate("/perfil");
+
+    } else {
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: message.message,
+      });
+    }
   };
 
   return (
@@ -141,6 +197,7 @@ export const FormRegister = () => {
           placeholder="******"
           value={formState.password}
           onChange={onInputChange}
+          autoComplete="true"
           required
         />
         <label className="text-xs" htmlFor="region">
@@ -270,7 +327,7 @@ export const FormRegister = () => {
         </p>
         <button
           type="submit"
-          onClick={() => handlerCreateUser(formState)}
+          onClick={(e) => handlerCreateUser(e, formState)}
           className="bg-lime-400 font-semibold shadow-md hover:brightness-110  ease-in-out duration-200 text-white rounded-md mx-4 my-3 px-1 py-2"
         >
           Crear Cuenta
