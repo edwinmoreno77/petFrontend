@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { EyeIcon } from "@heroicons/react/16/solid";
 import authLogin from "../../api/authLogin";
 import logoSquare from "../../assets/logoSquare.jpg";
 
@@ -23,11 +24,11 @@ function FormLogin() {
             <img
               src={logoSquare}
               alt="image"
-              className="border-solid border-2 border-inherit rounded-lg hover:shadow-xl hover:brightness-105"
+              className="border-inherit rounded-lg hover:shadow-xl hover:brightness-105"
             />
           </div>
 
-          <div className="mt-10 mx-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div className="mt-10 mx-4 gap-x-6 gap-y-8">
             <div className="px-3 py-2 md:py-1">
               <label
                 htmlFor="email"
@@ -49,20 +50,23 @@ function FormLogin() {
               >
                 contraseña
               </label>
-              <input
-                className="shadow-inner p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-600"
-                placeholder="********"
-                type="text"
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <div className="flex-row justify-between">
+                <input
+                  className="shadow-inner p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-600"
+                  placeholder="********"
+                  type="password"
+                  name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <EyeIcon className="size-6 text-lime-400" />
+              </div>
             </div>
           </div>
 
           <div className="text-xs italic mx-5 my-4 flex justify-star ms-8">
             <input type="checkbox" className="accent-lime-400 mr-2" />
-            Recordar contraseña
+            Recordar mi contraseña
           </div>
 
           <div className="text-xs italic mx-4 my-4 flex justify-center">
