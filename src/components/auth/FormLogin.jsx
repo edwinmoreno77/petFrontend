@@ -20,11 +20,11 @@ function FormLogin() {
       <div className="flex flex-col items-center justify-center bg-slate-100 text-slate-600 lg:-me-4 rounded-e-2xl z-10 lg:w-full">
         <h1 className="text-center font-bold p-2 mt-8">Inicio de sesión</h1>
         <div className="bg-white w-80 h-screen md:w-6/12 lg:min-w-1/4 shadow-lg rounded-2xl mb-3 flex flex-col justify-center">
-          <div className="place-self-center bg-slate-100 w-36 h-36 lg:w-44 lg:h-44 rounded-lg shadow-inner ease-in-out duration-200 hover:scale-105 cursor-pointer">
+          <div className="place-self-center bg-slate-100 w-36 h-36 lg:w-44 lg:h-44 rounded-lg ease-in-out duration-200 hover:scale-105 cursor-pointer">
             <img
               src={logoSquare}
               alt="image"
-              className="border-inherit rounded-lg hover:shadow-xl hover:brightness-105"
+              className="border-inherit rounded-lg hover:scale-110 duration-200 ease-in-out hover:brightness-105"
             />
           </div>
 
@@ -50,7 +50,7 @@ function FormLogin() {
               >
                 contraseña
               </label>
-              <div className="flex-row justify-between">
+              <div className="flex flex-row justify-between">
                 <input
                   className="shadow-inner p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-600"
                   placeholder="********"
