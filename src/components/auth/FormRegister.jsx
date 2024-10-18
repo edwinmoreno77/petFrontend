@@ -105,7 +105,7 @@ export const FormRegister = () => {
           Nombre:
         </label>
         <input
-          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
+          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           type="text"
           id="name"
           name="name"
@@ -117,7 +117,7 @@ export const FormRegister = () => {
           Apellido:
         </label>
         <input
-          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
+          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           type="text"
           id="lastName"
           name="lastName"
@@ -129,7 +129,7 @@ export const FormRegister = () => {
           Rut:
         </label>
         <input
-          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
+          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           type="text"
           id="rut"
           name="rut"
@@ -143,7 +143,7 @@ export const FormRegister = () => {
           Correo:
         </label>
         <input
-          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
+          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           type="email"
           id="email"
           name="email"
@@ -156,7 +156,7 @@ export const FormRegister = () => {
           Contraseña:
         </label>
         <input
-          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
+          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           type="password"
           id="password"
           name="password"
@@ -170,7 +170,7 @@ export const FormRegister = () => {
           Region:
         </label>
         <select
-          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
+          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           id="region"
           name="region"
           value={formState.region}
@@ -240,7 +240,7 @@ export const FormRegister = () => {
           Comuna:
         </label>
         <select
-          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
+          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           id="comuna"
           name="comuna"
           title="comuna"
@@ -261,7 +261,7 @@ export const FormRegister = () => {
           Dirección:
         </label>
         <input
-          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
+          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           type="text"
           id="direction"
           name="direction"
@@ -274,7 +274,7 @@ export const FormRegister = () => {
           Telefono:
         </label>
         <input
-          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
+          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           type="text"
           id="cellphone"
           name="cellphone"
