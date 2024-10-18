@@ -1,5 +1,5 @@
 import { useState } from "react";
-import authLogin from "../../api/authLogin";
+import { authLogin } from "../../api/authUser";
 import logoSquare from "../../assets/logoSquare.jpg";
 
 function FormLogin() {
