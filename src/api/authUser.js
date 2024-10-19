@@ -22,3 +22,18 @@ export const createUser = async (userData) => {
     return error;
   }
 };
+
+export const authLogin = async (email, password) => {
+  let url = `http://localhost:5004/login`;
+  let options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  };
+
+  let response = await fetch(url, options);
+  let result = await response.json();
+  return result;
+};

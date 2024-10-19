@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { EyeIcon } from "@heroicons/react/16/solid";
-import authLogin from "../../api/authLogin";
+import { authLogin } from "../../api/authUser";
 import logoSquare from "../../assets/logoSquare.jpg";
 
 function FormLogin() {
