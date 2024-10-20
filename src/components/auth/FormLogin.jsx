@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { EyeIcon } from "@heroicons/react/16/solid";
+import IconEye from "./IconEye";
 import { authLogin } from "../../api/authUser";
 import logoSquare from "../../assets/logoSquare.jpg";
 
 function FormLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   const handlerSubmit = async () => {
     // authLogin(email, password).then((result) => console.log(result));
     const user = await authLogin(email, password);
@@ -37,7 +40,7 @@ function FormLogin() {
                 correo
               </label>
               <input
-                className="shadow-inner p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-600"
+                className="w-full bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
                 placeholder="ejemplo@email.com"
                 type="text"
                 name="email"
@@ -50,16 +53,21 @@ function FormLogin() {
               >
                 contraseña
               </label>
-              <div className="flex flex-row justify-between">
+              <div className="relative">
                 <input
-                  className="shadow-inner p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-600"
+                  className="w-full bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
                   placeholder="********"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
-                <EyeIcon className="size-6 text-lime-400" />
+                <span
+                  onClick={togglePasswordVisibility}
+                  className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+                >
+                  <IconEye showPassword={showPassword} />
+                </span>
               </div>
             </div>
           </div>

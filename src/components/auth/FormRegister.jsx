@@ -288,7 +288,7 @@ export const FormRegister = () => {
             to={"/login"}
             className="underline font-semibold text-lime-600 hover:brightness-125 cursor-pointer"
           >
-            inicia seseión
+            inicia sesión
           </Link>
         </p>
         <button
