@@ -2,10 +2,11 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import { citiesByRegion } from "../../const/citiesByRegion";
-import { validExtensions } from "../../utils/validateExtenion";
+import { validExtensions } from "../../utils/validateExtension";
 import add from "../../assets/addImages.svg";
 import { useAuth } from "../../hooks/useAuth";
 import { Context } from "../../store/appContext";
+import { EyeIcon } from "@heroicons/react/16/solid";
 
 const registerFormFields = {
   name: "",
@@ -26,6 +27,7 @@ export const FormRegister = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const { formState, onInputChange, setFormState, onResetForm } =
     useForm(registerFormFields);
+  const [viewPassword, setViewPassword] = useState(false);
 
   const { store } = useContext(Context);
   const { userStatus } = store.userState;
@@ -69,14 +71,18 @@ export const FormRegister = () => {
     });
 
     const response = await createUser(formData);
-    if (response) {
+    if (response && response.user) {
       onResetForm();
       navigate("/perfil");
     }
   };
 
+  const handleViewPassword = () => {
+    setViewPassword(!viewPassword);
+  };
+
   return (
-    <form className="bg-white w-80 md:w-6/12 lg:min-w-1/4 shadow-lg rounded-2xl my-2">
+    <form className="bg-white w-80 md:w-6/12 lg:min-w-1/4 shadow-lg rounded-2xl mt-2 mb-20 lg:mb-5">
       <div className="flex justify-center font-bold mt-3 2xl:my-5">
         <div
           className="flex items-center justify-center bg-slate-100 w-28 h-28 2xl:h-36 2xl:w-36 rounded-lg shadow-inner shadow-gray-500/50 ease-in-out duration-200 hover:scale-105 cursor-pointer"
@@ -105,7 +111,7 @@ export const FormRegister = () => {
           Nombre:
         </label>
         <input
-          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
+          className=" border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           type="text"
           id="name"
           name="name"
@@ -117,7 +123,7 @@ export const FormRegister = () => {
           Apellido:
         </label>
         <input
-          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
+          className=" border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           type="text"
           id="lastName"
           name="lastName"
@@ -129,7 +135,7 @@ export const FormRegister = () => {
           Rut:
         </label>
         <input
-          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
+          className=" border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           type="text"
           id="rut"
           name="rut"
@@ -143,7 +149,7 @@ export const FormRegister = () => {
           Correo:
         </label>
         <input
-          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
+          className=" border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           type="email"
           id="email"
           name="email"
@@ -155,22 +161,35 @@ export const FormRegister = () => {
         <label className="text-xs" htmlFor="password">
           Contraseña:
         </label>
-        <input
-          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
-          type="password"
-          id="password"
-          name="password"
-          placeholder="******"
-          value={formState.password}
-          onChange={onInputChange}
-          autoComplete="true"
-          required
-        />
+        <div className="relative">
+          <input
+            className="w-full border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400 pr-10"
+            type={viewPassword ? "text" : "password"}
+            id="password"
+            name="password"
+            placeholder="******"
+            value={formState.password}
+            onChange={onInputChange}
+            autoComplete="true"
+            required
+          />
+          <span onClick={handleViewPassword}>
+            {viewPassword ? (
+              <EyeIcon
+                className={`absolute right-3 top-1/2 transform -translate-y-1/2 hover:brightness-125 text-lime-400 cursor-pointer w-5 h-5`}
+              />
+            ) : (
+              <EyeIcon
+                className={`absolute right-3 top-1/2 transform -translate-y-1/2 hover:brightness-125 text-gray-400 cursor-pointer w-5 h-5`}
+              />
+            )}
+          </span>
+        </div>
         <label className="text-xs" htmlFor="region">
           Region:
         </label>
         <select
-          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
+          className=" border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           id="region"
           name="region"
           value={formState.region}
@@ -240,7 +259,7 @@ export const FormRegister = () => {
           Comuna:
         </label>
         <select
-          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
+          className=" border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           id="comuna"
           name="comuna"
           title="comuna"
@@ -261,7 +280,7 @@ export const FormRegister = () => {
           Dirección:
         </label>
         <input
-          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
+          className=" border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           type="text"
           id="direction"
           name="direction"
@@ -274,7 +293,7 @@ export const FormRegister = () => {
           Telefono:
         </label>
         <input
-          className="bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
+          className=" border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           type="text"
           id="cellphone"
           name="cellphone"
@@ -294,15 +313,17 @@ export const FormRegister = () => {
         <button
           type="submit"
           onClick={(e) => handlerCreateUser(e, formState)}
-          className="bg-lime-400 font-semibold shadow-md hover:brightness-110 ease-in-out duration-200 text-white rounded-md mx-4 my-3 px-1 py-2 flex justify-center items-center"
+          className={`bg-lime-400 font-semibold shadow-md hover:brightness-110 ease-in-out duration-200 text-white rounded-md mx-4 my-3 px-1 py-2 flex justify-center items-center
+            ${
+              userStatus === "checking" ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+          disabled={userStatus === "checking"}
         >
-          <span
-            className={
-              userStatus == "checking" ? "flex items-center" : "hidden"
-            }
-          >
-            <div className="animate-spin h-5 w-5 border-4 border-t-transparent border-white rounded-full mr-3"></div>
-          </span>
+          {userStatus === "checking" && (
+            <span className="flex items-center">
+              <div className="animate-spin h-5 w-5 border-4 border-t-transparent border-white rounded-full mr-3"></div>
+            </span>
+          )}
           <span>Crear Cuenta</span>
         </button>
       </div>

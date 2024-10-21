@@ -55,7 +55,7 @@ export const useAuth = () => {
         showConfirmButton: false,
         timer: 2000,
       });
-      return true;
+      return data;
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -64,23 +64,55 @@ export const useAuth = () => {
       });
       onLogout(error);
       console.log(error);
-      return false;
+      return error;
     }
   };
 
   const authLogin = async (email, password) => {
-    let url = `http://localhost:5004/login`;
-    let options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    };
+    onChecking();
 
-    let response = await fetch(url, options);
-    let result = await response.json();
-    return result;
+    try {
+      let url = `http://localhost:5004/login`;
+      let options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      };
+
+      let response = await fetch(url, options);
+
+      let result = await response.json();
+      const { data: user, token } = result;
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("token-init-date", new Date().getTime());
+      //TODO: manejar la respuesta de contraseña incorrecta antes de esta linea.
+      onLogin({
+        id: user.id,
+        rut: user.rut,
+        name: user.name,
+        lastName: user.lastName,
+        email: user.email,
+        direction: user.direction,
+        comuna: user.comuna,
+        region: user.region,
+        cellphone: user.cellphone,
+        image: user.image,
+        pets: user.owned_pets,
+      });
+
+      return result;
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error,
+      });
+      onLogout(error);
+    }
   };
 
   return {
