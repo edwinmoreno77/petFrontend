@@ -1,7 +1,7 @@
-import FormLogin from "../components/auth/FormLogin";
+import { FormLogin } from "../components/auth/FormLogin";
 import pets_register from "../assets/pet_register.png";
 
-function Login() {
+export function Login() {
   return (
     <main className="container-fluid lg:flex justify-between bg-slate-100  h-screen">
       <FormLogin />
@@ -15,5 +15,3 @@ function Login() {
     </main>
   );
 }
-
-export default Login;

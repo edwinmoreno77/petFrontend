@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import injectContext from "./store/appContext";
-import Login from "./views/Login";
+import "./global.css";
+import { Login } from "./views/Login";
 import { Register } from "./views/Register";
 import { Perfil } from "./views/Perfil";
 
