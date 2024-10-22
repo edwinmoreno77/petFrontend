@@ -26,12 +26,12 @@ export function Home() {
           </h1>
           <div className="flex mt-6 ml-auto">
             <img
-              className="w-16 lg:w-32 lg:h-32 me-4 rounded-full bg-primary-purple"
+              className="w-16 lg:w-32 lg:h-32 me-4 rounded-full bg-dark-green hover:bg-primary-purple hover:scale-110 duration-200 ease-in-out"
               src={dogGreen}
               alt=""
             />
             <img
-              className="w-16 lg:w-32 lg:h-32 me-4 rounded-full bg-primary-purple"
+              className="w-16 lg:w-32 lg:h-32 me-4 rounded-full bg-dark-green hover:bg-primary-purple hover:scale-110 duration-200 ease-in-out"
               src={catGreen}
               alt=""
             />
@@ -44,15 +44,15 @@ export function Home() {
               Estas son tus próximas actividades:
             </h1>
           </div>
-          <div className="flex justify-start p-3 my-2 text-center text-white font-bold hover:scale-105 duration-200 ease-in-out cursor-pointer w-full rounded-xl bg-primary-green">
+          <div className="flex justify-start p-3 my-2 text-center text-white font-bold hover:scale-105 duration-200 ease-in-out hover:bg-green cursor-pointer w-full rounded-xl bg-primary-green">
             <img className="w-6 lg:w-6 me-4" src={deworming} alt="" />
             actividad 1
           </div>
-          <div className="flex justify-start p-3 my-2 text-center text-white font-bold  hover:scale-105 duration-200 ease-in-out cursor-pointer w-full rounded-xl bg-primary-green">
+          <div className="flex justify-start p-3 my-2 text-center text-white font-bold  hover:scale-105 duration-200 ease-in-out hover:bg-green cursor-pointer w-full rounded-xl bg-primary-green">
             <img className="w-6 lg:w-6 me-4" src={vaccine} alt="" />
             actividad 2
           </div>
-          <div className="flex justify-start p-3 my-2 text-center text-white font-bold hover:scale-105 duration-200 ease-in-out cursor-pointer w-full rounded-xl bg-primary-green">
+          <div className="flex justify-start p-3 my-2 text-center text-white font-bold hover:scale-105 duration-200 ease-in-out hover:bg-green cursor-pointer w-full rounded-xl bg-primary-green">
             <img className="w-6 lg:w-6 me-4" src={calendar} alt="" />
             actividad 3
           </div>
