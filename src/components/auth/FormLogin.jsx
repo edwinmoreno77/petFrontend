@@ -22,7 +22,7 @@ export function FormLogin() {
     try {
       const user = await authLogin(email, password);
       if (user && user.data && user.data.id) {
-        navigate("/perfil");
+        navigate("/home");
         setEmail("");
         setPassword("");
         setErrorMessage("");
