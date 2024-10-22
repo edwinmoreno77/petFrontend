@@ -1,19 +1,20 @@
 import { useContext, useState } from "react";
-import { EyeIcon } from "@heroicons/react/16/solid";
-import logoSquare from "../../assets/logoSquare.jpg";
+import { IconEye } from "../common/IconEye";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { Context } from "../../store/appContext";
+import logo from "../../assets/logo.png";
 
-function FormLogin() {
+export function FormLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [viewPassword, setViewPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   const { authLogin } = useAuth();
-
   const { store } = useContext(Context);
   const { userStatus } = store.userState;
-
   const navigate = useNavigate();
 
   const handlerSubmit = async () => {
@@ -25,18 +26,14 @@ function FormLogin() {
     }
   };
 
-  const handleViewPassword = () => {
-    setViewPassword(!viewPassword);
-  };
-
   return (
     <>
       <div className="flex flex-col items-center justify-center bg-slate-100 text-slate-600 lg:-me-4 rounded-e-2xl z-10 lg:w-full">
         <h1 className="text-center font-bold p-2 mt-8">Inicio de sesión</h1>
-        <div className="bg-white w-80 py-10 md:w-6/12 lg:min-w-1/4 shadow-lg rounded-2xl mb-16 md:mb-3 flex flex-col justify-center">
-          <div className="place-self-center w-36 h-36 lg:w-44 lg:h-44 rounded-lg ease-in-out duration-200 hover:scale-105 cursor-pointer">
+        <div className="bg-white w-80 h-screen md:w-6/12 lg:min-w-1/4 shadow-lg rounded-2xl mb-3 flex flex-col justify-center">
+          <div className="place-self-center bg-white w-36 h-36 lg:w-44 lg:h-44 rounded-lg ease-in-out duration-200 hover:scale-105 cursor-pointer">
             <img
-              src={logoSquare}
+              src={logo}
               alt="image"
               className=" rounded-lg hover:scale-110 duration-200 ease-in-out hover:brightness-110"
             />
@@ -51,7 +48,7 @@ function FormLogin() {
                 Correo
               </label>
               <input
-                className="shadow-inner p-2 w-full rounded-lg border shadow-gray-500/50 border-gray-300 focus:outline-none focus:ring-1 focus:ring-slate-400 pr-10"
+                className="w-full bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
                 placeholder="ejemplo@email.com"
                 type="text"
                 name="email"
@@ -67,37 +64,32 @@ function FormLogin() {
               </label>
               <div className="relative">
                 <input
-                  className="shadow-inner p-2 w-full rounded-lg border shadow-gray-500/50 border-gray-300 focus:outline-none focus:ring-1 focus:ring-slate-400 pr-10"
+                  className="w-full bg-gray-100 border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
                   placeholder="********"
-                  type={viewPassword ? "text" : "password"}
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
-                <span onClick={handleViewPassword}>
-                  {viewPassword ? (
-                    <EyeIcon
-                      className={`absolute right-3 top-1/2 transform -translate-y-1/2 hover:brightness-125 text-lime-400 cursor-pointer w-5 h-5`}
-                    />
-                  ) : (
-                    <EyeIcon
-                      className={`absolute right-3 top-1/2 transform -translate-y-1/2 hover:brightness-125 text-gray-400 cursor-pointer w-5 h-5`}
-                    />
-                  )}
+                <span
+                  onClick={togglePasswordVisibility}
+                  className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+                >
+                  <IconEye showPassword={showPassword} />
                 </span>
               </div>
             </div>
           </div>
           <div className="p-2">
             <div className="italic flex justify-star ms-8">
-              <input type="checkbox" className="accent-lime-400 mr-2" />
+              <input type="checkbox" className="accent-primary-green mr-2" />
               Recordar mi contraseña
             </div>
             <p className="mt-5 font-extralight text-center mr-2 xs:text-sm sm:text-base">
               ¿No tienes una cuenta?{" "}
               <Link
                 to={"/register"}
-                className="underline font-semibold text-lime-600 hover:brightness-125 cursor-pointer"
+                className="underline font-semibold text-primary-green hover:brightness-125 cursor-pointer"
               >
                 Crear una cuenta
               </Link>
@@ -105,7 +97,7 @@ function FormLogin() {
           </div>
 
           <button
-            className={`flex justify-center items-center bg-lime-400 font-semibold shadow-md hover:brightness-110  ease-in-out duration-200 text-white rounded-md m-4 px-1 py-2 ${
+            className={`flex justify-center items-center bg-primary-green font-semibold shadow-md hover:brightness-110  ease-in-out duration-200 text-white rounded-md m-4 px-1 py-2 ${
               userStatus === "checking" ? "opacity-50 cursor-not-allowed" : ""
             }`}
             onClick={(e) => handlerSubmit(e)}
@@ -123,5 +115,3 @@ function FormLogin() {
     </>
   );
 }
-
-export default FormLogin;
