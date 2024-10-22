@@ -9,6 +9,7 @@ export function FormLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -18,11 +19,18 @@ export function FormLogin() {
   const navigate = useNavigate();
 
   const handlerSubmit = async () => {
-    const user = await authLogin(email, password);
-    if (user && user.data) {
-      navigate("/perfil");
-      setEmail("");
-      setPassword("");
+    try {
+      const user = await authLogin(email, password);
+      if (user && user.data && user.data.id) {
+        navigate("/perfil");
+        setEmail("");
+        setPassword("");
+        setErrorMessage("");
+      } else {
+        setErrorMessage("Usuario o contraseña inválidos");
+      }
+    } catch {
+      setErrorMessage("Usuario o contraseña inválidos");
     }
   };
 
@@ -80,6 +88,13 @@ export function FormLogin() {
               </div>
             </div>
           </div>
+
+          {errorMessage && (
+            <div className="text-red-500 text-center font-semibold mt-4">
+              {errorMessage}
+            </div>
+          )}
+
           <div className="p-2">
             <div className="italic flex justify-star ms-8">
               <input type="checkbox" className="accent-primary-green mr-2" />
