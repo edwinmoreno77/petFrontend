@@ -82,14 +82,14 @@ export function FormLogin() {
           </div>
           <div className="p-2">
             <div className="italic flex justify-star ms-8">
-              <input type="checkbox" className="accent-lime-400 mr-2" />
+              <input type="checkbox" className="accent-primary-green mr-2" />
               Recordar mi contraseña
             </div>
             <p className="mt-5 font-extralight text-center mr-2 xs:text-sm sm:text-base">
               ¿No tienes una cuenta?{" "}
               <Link
                 to={"/register"}
-                className="underline font-semibold text-lime-600 hover:brightness-125 cursor-pointer"
+                className="underline font-semibold text-primary-green hover:brightness-125 cursor-pointer"
               >
                 Crear una cuenta
               </Link>
@@ -97,7 +97,7 @@ export function FormLogin() {
           </div>
 
           <button
-            className={`flex justify-center items-center bg-lime-400 font-semibold shadow-md hover:brightness-110  ease-in-out duration-200 text-white rounded-md m-4 px-1 py-2 ${
+            className={`flex justify-center items-center bg-primary-green font-semibold shadow-md hover:brightness-110  ease-in-out duration-200 text-white rounded-md m-4 px-1 py-2 ${
               userStatus === "checking" ? "opacity-50 cursor-not-allowed" : ""
             }`}
             onClick={(e) => handlerSubmit(e)}

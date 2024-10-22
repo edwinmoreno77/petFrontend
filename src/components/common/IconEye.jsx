@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { EyeIcon } from "@heroicons/react/24/solid";
 import { EyeSlashIcon } from "@heroicons/react/24/solid";
 
-const IconEye = ({ showPassword, togglePasswordVisibility }) => {
+export const IconEye = ({ showPassword, togglePasswordVisibility }) => {
   return (
     <span onClick={togglePasswordVisibility} style={{ cursor: "pointer" }}>
       {showPassword ? (
@@ -18,5 +18,3 @@ IconEye.propTypes = {
   showPassword: PropTypes.bool.isRequired,
   togglePasswordVisibility: PropTypes.func.isRequired,
 };
-
-export default IconEye;
