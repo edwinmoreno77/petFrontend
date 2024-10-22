@@ -20,7 +20,7 @@ export function FormLogin() {
   const handlerSubmit = async () => {
     const user = await authLogin(email, password);
     if (user && user.data) {
-      navigate("/perfil");
+      navigate("/home");
       setEmail("");
       setPassword("");
     }
