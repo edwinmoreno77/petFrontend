@@ -20,12 +20,12 @@ export function Vaccines() {
   console.log(user.pets);
 
   return (
-    <main className="container-fluid bg-gradient-to-r from-primary-purple to-dark-green flex flex-col items-center min-h-screen p-5">
-      <div className="flex flex-col lg:flex-row justify-around p-3 hover:scale-105 duration-200 ease-in-out cursor-pointer text-center w-full max-w-3xl rounded-xl bg-slate-100 text-black mb-5 h-60">
+    <main className="container-fluid bg-slate-100 flex flex-col items-center min-h-screen p-5">
+      <div className="flex flex-col lg:flex-row justify-around p-3 hover:scale-105 duration-200 ease-in-out cursor-pointer text-center w-full max-w-3xl rounded-xl bg-black text-white mb-5 h-60">
         <div className="flex flex-col justify-center items-center p-3">
           <h1 className="font-extrabold md:text-2xl">Registro de Vacunas</h1>
           <div className="flex flex-col md:flex-row md:items-center space-y-3 md:space-y-0 md:space-x-3 mt-6">
-            <label className="text-m font-medium text-gray-700">
+            <label className="text-m font-medium text-white">
               Buscar por mascota:
             </label>
             <select
@@ -84,7 +84,7 @@ export function Vaccines() {
         : selectedPet && <p>No hay vacunas registradas para esta mascota</p>}
 
       {/* INFORMACIÓN ADICIONAL DE LA VACUNA */}
-      <div className="flex flex-col justify-center items-center p-3 text-center w-full max-w-3xl rounded-xl bg-dark-yellow text-black mb-3 h-40 lg:h-60">
+      <div className="flex flex-col justify-center items-center p-3 text-center w-full max-w-3xl rounded-xl bg-black text-white mb-3 h-40 lg:h-60">
         <h2 className="font-extrabold text-lg mb-2">Detalles de la Vacuna:</h2>
         <div className="w-full border-t border-gray-400 mb-3"></div>
         {selectedPet ? (
