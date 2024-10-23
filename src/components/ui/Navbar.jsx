@@ -15,7 +15,7 @@ export const Navbar = () => {
     <main className="fixed z-50 bottom-0 left-1/2 lg:left-0 transform -translate-x-1/2 lg:-translate-x-1 w-full lg:w-16 lg:h-full max-w-md lg:max-w-xs bg-black p-3 lg:p-2 rounded-t-2xl lg:rounded-t-none lg:rounded-e-lg">
       <nav>
         <ul className="flex justify-evenly items-center gap-3 lg:gap-8 lg:flex-col">
-          <NavLink to="/" className="group">
+          <NavLink to="home" className="group">
             {({ isActive }) => (
               <div className="relative">
                 <img
