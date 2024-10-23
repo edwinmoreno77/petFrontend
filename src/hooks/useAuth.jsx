@@ -83,12 +83,26 @@ export const useAuth = () => {
 
       let response = await fetch(url, options);
 
+      if (!response.ok) {
+        if (response.status === 401) {
+          Swal.fire({
+            icon: "error",
+            title: "Error de autenticación",
+            text: "Email o contraseña son inválidos",
+          });
+          onLogout();
+          return;
+        } else {
+          throw new Error(`message: ${response.statusText}`);
+        }
+      }
+
       let result = await response.json();
       const { data: user, token } = result;
 
       localStorage.setItem("token", token);
       localStorage.setItem("token-init-date", new Date().getTime());
-      //TODO: manejar la respuesta de contraseña incorrecta antes de esta linea.
+
       onLogin({
         id: user.id,
         rut: user.rut,
