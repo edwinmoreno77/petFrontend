@@ -9,7 +9,6 @@ export function FormLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -19,19 +18,10 @@ export function FormLogin() {
   const navigate = useNavigate();
 
   const handlerSubmit = async () => {
-    try {
-      const user = await authLogin(email, password);
-      if (user && user.data && user.data.id) {
-        navigate("/home");
-        setEmail("");
-        setPassword("");
-        setErrorMessage("");
-      } else {
-        setErrorMessage("Usuario o contraseña inválidos");
-      }
-    } catch {
-      setErrorMessage("Usuario o contraseña inválidos");
-    }
+    await authLogin(email, password);
+    navigate("/home");
+    setEmail("");
+    setPassword("");
   };
 
   return (
@@ -88,12 +78,6 @@ export function FormLogin() {
               </div>
             </div>
           </div>
-
-          {errorMessage && (
-            <div className="text-red-500 text-center font-semibold mt-4">
-              {errorMessage}
-            </div>
-          )}
 
           <div className="p-2">
             <div className="italic flex justify-star ms-8">
