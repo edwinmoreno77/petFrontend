@@ -18,12 +18,10 @@ export function FormLogin() {
   const navigate = useNavigate();
 
   const handlerSubmit = async () => {
-    const user = await authLogin(email, password);
-    if (user && user.data) {
-      navigate("/perfil");
-      setEmail("");
-      setPassword("");
-    }
+    await authLogin(email, password);
+    navigate("/home");
+    setEmail("");
+    setPassword("");
   };
 
   return (
@@ -80,6 +78,7 @@ export function FormLogin() {
               </div>
             </div>
           </div>
+
           <div className="p-2">
             <div className="italic flex justify-star ms-8">
               <input type="checkbox" className="accent-primary-green mr-2" />
