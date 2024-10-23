@@ -1,19 +1,63 @@
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Context } from "../store/appContext";
+import vaccine from "../assets/vaccine.svg";
+import deworming from "../assets/deworming.svg";
+import calendar from "../assets/calendar.svg";
+import dogGreen from "../assets/dogGreen.png";
+import catGreen from "../assets/catGreen.png";
 
-export const Home = () => {
+export function Home() {
+  const { store } = useContext(Context);
+  const user = store.userState?.user;
+
   return (
-    <main className="container-fluid bg-gradient-to-r from-cyan-700 to-blue-500 flex flex-col items-center  min-h-screen p-5">
-      <div className="flex flex-col justify-center items-center p-3 hover:scale-105 duration-200 ease-in-out cursor-pointer text-center w-full max-w-3xl  rounded-xl bg-gradient-to-r from-slate-800 to-slate-700 text-white mb-16 h-96">
-        <h1>Home</h1>
-        <div className="flex gap-5 mt-5">
-          <Link to={"/login"} className="p-3 bg-lime-500 rounded-lg">
-            Iniciar sesión
-          </Link>
-          <Link to={"/register"} className="p-3 bg-lime-500 rounded-lg">
-            Registro de usuario
-          </Link>
+    <>
+      <main className="container-fluid bg-gradient-to-r from-primary-purple to-dark-green flex flex-col items-center  min-h-screen p-5">
+        <div className="flex flex-col justify-center items-center p-3 hover:scale-105 duration-200 ease-in-out cursor-pointer text-center w-full max-w-3xl rounded-xl bg-slate-100 text-black mb-5 h-96">
+          <div className="flex items-start justify-start h-16 w-16 md:w-24 md:h-24">
+            <img
+              className="object-cover h-full w-full rounded-full"
+              src={user.image}
+              alt="user image"
+            />
+          </div>
+          <h1 className="font-extrabold text-xl md:text-2xl my-3">
+            {user ? `Bienvenid@, ${user.name}!` : "Cargando..."}
+          </h1>
+          <div className="flex mt-6 ml-auto">
+            <img
+              className="w-16 lg:w-32 lg:h-32 me-4 rounded-full bg-dark-green hover:bg-primary-purple hover:scale-110 duration-200 ease-in-out"
+              src={dogGreen}
+              alt=""
+            />
+            <img
+              className="w-16 lg:w-32 lg:h-32 me-4 rounded-full bg-dark-green hover:bg-primary-purple hover:scale-110 duration-200 ease-in-out"
+              src={catGreen}
+              alt=""
+            />
+          </div>
         </div>
-      </div>
-    </main>
+
+        <div className="flex flex-col justify-center items-start p-3 text-center w-full max-w-3xl rounded-xl bg-slate-100 text-black mb-3 h-96">
+          <div className="flex justify-start mx-2 mt-2 mb-6 text-center">
+            <h1 className="font-extrabold md:text-2xl">
+              Estas son tus próximas actividades:
+            </h1>
+          </div>
+          <div className="flex justify-start p-3 my-2 text-center text-white font-bold hover:scale-105 duration-200 ease-in-out hover:bg-green cursor-pointer w-full rounded-xl bg-primary-green">
+            <img className="w-6 lg:w-6 me-4" src={deworming} alt="" />
+            actividad 1
+          </div>
+          <div className="flex justify-start p-3 my-2 text-center text-white font-bold  hover:scale-105 duration-200 ease-in-out hover:bg-green cursor-pointer w-full rounded-xl bg-primary-green">
+            <img className="w-6 lg:w-6 me-4" src={vaccine} alt="" />
+            actividad 2
+          </div>
+          <div className="flex justify-start p-3 my-2 text-center text-white font-bold hover:scale-105 duration-200 ease-in-out hover:bg-green cursor-pointer w-full rounded-xl bg-primary-green">
+            <img className="w-6 lg:w-6 me-4" src={calendar} alt="" />
+            actividad 3
+          </div>
+        </div>
+      </main>
+    </>
   );
-};
+}
