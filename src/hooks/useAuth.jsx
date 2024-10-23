@@ -103,7 +103,6 @@ export const useAuth = () => {
       localStorage.setItem("token", token);
       localStorage.setItem("token-init-date", new Date().getTime());
 
-      //TODO: manejar la respuesta de contraseña incorrecta antes de esta linea.
       onLogin({
         id: user.id,
         rut: user.rut,
