@@ -25,6 +25,7 @@ export function Vaccines() {
         <div className="flex flex-col justify-center items-center p-3">
           <h1 className="font-extrabold md:text-2xl">Registro de Vacunas</h1>
           <div className="flex flex-col md:flex-row md:items-center space-y-3 md:space-y-0 md:space-x-3 mt-6">
+            {/* ESTE ERA EL DROPDOWN:
             <label className="text-m font-medium text-white">
               Buscar por mascota:
             </label>
@@ -42,7 +43,7 @@ export function Vaccines() {
               ) : (
                 <option value="">No tienes mascotas registradas</option>
               )}
-            </select>
+            </select> */}
           </div>
         </div>
         <div className="flex justify-center">
