@@ -73,7 +73,7 @@ export const FormRegister = () => {
     const response = await createUser(formData);
     if (response && response.user) {
       onResetForm();
-      navigate("/perfil");
+      navigate("/profile");
     }
   };
 

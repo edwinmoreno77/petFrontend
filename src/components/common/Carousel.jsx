@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-export const CustomCarousel = ({ pets }) => {
+export const CustomCarousel = ({ pets, handlerSelectedPet }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const itemsVisible = 4;
@@ -17,7 +17,7 @@ export const CustomCarousel = ({ pets }) => {
   };
 
   return (
-    <div className="relative w-full max-w-xs md:max-w-lg ">
+    <div className="relative w-full max-w-xs md:max-w-lg">
       {pets.length > 0 ? (
         <>
           <div className="overflow-hidden">
@@ -30,11 +30,15 @@ export const CustomCarousel = ({ pets }) => {
               }}
             >
               {pets.map((pet) => (
-                <div key={pet.id} className="relative group mr-2 p-2 w-1/4">
-                  <span className="absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-xs lg:text-lg font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out z-10">
+                <div
+                  key={pet.id}
+                  onClick={() => handlerSelectedPet(pet)}
+                  className="relative group p-0 lg:mr-2 lg:p-2 w-1/4"
+                >
+                  <span className="absolute  top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-xs lg:text-lg font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out z-10">
                     {pet.name}
                   </span>
-                  <section className="bg-white w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-xl overflow-hidden">
+                  <section className="bg-white w-16 h-16 md:w-24 md:h-24 lg:w-24 lg:h-24 rounded-xl overflow-hidden">
                     <img
                       className="object-cover w-full h-full group-hover:opacity-80 group-hover:blur-sm group-hover:brightness-50 rounded-xl border-4 group-hover:scale-105 duration-200 ease-in-out"
                       src={pet.image}
@@ -73,4 +77,6 @@ CustomCarousel.propTypes = {
       image: PropTypes.string.isRequired,
     })
   ).isRequired,
+  // setSelectedPet: PropTypes.func.isRequired,
+  handlerSelectedPet: PropTypes.func.isRequired,
 };

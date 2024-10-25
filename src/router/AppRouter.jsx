@@ -2,16 +2,14 @@ import { Route, Routes } from "react-router-dom";
 import { PrivateRoutes } from "./PrivateRoutes";
 import { Register } from "../views/Register";
 import { PetRoutes } from "./PetRoutes";
-import { Home } from "../views/Home";
+import { LandingPage } from "../views/LandingPage";
 import { Login } from "../views/Login";
-import { Navbar } from "../components/ui/Navbar";
 
 export const AppRouter = () => {
   return (
     <>
-      <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
 

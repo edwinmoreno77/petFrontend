@@ -4,11 +4,11 @@ import { EyeSlashIcon } from "@heroicons/react/24/solid";
 
 export const IconEye = ({ showPassword, togglePasswordVisibility }) => {
   return (
-    <span onClick={togglePasswordVisibility} style={{ cursor: "pointer" }}>
+    <span className="cursor-pointer" onClick={togglePasswordVisibility}>
       {showPassword ? (
-        <EyeSlashIcon className="h-6 w-6 text-primary-green" />
-      ) : (
         <EyeIcon className="h-6 w-6 text-primary-green" />
+      ) : (
+        <EyeSlashIcon className="h-6 w-6 text-gray-400" />
       )}
     </span>
   );
