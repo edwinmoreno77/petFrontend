@@ -137,7 +137,7 @@ export function Vaccines() {
 
               {/* DETALLES DE LA VACUNA QUE SE MUESTRAN SOLO CUANDO LA SELECCIONAS--------------- */}
               {selectedVaccine === vaccine && (
-                <div className="flex flex-col justify-center">
+                <div className="flex flex-col justify-center w-full my-6 px-10">
                   <h2 className="font-bold text-base mb-2">
                     Detalles de la Vacuna:
                   </h2>
