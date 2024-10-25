@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Context } from "../store/appContext";
-import vaccine from "../assets/vaccine.svg";
+import vaccineIcon from "../assets/vaccineIcon.svg";
 import deworming from "../assets/deworming.svg";
 import calendar from "../assets/calendar.svg";
 import dogGreen from "../assets/dogGreen.png";
@@ -49,7 +49,7 @@ export function Home() {
             actividad 1
           </div>
           <div className="flex justify-start p-3 my-2 text-center text-white font-bold  hover:scale-105 duration-200 ease-in-out hover:brightness-75 cursor-pointer w-full rounded-xl bg-primary-green">
-            <img className="w-6 lg:w-6 me-4" src={vaccine} alt="" />
+            <img className="w-6 lg:w-6 me-4" src={vaccineIcon} alt="" />
             actividad 2
           </div>
           <div className="flex justify-start p-3 my-2 text-center text-white font-bold hover:scale-105 duration-200 ease-in-out hover:brightness-75 cursor-pointer w-full rounded-xl bg-primary-green">

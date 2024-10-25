@@ -1,4 +1,4 @@
-// import vaccine from "../assets/vaccine.svg";
+import vaccineIcon from "../assets/vaccineIcon.svg";
 import addimages from "../assets/addimages.svg";
 import { useContext, useState } from "react";
 import { Context } from "../store/appContext";
@@ -7,17 +7,58 @@ export function Vaccines() {
   const { store } = useContext(Context);
   const { user } = store.userState;
   const [selectedPet, setSelectedPet] = useState(null);
+  const [vaccines, setVaccines] = useState([]);
+  const [selectedVaccine, setSelectedVaccine] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const petsPerPage = 3;
 
-  const handlePetChange = (event) => {
-    const petId = event.target.value;
+  const handlePetChange = async (petId) => {
     const selected = user.pets.find((pet) => pet.id === parseInt(petId));
     setSelectedPet(selected);
+
+    // LLAMADA AL BACKEND, VACUNAS POR MASCOTA----------------------------
+    if (petId) {
+      try {
+        const response = await fetch(
+          `http://localhost:5004/getVaccinesByPet/${petId}`
+        );
+        const data = await response.json();
+
+        if (response.ok) {
+          setVaccines(data.data);
+        } else {
+          console.error(data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching vaccines:", error);
+      }
+    }
   };
 
-  const vaccines = selectedPet?.vaccines || [];
+  const handleVaccineClick = (vaccine) => {
+    if (selectedVaccine === vaccine) {
+      setSelectedVaccine(null);
+    } else {
+      setSelectedVaccine(vaccine);
+    }
+  };
 
-  // console.log("datos mascota del usuario:", selectedPet);
-  console.log(user.pets);
+  const nextPage = () => {
+    if (currentIndex < Math.floor(user.pets.length / petsPerPage)) {
+      setCurrentIndex(currentIndex + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    }
+  };
+
+  const displayedPets = user.pets.slice(
+    currentIndex * petsPerPage,
+    (currentIndex + 1) * petsPerPage
+  );
 
   return (
     <main className="container-fluid bg-slate-100 flex flex-col items-center min-h-screen p-5">
@@ -25,25 +66,37 @@ export function Vaccines() {
         <div className="flex flex-col justify-center items-center p-3">
           <h1 className="font-extrabold md:text-2xl">Registro de Vacunas</h1>
           <div className="flex flex-col md:flex-row md:items-center space-y-3 md:space-y-0 md:space-x-3 mt-6">
-            {/* ESTE ERA EL DROPDOWN:
-            <label className="text-m font-medium text-white">
-              Buscar por mascota:
-            </label>
-            <select
-              className="block w-full md:w-60 p-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              onChange={handlePetChange}
-            >
-              <option value="">Selecciona una mascota</option>
-              {user.pets && user.pets.length > 0 ? (
-                user.pets.map((pet) => (
-                  <option key={pet.id} value={pet.id}>
-                    {pet.name}
-                  </option>
-                ))
-              ) : (
-                <option value="">No tienes mascotas registradas</option>
-              )}
-            </select> */}
+            {/* CARROUSEL------------------------------------ */}
+            <div className="flex items-center">
+              <button
+                onClick={prevPage}
+                disabled={currentIndex === 0}
+                className="p-2 bg-gray-800 text-white rounded-l-lg"
+              >
+                ←
+              </button>
+              <div className="flex overflow-hidden w-full">
+                {displayedPets.map((pet) => (
+                  <div key={pet.id} className="flex-shrink-0 w-1/3 p-2">
+                    <img
+                      className="rounded-full cursor-pointer hover:scale-105 transition-transform duration-200"
+                      src={pet.image}
+                      alt={pet.name}
+                      onClick={() => handlePetChange(pet.id)}
+                    />
+                  </div>
+                ))}
+              </div>
+              <button
+                onClick={nextPage}
+                disabled={
+                  currentIndex >= Math.floor(user.pets.length / petsPerPage)
+                }
+                className="p-2 bg-gray-800 text-white rounded-r-lg"
+              >
+                →
+              </button>
+            </div>
           </div>
         </div>
         <div className="flex justify-center">
@@ -51,92 +104,56 @@ export function Vaccines() {
             className="w-12 lg:w-32 hover:invert"
             src={addimages}
             alt="añadir vacuna"
-          ></img>
+          />
         </div>
       </div>
 
-      {/* INFORMACIÓN PRINCIPAL DE LA VACUNA */}
+      {/* MUESTRA INFORMACIÓN PRINCIPAL DE LAS VACUNAS DE LA MASCOTA SELECCIONADA */}
       {selectedPet && vaccines.length > 0
         ? vaccines.map((vaccine, index) => (
             <div
               key={index}
-              className="flex flex-col justify-center items-center p-3 hover:scale-105 duration-200 ease-in-out cursor-pointer text-center w-full max-w-3xl rounded-xl bg-slate-100 text-black mb-3 h-30 lg:h-32"
+              onClick={() => handleVaccineClick(vaccine)}
+              className={`flex flex-col justify-center items-center p-3 hover:scale-105 duration-200 hover:bg-primary-green ease-in-out cursor-pointer text-center w-full max-w-3xl rounded-xl bg-black text-white mb-3 ${
+                selectedVaccine === vaccine ? "h-auto" : "h-32"
+              }`}
             >
-              <div className="flex items-center justify-around w-full p-2 text-xs lg:text-base lg:p-8">
+              <div className="flex flex-row items-center justify-around w-full p-2 text-xs lg:text-base lg:p-8">
                 <div>
                   <img
                     className="w-9 lg:w-16 hover:invert"
-                    src={vaccine}
+                    src={vaccineIcon}
                     alt="vaccine"
                   />
                 </div>
                 <ul className="flex justify-evenly items-center gap-5 w-full">
-                  <li className="font-extrabold">
-                    Vacuna de {selectedPet.name}
-                  </li>
-                  <li className="font-extrabold">
+                  <li className="font-bold">Vacuna de {selectedPet.name}</li>
+                  <li className="font-bold">
                     Tipo de Vacuna: {vaccine.vaccine}
                   </li>
-                  <li className="font-extrabold">Fecha: {vaccine.date}</li>
+                  <li className="font-bold">Fecha: {vaccine.date}</li>
                 </ul>
               </div>
+
+              {/* DETALLES DE LA VACUNA QUE SE MUESTRAN SOLO CUANDO LA SELECCIONAS--------------- */}
+              {selectedVaccine === vaccine && (
+                <div className="flex flex-col justify-center">
+                  <h2 className="font-bold text-base mb-2">
+                    Detalles de la Vacuna:
+                  </h2>
+                  <div className="w-full border-t border-gray-800 mb-3"></div>
+                  <ul className="flex flex-col justify-center w-full">
+                    <li className="text-sm">Peso (gramos): {vaccine.weight}</li>
+                    <li className="text-sm">
+                      Próxima dosis: {vaccine.next_vaccine}
+                    </li>
+                    <li className="text-sm">Imagen: {vaccine.image}</li>
+                  </ul>
+                </div>
+              )}
             </div>
           ))
         : selectedPet && <p>No hay vacunas registradas para esta mascota</p>}
-
-      {/* INFORMACIÓN ADICIONAL DE LA VACUNA */}
-      <div className="flex flex-col justify-center items-center p-3 text-center w-full max-w-3xl rounded-xl bg-black text-white mb-3 h-40 lg:h-60">
-        <h2 className="font-extrabold text-lg mb-2">Detalles de la Vacuna:</h2>
-        <div className="w-full border-t border-gray-400 mb-3"></div>
-        {selectedPet ? (
-          <ul className="flex flex-col justify-center w-full">
-            <li className="text-sm">Vacuna de: {selectedPet.name}</li>
-            <li className="text-sm">
-              Tipo de vacuna: {selectedPet.vaccine?.name}
-            </li>
-            <li className="text-sm">
-              Fecha de aplicación: {selectedPet.vaccine?.date}
-            </li>
-            <li className="text-sm">
-              Peso (gramos): {selectedPet.vaccine?.weight}
-            </li>
-            <li className="text-sm">
-              Próxima dosis: {selectedPet.vaccine?.next_vaccine}
-            </li>
-          </ul>
-        ) : (
-          <p>No hay detalles disponibles.</p>
-        )}
-      </div>
-
-      {/* MAL INTENTO */}
-      {/* <div className="flex flex-col justify-center items-center p-3 hover:scale-105 duration-200 ease-in-out cursor-pointer text-center w-full max-w-3xl rounded-xl bg-slate-100 text-black mb-3 h-30 lg:h-32">
-        <div className="flex items-center justify-around w-full p-2 text-xs lg:text-base lg:p-8">
-          <div>
-            <img className="w-9 lg:w-16 hover:invert" src={vaccine} alt="" />
-          </div>
-          <ul>
-            <li className="font-extrabold">Vacuna de {selectedPet.name}</li>
-            <li className="font-extrabold">
-              Tipo de Vacuna: {vaccine.vaccine}
-            </li>
-            <li className="font-extrabold">Fecha: {vaccine.date}</li>
-          </ul>
-        </div>
-      </div>
-
-      <div className="flex flex-col justify-center items-center p-3 text-center w-full max-w-3xl rounded-xl bg-dark-yellow text-black mb-3 h-40 lg:h-48">
-        <h2 className="font-extrabold text-lg mb-2">Detalles de la Vacuna:</h2>
-        <div className="w-full border-t border-gray-400 mb-3"></div>
-        <ul className="flex flex-col justify-center w-full">
-          <li className="text-sm">Vacuna de: {vaccine.pet_id}</li>
-          <li className="text-sm">Tipo de vacuna: {vaccine.name}</li>
-          <li className="text-sm">Fecha de aplicación: {vaccine.date}</li>
-          <li className="text-sm">Peso (gramos): {vaccine.weight}</li>
-          <li className="text-sm">Proxima dosis: {vaccine.next_vaccine}</li>
-        </ul>
-        <img className="w-10 lg:w-20" src={vaccine.image} alt="" />
-      </div> */}
     </main>
   );
 }
