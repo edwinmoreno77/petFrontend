@@ -77,6 +77,5 @@ CustomCarousel.propTypes = {
       image: PropTypes.string.isRequired,
     })
   ).isRequired,
-  // setSelectedPet: PropTypes.func.isRequired,
   handlerSelectedPet: PropTypes.func.isRequired,
 };
