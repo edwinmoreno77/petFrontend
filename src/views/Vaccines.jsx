@@ -76,22 +76,25 @@ export function Vaccines() {
               <button
                 onClick={prevPage}
                 disabled={currentIndex === 0}
-                className="p-2 bg-gray-800 text-white rounded-l-lg"
+                className="p-2 bg-gray-800 text-white rounded-l-lg mb-8"
               >
                 ←
               </button>
               <div className="flex overflow-hidden w-full">
                 {displayedPets.map((pet) => (
-                  <div key={pet.id} className="flex-shrink-0 w-1/3 p-2">
+                  <div
+                    key={pet.id}
+                    className="flex-shrink-0 w-1/3 p-2 flex flex-col items-center"
+                  >
                     <img
-                      className="rounded-full cursor-pointer hover:scale-105 transition-transform duration-200 min-h-10 max-h-28"
+                      className="border-4 rounded-full cursor-pointer hover:scale-105 transition-transform duration-200 min-h-10 max-h-28"
                       src={pet.image}
                       alt={pet.name}
                       onClick={() => handlePetChange(pet.id)}
                     />
-                    <p className="text-center mt-2 text-white font-semibold">
+                    <div className="mt-2 text-white font-semibold text-center">
                       {pet.name}
-                    </p>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -100,7 +103,7 @@ export function Vaccines() {
                 disabled={
                   currentIndex >= Math.floor(user.pets.length / petsPerPage)
                 }
-                className="p-2 bg-gray-800 text-white rounded-r-lg"
+                className="p-2 bg-gray-800 text-white rounded-r-lg mb-8"
               >
                 →
               </button>
@@ -159,10 +162,10 @@ export function Vaccines() {
                   <div className="flex flex-row p-2">
                     <ul className="flex flex-col justify-center w-full">
                       <li className="text-sm">
-                        Peso (gramos): {vaccine.weight}
+                        Peso de {selectedPet.name}(g): {vaccine.weight}
                       </li>
                       <li className="text-sm">
-                        Próxima dosis: {vaccine.next_vaccine}
+                        Próxima Dosis: {vaccine.nextVaccine}
                       </li>
                     </ul>
 
