@@ -12,7 +12,7 @@ export const UserLogout = ({ user, onLogout }) => {
   return (
     <div className="flex items-center justify-around w-full min-w-72 p-2 lg:p-5 rounded-xl mb-5 md:mb-2">
       <div className="flex items-center justify-around   md:p-5  lg:p-5 w-96">
-        <div className="flex items-start justify-start h-16 w-16 md:w-24 md:h-24">
+        <div className="flex items-start justify-start h-16 w-16 md:w-24 md:h-24 lg:w-32 lg:h-32">
           <img
             className="object-cover h-full w-full rounded-full"
             src={user.image}

@@ -1,11 +1,11 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { Profile } from "../views/Profile";
+import { Profile } from "../views/profile/Profile";
 import { Vaccines } from "../views/Vaccines";
 import { Deworming } from "../views/Deworming";
 import { Calendar } from "../views/Calendar";
 import { Navbar } from "../components/ui/Navbar";
 import { Home } from "../views/Home";
-import { AddPets } from "../views/AddPets";
+import { AddPets } from "../views/profile/AddPets";
 
 export const PetRoutes = () => {
   return (

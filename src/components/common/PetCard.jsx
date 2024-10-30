@@ -5,11 +5,11 @@ export const PetCard = ({ pet }) => {
     <section className="mb-8">
       <div className="flex flex-col md:flex-row">
         <div className="md:w-5/12 p-5 flex justify-center">
-          <div className="w-full rounded-lg ">
+          <div className="w-64 h-64 md:w-full md:h-full rounded-lg ">
             <img
               src={pet.image}
-              className="w-full shadow-xl rounded-lg"
-              alt="..."
+              className="w-full h-full object-cover shadow-xl rounded-lg"
+              alt={pet.name}
             />
           </div>
         </div>

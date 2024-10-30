@@ -17,7 +17,7 @@ export const CustomCarousel = ({ pets, handlerSelectedPet }) => {
   };
 
   return (
-    <div className="relative w-full max-w-xs md:max-w-lg">
+    <div className="relative w-full max-w-md md:max-w-2xl lg:max-w-3xl">
       {pets.length > 0 ? (
         <>
           <div className="overflow-hidden">
@@ -38,9 +38,9 @@ export const CustomCarousel = ({ pets, handlerSelectedPet }) => {
                   <span className="absolute  top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-xs lg:text-lg font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out z-10">
                     {pet.name}
                   </span>
-                  <section className="bg-white w-16 h-16 md:w-24 md:h-24 lg:w-24 lg:h-24 rounded-xl overflow-hidden">
+                  <section className="w-16 h-16 md:w-24 md:h-24 lg:w-24 lg:h-24 rounded-xl overflow-hidden">
                     <img
-                      className="object-cover w-full h-full group-hover:opacity-80 group-hover:blur-sm group-hover:brightness-50 rounded-xl border-4 group-hover:scale-105 duration-200 ease-in-out"
+                      className="object-cover w-full h-full group-hover:opacity-80 group-hover:blur-sm group-hover:brightness-50 rounded-full border-4 group-hover:scale-105 duration-200 ease-in-out"
                       src={pet.image}
                       alt={pet.name}
                     />

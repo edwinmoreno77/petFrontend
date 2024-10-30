@@ -5,7 +5,7 @@ import { validExtensions } from "../../utils/validateExtension";
 import add from "../../assets/addImages.svg";
 import logo from "../../assets/logo.png";
 import { Context } from "../../store/appContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const petformfields = {
   user_id: "",
@@ -27,6 +27,7 @@ export const CreatePetForm = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const inputFileRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -43,13 +44,12 @@ export const CreatePetForm = () => {
   const handlerCreatePet = async (e, formState) => {
     e.preventDefault();
 
-    //TODO: add validations
-    // const form = e.target.closest("form");
+    const form = e.target.closest("form");
 
-    // if (!form.checkValidity()) {
-    //   form.reportValidity();
-    //   return;
-    // }
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
 
     const formData = new FormData();
 
@@ -59,6 +59,7 @@ export const CreatePetForm = () => {
 
     const response = await createPet(formData);
     if (response) {
+      navigate("/profile");
       onResetForm();
     }
   };
@@ -109,6 +110,7 @@ export const CreatePetForm = () => {
               value={formState.name}
               onChange={onInputChange}
               placeholder=" "
+              required
             />
             <label
               htmlFor="name"
@@ -126,6 +128,7 @@ export const CreatePetForm = () => {
               value={formState.animal}
               onChange={onInputChange}
               placeholder=" "
+              required
             />
             <label
               htmlFor="animal"
@@ -146,6 +149,7 @@ export const CreatePetForm = () => {
               value={formState.race}
               onChange={onInputChange}
               placeholder=" "
+              required
             />
             <label
               htmlFor="race"
@@ -163,6 +167,7 @@ export const CreatePetForm = () => {
               value={formState.birthday}
               onChange={onInputChange}
               placeholder=" "
+              required
             />
             <label
               htmlFor="birthday"
@@ -172,19 +177,19 @@ export const CreatePetForm = () => {
             </label>
           </div>
         </div>
+        <div className="flex mt-2 md:mt-0 md:flex-col gap-2">
+          <button
+            className="bg-lime-500 py-2 px-5  hover:bg-lime-400 rounded-lg"
+            onClick={(e) => handlerCreatePet(e, formState)}
+            type="submit"
+          >
+            Agregar
+          </button>
+          <button className="bg-lime-500 py-2 px-5 mr-1 hover:bg-lime-400 rounded-lg">
+            <Link to={"/profile"}>Volver</Link>
+          </button>
+        </div>
       </form>
-      <div className="mb-8 p-3">
-        <button className="bg-lime-500 py-2 px-5 mr-1 hover:bg-lime-400 rounded-lg">
-          <Link to={"/profile"}>Volver</Link>
-        </button>
-        <button
-          onClick={(e) => handlerCreatePet(e, formState)}
-          className="bg-lime-500 py-2 px-5  hover:bg-lime-400 rounded-lg"
-          type="submit"
-        >
-          Agregar
-        </button>
-      </div>
     </section>
   );
 };
