@@ -2,6 +2,7 @@ import vaccineIcon from "../assets/vaccineIcon.svg";
 import addimages from "../assets/addimages.svg";
 import { useContext, useState } from "react";
 import { Context } from "../store/appContext";
+import { FormVaccines } from "../vaccines/FormVaccines";
 
 export function Vaccines() {
   const { store } = useContext(Context);
@@ -10,6 +11,7 @@ export function Vaccines() {
   const [vaccines, setVaccines] = useState([]);
   const [selectedVaccine, setSelectedVaccine] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isFormVisible, setIsFormVisible] = useState(false);
   const petsPerPage = 3;
 
   const handlePetChange = async (petId) => {
@@ -60,30 +62,39 @@ export function Vaccines() {
     (currentIndex + 1) * petsPerPage
   );
 
+  //   console.log("nombre mascota seleccionada", selectedPet.name);
+  //   console.log("vacunas mascota", vaccines);
+
   return (
     <main className="container-fluid bg-slate-100 flex flex-col items-center min-h-screen p-5">
-      <div className="flex flex-col lg:flex-row justify-around p-3 hover:scale-105 duration-200 ease-in-out cursor-pointer text-center w-full max-w-3xl rounded-xl bg-black text-white mb-5 h-60">
+      <div className="flex flex-col lg:flex-row justify-around p-3 hover:scale-105 duration-200 ease-in-out cursor-pointer text-center w-full max-w-3xl rounded-xl bg-black text-white mb-5 h-80">
         <div className="flex flex-col justify-center items-center p-3">
           <h1 className="font-extrabold md:text-2xl">Registro de Vacunas</h1>
           <div className="flex flex-col md:flex-row md:items-center space-y-3 md:space-y-0 md:space-x-3 mt-6">
             {/* CARROUSEL------------------------------------ */}
-            <div className="flex items-center">
+            <div className="flex items-center w-80 lg:w-96">
               <button
                 onClick={prevPage}
                 disabled={currentIndex === 0}
-                className="p-2 bg-gray-800 text-white rounded-l-lg"
+                className="p-2 bg-gray-800 text-white rounded-l-lg mb-8"
               >
                 ←
               </button>
               <div className="flex overflow-hidden w-full">
                 {displayedPets.map((pet) => (
-                  <div key={pet.id} className="flex-shrink-0 w-1/3 p-2">
+                  <div
+                    key={pet.id}
+                    className="flex-shrink-0 w-1/3 p-2 flex flex-col items-center"
+                  >
                     <img
-                      className="rounded-full cursor-pointer hover:scale-105 transition-transform duration-200"
+                      className="border-4 rounded-full cursor-pointer hover:scale-105 transition-transform duration-200 min-h-10 max-h-28"
                       src={pet.image}
                       alt={pet.name}
                       onClick={() => handlePetChange(pet.id)}
                     />
+                    <div className="mt-2 text-white font-semibold text-center">
+                      {pet.name}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -92,7 +103,7 @@ export function Vaccines() {
                 disabled={
                   currentIndex >= Math.floor(user.pets.length / petsPerPage)
                 }
-                className="p-2 bg-gray-800 text-white rounded-r-lg"
+                className="p-2 bg-gray-800 text-white rounded-r-lg mb-8"
               >
                 →
               </button>
@@ -104,9 +115,12 @@ export function Vaccines() {
             className="w-12 lg:w-32 hover:invert"
             src={addimages}
             alt="añadir vacuna"
+            onClick={() => setIsFormVisible(!isFormVisible)}
           />
         </div>
       </div>
+
+      {isFormVisible && <FormVaccines />}
 
       {/* MUESTRA INFORMACIÓN PRINCIPAL DE LAS VACUNAS DE LA MASCOTA SELECCIONADA */}
       {selectedPet && vaccines.length > 0
@@ -138,17 +152,29 @@ export function Vaccines() {
               {/* DETALLES DE LA VACUNA QUE SE MUESTRAN SOLO CUANDO LA SELECCIONAS--------------- */}
               {selectedVaccine === vaccine && (
                 <div className="flex flex-col justify-center w-full my-6 px-10">
-                  <h2 className="font-bold text-base mb-2">
-                    Detalles de la Vacuna:
-                  </h2>
-                  <div className="w-full border-t border-gray-800 mb-3"></div>
-                  <ul className="flex flex-col justify-center w-full">
-                    <li className="text-sm">Peso (gramos): {vaccine.weight}</li>
-                    <li className="text-sm">
-                      Próxima dosis: {vaccine.next_vaccine}
-                    </li>
-                    <li className="text-sm">Imagen: {vaccine.image}</li>
-                  </ul>
+                  <div>
+                    <h2 className="font-bold text-base mb-2">
+                      Detalles de la Vacuna:
+                    </h2>
+                    <div className="w-full border-t border-gray-800 mb-3"></div>
+                  </div>
+
+                  <div className="flex flex-row p-2">
+                    <ul className="flex flex-col justify-center w-full">
+                      <li className="text-sm">
+                        Peso de {selectedPet.name}(g): {vaccine.weight}
+                      </li>
+                      <li className="text-sm">
+                        Próxima Dosis: {vaccine.nextVaccine}
+                      </li>
+                    </ul>
+
+                    <img
+                      className="w-1/2 p-5"
+                      src={vaccine.image}
+                      alt="vaccine"
+                    />
+                  </div>
                 </div>
               )}
             </div>
