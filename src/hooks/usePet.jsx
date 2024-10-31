@@ -68,8 +68,8 @@ export const usePet = () => {
         text: "No podrás revertir esto!",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#757575",
         confirmButtonText: "Sí, eliminar!",
         cancelButtonText: "Cancelar",
       });

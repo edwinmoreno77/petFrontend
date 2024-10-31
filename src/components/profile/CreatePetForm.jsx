@@ -198,7 +198,7 @@ export const CreatePetForm = () => {
             )}
             <span>Agregar</span>
           </button>
-          <button className="bg-lime-500 py-2 px-5 hover:bg-lime-400 rounded-lg">
+          <button className="bg-slate-400 hover:brightness-110 py-2 px-5 rounded-lg font-semibold">
             <Link to={"/profile"}>Volver</Link>
           </button>
         </div>

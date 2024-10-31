@@ -26,7 +26,7 @@ export const Profile = () => {
   }, [user.pets, selectedPet]);
 
   return (
-    <main className="container-fluid bg-slate-100 flex flex-col items-center  min-h-screen p-5 transition-all duration-200 ease-in-out">
+    <main className="container-fluid bg-slate-100 flex flex-col items-center justify-center  min-h-screen p-5 transition-all duration-200 ease-in-out">
       <section className="flex flex-col justify-center items-center p-3 shadow-xl duration-200 ease-in-out cursor-pointer text-center  w-full max-w-4xl xl:max-w-6xl rounded-xl bg-black text-white mb-4">
         <UserLogout user={user} onLogout={onLogout} />
         <ConfigurationOptions />
@@ -65,7 +65,7 @@ export const Profile = () => {
       </section>
       <section className="flex flex-col justify-center items-center shadow-xl p-10 transition-all duration-200 ease-in-out text-center  w-full max-w-4xl xl:max-w-6xl  rounded-xl bg-black text-white mb-16 min-h-[600px]">
         {selectedPet ? (
-          <PetCard pet={selectedPet} user={user} />
+          <PetCard key={selectedPet.id} pet={selectedPet} user={user} />
         ) : (
           <Link
             to={"/profile/addpets"}
