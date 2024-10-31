@@ -25,6 +25,7 @@ export const CreatePetForm = () => {
   const { user } = store.userState;
 
   const [selectedImage, setSelectedImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const inputFileRef = useRef(null);
   const navigate = useNavigate();
@@ -51,8 +52,9 @@ export const CreatePetForm = () => {
       return;
     }
 
-    const formData = new FormData();
+    setLoading(true);
 
+    const formData = new FormData();
     Object.keys(formState).forEach((key) => {
       formData.append(key, formState[key]);
     });
@@ -62,14 +64,17 @@ export const CreatePetForm = () => {
       navigate("/profile");
       onResetForm();
     }
+
+    setLoading(false);
   };
+
   return (
     <section className="mb-5">
       <div className="flex justify-center items-center">
         <div className="flex justify-center items-center w-48">
           <img
             src={logo}
-            className="object-contain w-full h-full "
+            className="object-contain w-full h-full"
             alt="petcenter"
           />
         </div>
@@ -100,10 +105,10 @@ export const CreatePetForm = () => {
           />
         </div>
 
-        <div className="flex flex-col w-full justify-center  gap-3">
+        <div className="flex flex-col w-full justify-center gap-3">
           <div className="relative w-full">
             <input
-              className="w-full border border-gray-300 rounded-lg p-2  pt-3 lg:pt-4 text-black focus:outline-none focus:ring-1 focus:ring-gray-400"
+              className="w-full border border-gray-300 rounded-lg p-2 pt-3 lg:pt-4 text-black focus:outline-none focus:ring-1 focus:ring-gray-400"
               type="text"
               name="name"
               id="name"
@@ -121,7 +126,7 @@ export const CreatePetForm = () => {
           </div>
           <div className="relative w-full">
             <input
-              className="w-full border border-gray-300 rounded-lg p-2  pt-3 lg:pt-4 text-black focus:outline-none focus:ring-1 focus:ring-gray-400"
+              className="w-full border border-gray-300 rounded-lg p-2 pt-3 lg:pt-4 text-black focus:outline-none focus:ring-1 focus:ring-gray-400"
               type="text"
               name="animal"
               id="animal"
@@ -139,10 +144,10 @@ export const CreatePetForm = () => {
           </div>
         </div>
 
-        <div className="flex flex-col w-full justify-center  gap-3">
+        <div className="flex flex-col w-full justify-center gap-3">
           <div className="relative w-full">
             <input
-              className="w-full border border-gray-300 rounded-lg p-2  pt-3 lg:pt-4 text-black focus:outline-none focus:ring-1 focus:ring-gray-400"
+              className="w-full border border-gray-300 rounded-lg p-2 pt-3 lg:pt-4 text-black focus:outline-none focus:ring-1 focus:ring-gray-400"
               type="text"
               name="race"
               id="race"
@@ -160,7 +165,7 @@ export const CreatePetForm = () => {
           </div>
           <div className="relative w-full">
             <input
-              className="w-full border border-gray-300 rounded-lg p-2  pt-3 lg:pt-4 text-black focus:outline-none focus:ring-1 focus:ring-gray-400"
+              className="w-full border border-gray-300 rounded-lg p-2 pt-3 lg:pt-4 text-black focus:outline-none focus:ring-1 focus:ring-gray-400"
               type="date"
               name="birthday"
               id="birthday"
@@ -179,13 +184,21 @@ export const CreatePetForm = () => {
         </div>
         <div className="flex mt-2 md:mt-0 md:flex-col gap-2">
           <button
-            className="bg-lime-500 py-2 px-5  hover:bg-lime-400 rounded-lg"
-            onClick={(e) => handlerCreatePet(e, formState)}
             type="submit"
+            onClick={(e) => handlerCreatePet(e, formState)}
+            className={`bg-lime-400 font-semibold shadow-md hover:brightness-110 ease-in-out duration-200 text-white rounded-md px-5 py-2 flex justify-center items-center ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={loading}
           >
-            Agregar
+            {loading && (
+              <span className="flex items-center">
+                <div className="animate-spin h-5 w-5 border-4 border-t-transparent border-white rounded-full mr-3"></div>
+              </span>
+            )}
+            <span>Agregar</span>
           </button>
-          <button className="bg-lime-500 py-2 px-5 mr-1 hover:bg-lime-400 rounded-lg">
+          <button className="bg-lime-500 py-2 px-5 hover:bg-lime-400 rounded-lg">
             <Link to={"/profile"}>Volver</Link>
           </button>
         </div>
