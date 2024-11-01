@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 export const ConfigurationOptions = () => {
   return (
     <ul className="flex justify-evenly items-center w-full text-sm font-semibold pb-2 md:p-5">
-      <Link>
+      <Link to={"/profile/config"}>
         <img
           className="w-9 md:w-12 hover:scale-110 duration-200 ease-in-out hover:brightness-150"
           src={config}

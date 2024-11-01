@@ -12,7 +12,7 @@ import vaccineActive from "../../assets/vaccineActive.svg";
 
 export const Navbar = () => {
   return (
-    <main className="fixed z-50 bottom-0 left-1/2 lg:left-0 transform -translate-x-1/2 lg:-translate-x-1 w-full lg:w-16 lg:h-full max-w-md lg:max-w-xs bg-black p-3 lg:p-2 rounded-t-2xl lg:rounded-t-none lg:rounded-e-lg">
+    <main className="fixed border-t-2 lg:border-t-0 lg:border-r-2 z-50 bottom-0 left-1/2 lg:left-0 transform -translate-x-1/2 lg:-translate-x-1 w-full lg:w-20 lg:h-full max-w-md lg:max-w-xs bg-black p-4 lg:p-2 rounded-t-2xl lg:rounded-t-none lg:rounded-e-lg">
       <nav>
         <ul className="flex justify-evenly items-center gap-3 lg:gap-8 lg:flex-col">
           <NavLink to="home" className="group">
