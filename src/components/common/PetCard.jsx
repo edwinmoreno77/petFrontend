@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { motion } from "framer-motion"; // Importa motion desde Framer Motion
+import { motion } from "framer-motion";
 import { usePet } from "../../hooks/usePet";
 
 export const PetCard = ({ pet, user }) => {

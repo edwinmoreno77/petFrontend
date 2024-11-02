@@ -15,7 +15,7 @@ export const UserLogout = ({ user, onLogout }) => {
         <div className="flex items-start justify-start h-20 w-20 md:w-28 md:h-28 lg:w-36 lg:h-36">
           <Link to={"/home"}>
             <img
-              className="object-cover h-full w-full rounded-full transition ease-in-out duration-200 border-4 hover:border-lime-500 shadow-md hover:shadow-lime-500 hover:scale-110"
+              className="object-cover h-full w-full rounded-full transition ease-in-out duration-200 border-2 hover:border-4 border-lime-500 shadow-md hover:shadow-lime-500 hover:scale-110"
               src={user.image}
               alt="user image"
             />

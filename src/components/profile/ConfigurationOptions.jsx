@@ -1,6 +1,6 @@
 import config from "../../assets/config.svg";
 import notification from "../../assets/notification.svg";
-import edit from "../../assets/edit.svg";
+// import edit from "../../assets/edit.svg";
 import addpet from "../../assets/addpet.svg";
 import { Link } from "react-router-dom";
 
@@ -14,7 +14,7 @@ export const ConfigurationOptions = () => {
           alt="config"
         />
       </Link>
-      <Link>
+      <Link to={"/profile/notifications"}>
         <img
           className="w-8 mt-1 md:w-12 hover:scale-110 duration-200 ease-in-out hover:brightness-150"
           src={notification}
@@ -28,13 +28,14 @@ export const ConfigurationOptions = () => {
           alt="addpet"
         />
       </Link>
-      <Link>
+      {/* <Link>
+      //TODO:
         <img
           className="w-8 mt-1 md:w-12 hover:scale-110 duration-200 ease-in-out hover:brightness-150"
           src={edit}
           alt="edit"
         />
-      </Link>
+      </Link> */}
     </ul>
   );
 };

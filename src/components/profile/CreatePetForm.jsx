@@ -198,9 +198,12 @@ export const CreatePetForm = () => {
             )}
             <span>Agregar</span>
           </button>
-          <button className="transition duration-200 ease-in-out hover:scale-110  border-2 hover:brightness-110 py-2 px-5 rounded-lg font-semibold">
-            <Link to={"/profile"}>Volver</Link>
-          </button>
+          <Link
+            className="transition duration-200 ease-in-out hover:scale-110  border-2 hover:brightness-110 py-2 px-5 rounded-lg font-semibold"
+            to={"/profile"}
+          >
+            <button>Volver</button>
+          </Link>
         </div>
       </form>
     </section>
