@@ -26,12 +26,12 @@ export const Profile = () => {
   }, [user.pets, selectedPet]);
 
   return (
-    <main className="container-fluid bg-slate-100 flex flex-col items-center  min-h-screen p-5 transition-all duration-200 ease-in-out">
-      <section className="flex flex-col justify-center items-center p-3 shadow-xl duration-200 ease-in-out cursor-pointer text-center  w-full max-w-4xl xl:max-w-6xl rounded-xl bg-black text-white mb-4">
+    <main className="container-fluid z-0 bg-image-motivo bg-black flex flex-col items-center justify-center  min-h-screen p-5 transition-all duration-200 ease-in-out">
+      <section className="flex flex-col z-10 border-2 border-slate-800 shadow-slate-600 shadow-md justify-center items-center p-3 duration-200 ease-in-out cursor-pointer text-center  w-full max-w-4xl xl:max-w-5xl rounded-xl bg-black text-white mb-4">
         <UserLogout user={user} onLogout={onLogout} />
         <ConfigurationOptions />
       </section>
-      <section className="flex flex-col justify-center items-center p-1 md:p-5 shadow-xl  duration-200 ease-in-out cursor-pointer text-center  w-full max-w-4xl xl:max-w-6xl rounded-xl bg-black text-white mb-4">
+      <section className="flex flex-col z-10 justify-center items-center border-2 border-slate-800 shadow-slate-600 shadow-md p-1 md:p-5   duration-200 ease-in-out cursor-pointer text-center  w-full max-w-4xl xl:max-w-5xl rounded-xl bg-black text-white mb-4">
         <h4 className="p-1 text-xs md:text-sm lg:text-lg font-extrabold text-slate-300">
           Mascotas: {user.pets.length}
         </h4>
@@ -63,9 +63,9 @@ export const Profile = () => {
           )}
         </div>
       </section>
-      <section className="flex flex-col justify-center items-center shadow-xl p-10 transition-all duration-200 ease-in-out text-center  w-full max-w-4xl xl:max-w-6xl  rounded-xl bg-black text-white mb-16 min-h-[600px]">
+      <section className="flex flex-col z-10 justify-center items-center border-2 border-slate-800 shadow-slate-600 shadow-md p-10 transition-all duration-200 ease-in-out text-center  w-full max-w-4xl xl:max-w-5xl  rounded-xl bg-black text-white mb-16 min-h-[600px]">
         {selectedPet ? (
-          <PetCard pet={selectedPet} user={user} />
+          <PetCard key={selectedPet.id} pet={selectedPet} user={user} />
         ) : (
           <Link
             to={"/profile/addpets"}
