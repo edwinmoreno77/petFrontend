@@ -1,36 +1,26 @@
-import { useState, useContext, useRef } from "react";
-import { Context } from "../store/appContext";
-import { useForm } from "../hooks/useForm";
-import { useVaccine } from "../hooks/useVaccine";
-import { validExtensions } from "../utils/validateExtension";
+import { useState, useContext } from "react";
+import { Context } from "../../store/appContext";
+import { useForm } from "../../hooks/useForm";
+import { useDeworming } from "../../hooks/useDeworming";
 import Swal from "sweetalert2";
 
-const vaccineFormFields = {
+const dewormingFormFields = {
   pet_id: "",
   date: "",
+  medicine: "",
+  dose: "",
   weight: "",
-  vaccine: "",
-  nextVaccine: "",
-  image: "",
+  nextDeworming: "",
 };
 
-export const FormVaccines = () => {
-  const { createVaccine } = useVaccine();
+export const FormDewormings = () => {
+  const { createDeworming } = useDeworming();
   const { store } = useContext(Context);
   const { user } = store.userState;
-  const inputFileRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(true);
-  const [selectedPetAnimal, setSelectedPetAnimal] = useState("");
 
   const { formState, onInputChange, setFormState, onResetForm } =
-    useForm(vaccineFormFields);
-
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file && validExtensions(file)) {
-      setFormState({ ...formState, image: file });
-    }
-  };
+    useForm(dewormingFormFields);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,25 +35,23 @@ export const FormVaccines = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("pet_id", formState.petId);
-    formData.append("date", formState.date);
-    formData.append("weight", formState.weight);
-    formData.append("vaccine", formState.vaccine);
-    formData.append("nextVaccine", formState.nextVaccine);
-
-    if (formState.image) {
-      formData.append("image", formState.image);
-    }
+    const payload = {
+      pet_id: formState.petId,
+      date: formState.date,
+      medicine: formState.medicine,
+      dose: formState.dose,
+      weight: formState.weight,
+      nextDeworming: formState.nextDeworming,
+    };
 
     try {
-      const response = await createVaccine(formData);
+      const response = await createDeworming(payload);
       if (response && response.success) {
         onResetForm();
         closeModal();
       }
     } catch (error) {
-      console.error("Error al enviar la vacuna:", error);
+      console.error("Error al enviar la desparasitación:", error);
     }
   };
 
@@ -80,7 +68,6 @@ export const FormVaccines = () => {
       petName,
       petId: selectedPet ? selectedPet.id : "", // Agregar el id de la mascota o una cadena vacía si no existe
     });
-    setSelectedPetAnimal(selectedPet ? selectedPet.animal : "");
   };
 
   return (
@@ -94,7 +81,7 @@ export const FormVaccines = () => {
           className="flex flex-col bg-black text-xs w-80 shadow-white shadow-equal rounded-2xl p-4 h-auto"
         >
           <h1 className="bg-black text-white text-center text-sm font-bold p-3 rounded-t-xl">
-            Registro de Vacuna
+            Registro de Desparacitación
           </h1>
           <div className="my-3">
             <div className="bg-white text-black rounded-xl my-2 py-1 px-2">
@@ -119,7 +106,7 @@ export const FormVaccines = () => {
               </datalist>
             </div>
             <div className="bg-white text-black rounded-xl my-2 py-1 px-2">
-              <label>Fecha de la Vacuna: </label>
+              <label>Fecha de la Desparacitación: </label>
               <input
                 type="text"
                 name="date"
@@ -129,6 +116,30 @@ export const FormVaccines = () => {
                 placeholder="DD/MM/AAAA"
                 pattern="\d{2}/\d{2}/\d{4}"
                 title="Formato de fecha: DD/MM/AAAA"
+                className="input-style bg-white text-black w-full"
+              />
+            </div>
+            <div className="bg-white text-black rounded-xl my-2 py-1 px-2">
+              <label>Desparasitante Utilizado: </label>
+              <input
+                type="text"
+                name="medicine"
+                value={formState.medicine}
+                onChange={onInputChange}
+                required
+                placeholder="Ingresa el nombre del desparacitante utilizado"
+                className="input-style bg-white text-black w-full"
+              />
+            </div>
+            <div className="bg-white text-black rounded-xl my-2 py-1 px-2">
+              <label>Dosis Utilizada: </label>
+              <input
+                type="text"
+                name="dose"
+                value={formState.dose}
+                onChange={onInputChange}
+                required
+                placeholder="Ingresa la dosis del desparasitante utilizado"
                 className="input-style bg-white text-black w-full"
               />
             </div>
@@ -145,61 +156,17 @@ export const FormVaccines = () => {
               />
             </div>
             <div className="bg-white text-black rounded-xl my-2 py-1 px-2">
-              <label> Tipo de Vacuna: </label>
-              <input
-                type="text"
-                name="vaccine"
-                value={formState.vaccine}
-                onChange={onInputChange}
-                required
-                list="vaccineOptions"
-                placeholder="Selecciona el tipo de vacuna"
-                className="input-style bg-white text-black w-full"
-              />
-              <datalist id="vaccineOptions">
-                {selectedPetAnimal === "Gato" && (
-                  <>
-                    <option value="Antirrábica" />
-                    <option value="Triple Felina" />
-                    <option value="Leucemia Felina" />
-                  </>
-                )}
-                {selectedPetAnimal === "Perro" && (
-                  <>
-                    <option value="Antirrábica" />
-                    <option value="Parvovirus" />
-                    <option value="Hepatitis" />
-                    <option value="Moquillo" />
-                    <option value="Pentavalente" />
-                    <option value="Polivalente" />
-                  </>
-                )}
-              </datalist>
-            </div>
-            <div className="bg-white text-black rounded-xl my-2 py-1 px-2">
               <label>Próxima Dosis: </label>
               <input
                 type="text"
-                name="nextVaccine"
-                value={formState.nextVaccine}
+                name="nextDeworming"
+                value={formState.nextDeworming}
                 onChange={onInputChange}
                 required
                 placeholder="DD/MM/AAAA"
                 pattern="\d{2}/\d{2}/\d{4}"
                 title="Formato de fecha: DD/MM/AAAA"
                 className="input-style bg-white text-black w-full"
-              />
-            </div>
-
-            <div className="bg-white text-black rounded-xl my-2 py-1 px-2">
-              <label htmlFor="image">Imagen de vacuna:</label>
-              <input
-                id="image"
-                type="file"
-                name="image"
-                ref={inputFileRef}
-                className="block input-style bg-white text-black w-full text-xs file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-white file:text-blue-700 hover:file:bg-gray-800"
-                onChange={handleImageUpload}
               />
             </div>
 
