@@ -1,11 +1,12 @@
 import Swal from "sweetalert2";
 
-export const useVaccine = () => {
-  const createVaccine = async (vaccineData) => {
+export const useDeworming = () => {
+  const createDeworming = async (dewormingData) => {
     try {
-      const response = await fetch("http://localhost:5004/createVaccine", {
+      const response = await fetch("http://localhost:5004/createDeworming", {
         method: "POST",
-        body: vaccineData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dewormingData),
       });
 
       if (!response.ok) {
@@ -19,19 +20,19 @@ export const useVaccine = () => {
       }
 
       const responseData = await response.json();
-      const vaccine = responseData.data;
+      const deworming = responseData.data;
 
-      console.log("Vacuna creada:", vaccine);
+      console.log("Desparasitación creada:", deworming);
 
       Swal.fire({
         position: "center",
         icon: "success",
-        title: responseData.message || "Vacuna creada exitosamente!",
+        title: responseData.message || "Desparasitación creada exitosamente!",
         showConfirmButton: false,
         timer: 2000,
       });
 
-      return { success: true, data: vaccine };
+      return { success: true, data: deworming };
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -44,6 +45,6 @@ export const useVaccine = () => {
   };
 
   return {
-    createVaccine,
+    createDeworming,
   };
 };

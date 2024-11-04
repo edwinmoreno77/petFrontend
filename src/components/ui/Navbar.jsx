@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import profile from "../../assets/profile.svg";
 import calendar from "../../assets/calendar.svg";
-import deworming from "../../assets/deworming.svg";
+import dewormingIcon from "../../assets/dewormingIcon.svg";
 import home from "../../assets/home.svg";
 import vaccineIcon from "../../assets/vaccineIcon.svg";
 import profileActive from "../../assets/profileActive.svg";
@@ -60,13 +60,13 @@ export const Navbar = () => {
             )}
           </NavLink>
 
-          <NavLink to="/deworming" className="group">
+          <NavLink to="/dewormings" className="group">
             {({ isActive }) => (
               <div className="relative">
                 <img
                   className="w-7 sm:w-9 md:w-11 lg:w-14 2xl:w-20 h-auto lg:hover:bg-lime-500 rounded-md lg:p-2"
-                  src={isActive ? dewormingActive : deworming}
-                  alt="Deworming"
+                  src={isActive ? dewormingActive : dewormingIcon}
+                  alt="Dewormings"
                 />
                 <span className="hidden lg:block absolute left-full top-1/2 -translate-y-1/2 ml-2 p-1 text-xs bg-gray-700 text-white rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   Desparasitaciones
