@@ -79,10 +79,12 @@ export const Calendar = () => {
             }),
           }
         );
+
         if (!response.ok) {
           throw new Error("Error al guardar el evento");
         }
-        const savedEvent = await response.json();
+
+        const newEventData = await response.json();
 
         setEvents((prevEvents) => {
           const updatedEvents = { ...prevEvents };
@@ -94,13 +96,14 @@ export const Calendar = () => {
 
           updatedEvents[eventDateKey] = [
             ...updatedEvents[eventDateKey],
-            savedEvent,
+            newEventData,
           ];
 
           return updatedEvents;
         });
 
         setNewEvent("");
+        setIsEditing(false);
       } catch (error) {
         console.error(error.message);
       }
@@ -109,27 +112,39 @@ export const Calendar = () => {
 
   const handleDeleteEvent = async (eventId) => {
     try {
-      const response = await fetch(`/deleteEvent/${eventId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `http://localhost:5004/deleteEvent/${eventId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ user_id: user.id }),
+        }
+      );
 
-      if (response.ok) {
+      if (!response.ok) {
+        throw new Error("Error al eliminar el evento");
+      }
+
+      const { events } = await response.json();
+
+      if (events) {
         setEvents((prevEvents) => {
           const updatedEvents = { ...prevEvents };
-          updatedEvents[selectedDayKey] = updatedEvents[selectedDayKey].filter(
-            (event) => event.id !== eventId
-          );
-          if (updatedEvents[selectedDayKey].length === 0) {
-            delete updatedEvents[selectedDayKey];
+
+          for (const date in updatedEvents) {
+            updatedEvents[date] = updatedEvents[date].filter(
+              (event) => event.id !== eventId
+            );
+
+            if (updatedEvents[date].length === 0) {
+              delete updatedEvents[date];
+            }
           }
+
           return updatedEvents;
         });
-      } else {
-        const errorData = await response.json();
-        console.error("Error al eliminar el evento:", errorData);
       }
     } catch (error) {
       console.error("Error en la solicitud:", error);
@@ -140,7 +155,7 @@ export const Calendar = () => {
     const eventToEditObj = events[selectedDayKey].find(
       (event) => event.id === id
     );
-    setNewEvent(eventToEditObj.text);
+    setNewEvent(eventToEditObj.description);
     setIsEditing(true);
     // setEventToEdit(id);
   };
