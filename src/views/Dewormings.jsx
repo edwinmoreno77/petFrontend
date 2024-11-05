@@ -63,8 +63,8 @@ export function Dewormings() {
   );
 
   return (
-    <main className="container-fluid bg-slate-100 flex flex-col items-center min-h-screen p-5">
-      <div className="flex flex-col lg:flex-row justify-around p-3 hover:scale-105 duration-200 ease-in-out cursor-pointer text-center w-full max-w-3xl rounded-xl bg-black text-white mb-5 h-80">
+    <main className="container-fluid z-0 bg-image-motivo bg-black flex flex-col items-center min-h-screen p-5">
+      <div className="flex flex-col lg:flex-row justify-around z-10 border-slate-800 shadow-slate-600 shadow-md p-3 hover:scale-105 duration-200 ease-in-out cursor-pointer text-center w-full max-w-3xl rounded-xl bg-black text-white mb-5 h-80">
         <div className="flex flex-col justify-center items-center p-3">
           <h1 className="font-extrabold md:text-2xl">
             Registro de Desparasitaciones
@@ -75,9 +75,9 @@ export function Dewormings() {
               <button
                 onClick={prevPage}
                 disabled={currentIndex === 0}
-                className="p-2 bg-gray-800 text-white rounded-l-lg mb-8"
+                className="text-xxs md:text-sm mb-8 p-1 md:p-2 rounded-full  bg-black shadow-sm  hover:bg-lime-500  hover:shadow-2xl shadow-lime-500 hover:text-black transition duration-200 hover:scale-110 ease-in-out"
               >
-                ←
+                &#10094;
               </button>
               <div className="flex overflow-hidden w-full">
                 {displayedPets.map((pet) => (
@@ -102,9 +102,9 @@ export function Dewormings() {
                 disabled={
                   currentIndex >= Math.floor(user.pets.length / petsPerPage)
                 }
-                className="p-2 bg-gray-800 text-white rounded-r-lg mb-8"
+                className="text-xxs md:text-sm mb-8 p-1 md:p-2 rounded-full  bg-black shadow-sm  hover:bg-lime-500  hover:shadow-2xl shadow-lime-500 hover:text-black transition duration-200 hover:scale-110 ease-in-out"
               >
-                →
+                &#10095;
               </button>
             </div>
           </div>
@@ -127,7 +127,7 @@ export function Dewormings() {
             <div
               key={index}
               onClick={() => handleDewormingClick(deworming)}
-              className={`flex flex-col justify-center items-center p-3 hover:scale-105 duration-200 hover:bg-primary-green ease-in-out cursor-pointer text-center w-full max-w-3xl rounded-xl bg-black text-white mb-3 ${
+              className={`flex flex-col justify-center items-center z-10 border-slate-800 shadow-slate-600 shadow-md p-3 hover:scale-105 duration-200 hover:bg-primary-green ease-in-out cursor-pointer text-center w-full max-w-3xl rounded-xl bg-black text-white mb-3 ${
                 selectedDeworming === deworming ? "h-auto" : "h-32"
               }`}
             >

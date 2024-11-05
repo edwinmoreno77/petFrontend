@@ -81,7 +81,7 @@ export const FormDewormings = () => {
           className="flex flex-col bg-black text-xs w-80 shadow-white shadow-equal rounded-2xl p-4 h-auto"
         >
           <h1 className="bg-black text-white text-center text-sm font-bold p-3 rounded-t-xl">
-            Registro de Desparacitación
+            Registro de Desparasitación
           </h1>
           <div className="my-3">
             <div className="bg-white text-black rounded-xl my-2 py-1 px-2">
@@ -106,7 +106,7 @@ export const FormDewormings = () => {
               </datalist>
             </div>
             <div className="bg-white text-black rounded-xl my-2 py-1 px-2">
-              <label>Fecha de la Desparacitación: </label>
+              <label>Fecha de la Desparasitación: </label>
               <input
                 type="text"
                 name="date"
