@@ -4,41 +4,25 @@ import { EventsList } from "../components/calendar/EventsList";
 import { EventAdder } from "../components/calendar/EventAdder";
 import { CalendarHeader } from "../components/calendar/CalendarHeader";
 import { CalendarGrid } from "../components/calendar/CalendarGrid";
+import { useCalendar } from "../hooks/useCalendar";
 
 export const Calendar = () => {
   const { store } = useContext(Context);
   const { user } = store.userState;
-
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [events, setEvents] = useState({});
   const [newEvent, setNewEvent] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [eventToEdit, setEventToEdit] = useState(null);
+  const { eventsByDb, addEvent, deleteEvent, updateEvent } = useCalendar();
 
   const getEventsByDb = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:5004/getEventsByUserId/${user.id}`
-      );
-      if (!response.ok) throw new Error("Error al obtener los eventos");
-
-      const data = await response.json();
-      const formattedEvents = data.reduce((acc, event) => {
-        const eventDateKey = new Date(event.event_date).toDateString();
-        if (!acc[eventDateKey]) acc[eventDateKey] = [];
-        acc[eventDateKey].push(event);
-        return acc;
-      }, {});
-
-      setEvents(formattedEvents);
-    } catch (error) {
-      console.log(error);
-    }
+    const formattedEvents = await eventsByDb(user.id);
+    setEvents(formattedEvents);
   };
 
   useEffect(() => {
     getEventsByDb();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.id]);
 
   const daysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
@@ -57,72 +41,37 @@ export const Calendar = () => {
 
   const handleAddEvent = async () => {
     if (newEvent.trim()) {
-      try {
-        const response = await fetch(
-          `http://localhost:5004/createEvents/${user.id}`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              user_id: user.id,
-              description: newEvent,
-              event_date: selectedDate.toISOString(),
-            }),
-          }
-        );
+      const newEventData = await addEvent(user.id, newEvent, selectedDate);
+      setEvents((prevEvents) => {
+        const updatedEvents = { ...prevEvents };
+        const eventDateKey = selectedDate.toDateString();
 
-        if (!response.ok) throw new Error("Error al guardar el evento");
-
-        const newEventData = await response.json();
-        setEvents((prevEvents) => {
-          const updatedEvents = { ...prevEvents };
-          const eventDateKey = selectedDate.toDateString();
-
-          if (!updatedEvents[eventDateKey]) updatedEvents[eventDateKey] = [];
-          updatedEvents[eventDateKey] = [
-            ...updatedEvents[eventDateKey],
-            newEventData,
-          ];
-          return updatedEvents;
-        });
-
-        setNewEvent("");
-        setIsEditing(false);
-        setEventToEdit(null);
-      } catch (error) {
-        console.error(error.message);
-      }
+        if (!updatedEvents[eventDateKey]) updatedEvents[eventDateKey] = [];
+        updatedEvents[eventDateKey] = [
+          ...updatedEvents[eventDateKey],
+          newEventData,
+        ];
+        return updatedEvents;
+      });
+      setNewEvent("");
+      setIsEditing(false);
+      setEventToEdit(null);
     }
   };
 
   const handleDeleteEvent = async (eventId) => {
-    try {
-      const response = await fetch(
-        `http://localhost:5004/deleteEvent/${eventId}`,
-        {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ user_id: user.id }),
+    const events = await deleteEvent(eventId, user.id);
+    if (events) {
+      setEvents((prevEvents) => {
+        const updatedEvents = { ...prevEvents };
+        for (const date in updatedEvents) {
+          updatedEvents[date] = updatedEvents[date].filter(
+            (event) => event.id !== eventId
+          );
+          if (updatedEvents[date].length === 0) delete updatedEvents[date];
         }
-      );
-
-      if (!response.ok) throw new Error("Error al eliminar el evento");
-
-      const { events } = await response.json();
-      if (events) {
-        setEvents((prevEvents) => {
-          const updatedEvents = { ...prevEvents };
-          for (const date in updatedEvents) {
-            updatedEvents[date] = updatedEvents[date].filter(
-              (event) => event.id !== eventId
-            );
-            if (updatedEvents[date].length === 0) delete updatedEvents[date];
-          }
-          return updatedEvents;
-        });
-      }
-    } catch (error) {
-      console.error("Error en la solicitud:", error);
+        return updatedEvents;
+      });
     }
   };
 
@@ -137,37 +86,17 @@ export const Calendar = () => {
 
   const handleUpdateEvent = async () => {
     if (eventToEdit && newEvent.trim()) {
-      try {
-        const response = await fetch(
-          `http://localhost:5004/updateEvent/${eventToEdit}`,
-          {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              user_id: user.id,
-              description: newEvent,
-              date: selectedDate.toISOString(),
-            }),
-          }
-        );
+      const formattedEvents = await updateEvent(
+        user.id,
+        eventToEdit,
+        newEvent,
+        selectedDate
+      );
 
-        if (!response.ok) throw new Error("Error al actualizar el evento");
-
-        const { events: updatedEvents } = await response.json();
-        const formattedEvents = updatedEvents.reduce((acc, event) => {
-          const eventDateKey = new Date(event.event_date).toDateString();
-          if (!acc[eventDateKey]) acc[eventDateKey] = [];
-          acc[eventDateKey].push(event);
-          return acc;
-        }, {});
-
-        setEvents(formattedEvents);
-        setNewEvent("");
-        setIsEditing(false);
-        setEventToEdit(null);
-      } catch (error) {
-        console.error("Error en la solicitud:", error);
-      }
+      setEvents(formattedEvents);
+      setNewEvent("");
+      setIsEditing(false);
+      setEventToEdit(null);
     }
   };
 
