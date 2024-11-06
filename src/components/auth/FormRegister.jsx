@@ -73,7 +73,7 @@ export const FormRegister = () => {
     const response = await createUser(formData);
     if (response && response.user) {
       onResetForm();
-      navigate("/perfil");
+      navigate("/profile");
     }
   };
 
@@ -199,23 +199,23 @@ export const FormRegister = () => {
           <option className="text-xs" disabled value="">
             Selecciona una región
           </option>
-          <option className="text-xs" value="Arica y Parinacota">
-            Arica y Parinacota
+          <option className="text-xs" value="Región de Arica y Parinacota">
+            Región de Arica y Parinacota
           </option>
-          <option className="text-xs" value="Tarapacá">
-            Tarapacá
+          <option className="text-xs" value="Región de Tarapacá">
+            Región de Tarapacá
           </option>
-          <option className="text-xs" value="Antofagasta">
-            Antofagasta
+          <option className="text-xs" value="Región de Antofagasta">
+            Región de Antofagasta
           </option>
-          <option className="text-xs" value="Atacama">
-            Atacama
+          <option className="text-xs" value="Región de Atacama">
+            Región de Atacama
           </option>
-          <option className="text-xs" value="Coquimbo">
-            Coquimbo
+          <option className="text-xs" value="Región de Coquimbo">
+            Región de Coquimbo
           </option>
-          <option className="text-xs" value="Valparaíso">
-            Valparaíso
+          <option className="text-xs" value="Región de Valparaíso">
+            Región de Valparaíso
           </option>
           <option
             className="text-xs"

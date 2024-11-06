@@ -26,10 +26,10 @@ export function FormLogin() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center bg-slate-100 text-slate-600 lg:-me-4 rounded-e-2xl z-10 lg:w-full">
+      <div className="flex flex-col items-center justify-center bg-slate-100 text-slate-600 lg:-me-4 rounded-e-2xl z-10 lg:w-full ">
         <h1 className="text-center font-bold p-2 mt-8">Inicio de sesión</h1>
-        <div className="bg-white w-80 h-screen md:w-6/12 lg:min-w-1/4 shadow-lg rounded-2xl mb-3 flex flex-col justify-center">
-          <div className="place-self-center bg-white w-36 h-36 lg:w-44 lg:h-44 rounded-lg ease-in-out duration-200 hover:scale-105 cursor-pointer">
+        <div className="bg-white w-80 md:w-6/12 lg:min-w-1/4 shadow-lg rounded-2xl mb-3 flex flex-col justify-center">
+          <div className="place-self-center bg-white w-36 h-36 lg:w-44 lg:h-44 rounded-lg ease-in-out duration-200 hover:scale-105 cursor-pointer pt-8">
             <img
               src={logo}
               alt="image"
@@ -96,7 +96,7 @@ export function FormLogin() {
           </div>
 
           <button
-            className={`flex justify-center items-center bg-primary-green font-semibold shadow-md hover:brightness-110  ease-in-out duration-200 text-white rounded-md m-4 px-1 py-2 ${
+            className={`flex justify-center items-center mb-10 bg-primary-green font-semibold shadow-md hover:brightness-110  ease-in-out duration-200 text-white rounded-md m-4 px-1 py-2 ${
               userStatus === "checking" ? "opacity-50 cursor-not-allowed" : ""
             }`}
             onClick={(e) => handlerSubmit(e)}
