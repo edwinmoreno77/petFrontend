@@ -1,34 +1,36 @@
-import { EventsList } from "../components/calendar/EventsList";
-import { EventAdder } from "../components/calendar/EventAdder";
 import { CalendarHeader } from "../components/calendar/CalendarHeader";
 import { CalendarGrid } from "../components/calendar/CalendarGrid";
+import { EventsList } from "../components/calendar/EventsList";
+import { EventAdder } from "../components/calendar/EventAdder";
 import { useCalendarLogic } from "../hooks/useCalendarLogic";
 
 export const Calendar = () => {
   const {
-    selectedDate,
-    setSelectedDate,
+    //variables
+    days,
     events,
+    firstDay,
     newEvent,
     isEditing,
+    currentYear,
+    selectedDate,
+    currentMonth,
+    selectedDayKey,
+
+    //functions
+    handleAddEvent,
     handlePrevMonth,
     handleNextMonth,
-    handleNewEventChange,
-    handleAddEvent,
-    handleDeleteEvent,
     handleEditEvent,
+    handleDeleteEvent,
     handleUpdateEvent,
-    firstDay,
-    days,
-    selectedDayKey,
-    currentYear,
-    currentMonth,
-    handlerSelectedDate,
+    handleNewEventChange,
+    handleSelectedDate,
   } = useCalendarLogic();
 
   return (
-    <div className="container-fluid bg-black font-bold text-xs lg:text-2xl min-h-screen z-0 bg-image-motivo py-5 px-1">
-      <div className="max-w-md sm:max-w-md md:max-w-xl lg:max-w-xl z-10 min-h-96 mx-auto p-4 bg-black border-2 border-slate-800 shadow-slate-600 text-white rounded-lg shadow-md pb-14 relative">
+    <main className="container-fluid bg-black font-bold text-xs lg:text-2xl min-h-screen z-0 bg-image-motivo py-5 px-1">
+      <section className="max-w-md sm:max-w-md md:max-w-xl lg:max-w-xl z-10 min-h-96 mx-auto p-4 bg-black border-2 border-slate-800 shadow-slate-600 text-white rounded-lg shadow-md pb-14 relative">
         <CalendarHeader
           selectedDate={selectedDate}
           handlePrevMonth={handlePrevMonth}
@@ -38,11 +40,10 @@ export const Calendar = () => {
           firstDay={firstDay}
           days={days}
           selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
           currentYear={currentYear}
           currentMonth={currentMonth}
           events={events}
-          handlerSelectedDate={handlerSelectedDate}
+          handleSelectedDate={handleSelectedDate}
         />
         <EventAdder
           selectedDate={selectedDate}
@@ -58,7 +59,7 @@ export const Calendar = () => {
           handleEditEvent={handleEditEvent}
           handleDeleteEvent={handleDeleteEvent}
         />
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };

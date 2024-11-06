@@ -7,7 +7,7 @@ export const CalendarGrid = ({
   currentYear,
   currentMonth,
   events,
-  handlerSelectedDate,
+  handleSelectedDate,
 }) => {
   return (
     <div className="grid grid-cols-7 gap-1 md:gap-1 lg:gap-1 text-center">
@@ -38,7 +38,7 @@ export const CalendarGrid = ({
                 ? "bg-lime-500 text-white"
                 : "hover:bg-paw hover:bg-slate-600 transition duration-300 ease-in"
             }`}
-            onClick={() => handlerSelectedDate(day)}
+            onClick={() => handleSelectedDate(day)}
           >
             {day + 1}
             {events[dayKey] && events[dayKey].length > 0 ? (
@@ -57,7 +57,7 @@ CalendarGrid.propTypes = {
   firstDay: PropTypes.number.isRequired,
   days: PropTypes.number.isRequired,
   selectedDate: PropTypes.instanceOf(Date).isRequired,
-  handlerSelectedDate: PropTypes.func.isRequired,
+  handleSelectedDate: PropTypes.func.isRequired,
   currentYear: PropTypes.number.isRequired,
   currentMonth: PropTypes.number.isRequired,
   events: PropTypes.objectOf(

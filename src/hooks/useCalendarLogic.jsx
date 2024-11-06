@@ -96,32 +96,30 @@ export const useCalendarLogic = () => {
     }
   };
 
-  const handlerSelectedDate = (day) => {
+  const handleSelectedDate = (day) => {
     setSelectedDate(new Date(currentYear, currentMonth, day + 1));
   };
 
   return {
-    selectedDate,
-    setSelectedDate,
+    //variables
+    days,
     events,
+    firstDay,
     newEvent,
-    setNewEvent,
     isEditing,
-    setIsEditing,
-    eventToEdit,
-    setEventToEdit,
+    currentYear,
+    selectedDate,
+    currentMonth,
+    selectedDayKey,
+
+    // functions
+    handleAddEvent,
     handlePrevMonth,
     handleNextMonth,
-    handleNewEventChange,
-    handleAddEvent,
-    handleDeleteEvent,
     handleEditEvent,
+    handleDeleteEvent,
     handleUpdateEvent,
-    firstDay,
-    days,
-    selectedDayKey,
-    handlerSelectedDate,
-    currentYear,
-    currentMonth,
+    handleNewEventChange,
+    handleSelectedDate,
   };
 };
