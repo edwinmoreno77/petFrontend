@@ -4,10 +4,10 @@ export const CalendarGrid = ({
   firstDay,
   days,
   selectedDate,
-  setSelectedDate,
   currentYear,
   currentMonth,
   events,
+  handlerSelectedDate,
 }) => {
   return (
     <div className="grid grid-cols-7 gap-1 md:gap-1 lg:gap-1 text-center">
@@ -34,13 +34,11 @@ export const CalendarGrid = ({
           <button
             key={dayKey}
             className={`p-1 m-0 text-lg lg:text-base md:p-2 md:m-3 lg:m-3 lg:p-2 rounded-full transition duration-200 ease-in ${
-              selectedDate.getDate() === day + 1
+              selectedDate?.getDate() === day + 1
                 ? "bg-lime-500 text-white"
                 : "hover:bg-paw hover:bg-slate-600 transition duration-300 ease-in"
             }`}
-            onClick={() =>
-              setSelectedDate(new Date(currentYear, currentMonth, day + 1))
-            }
+            onClick={() => handlerSelectedDate(day)}
           >
             {day + 1}
             {events[dayKey] && events[dayKey].length > 0 ? (
@@ -59,7 +57,7 @@ CalendarGrid.propTypes = {
   firstDay: PropTypes.number.isRequired,
   days: PropTypes.number.isRequired,
   selectedDate: PropTypes.instanceOf(Date).isRequired,
-  setSelectedDate: PropTypes.func.isRequired,
+  handlerSelectedDate: PropTypes.func.isRequired,
   currentYear: PropTypes.number.isRequired,
   currentMonth: PropTypes.number.isRequired,
   events: PropTypes.objectOf(
@@ -71,5 +69,3 @@ CalendarGrid.propTypes = {
     )
   ),
 };
-
-export default CalendarGrid;
