@@ -1,5 +1,5 @@
+import vaccineAddIcon from "../assets/vaccineAddIcon.svg";
 import vaccineIcon from "../assets/vaccineIcon.svg";
-import addimages from "../assets/addimages.svg";
 import { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import { FormVaccines } from "../components/vaccines/FormVaccines";
@@ -73,24 +73,26 @@ export function Vaccines() {
               <button
                 onClick={prevPage}
                 disabled={currentIndex === 0}
-                className="text-xxs md:text-sm mb-8 p-1 md:p-2 rounded-full  bg-black shadow-sm  hover:bg-lime-500  hover:shadow-2xl shadow-lime-500 hover:text-black transition duration-200 hover:scale-110 ease-in-out"
+                className="text-xxs md:text-sm p-1 md:p-2 rounded-full  bg-black shadow-sm  hover:bg-lime-500  hover:shadow-2xl shadow-lime-500 hover:text-black transition duration-200 hover:scale-110 ease-in-out"
               >
                 &#10094;
               </button>
-              <div className="flex overflow-hidden w-full">
+              <div className="flex overflow-hidden justify-center items-center w-full">
                 {displayedPets.map((pet) => (
                   <div
                     key={pet.id}
-                    className="flex-shrink-0 w-1/3 p-2 flex flex-col items-center"
+                    className="relative group flex justify-center items-center p-1 md:p-2"
                   >
-                    <img
-                      className="border-4 rounded-full cursor-pointer hover:scale-105 transition-transform duration-200 min-h-10 max-h-28"
-                      src={pet.image}
-                      alt={pet.name}
-                      onClick={() => handlePetChange(pet.id)}
-                    />
-                    <div className="mt-2 text-white font-semibold text-center">
+                    <span className="absolute top-1/2 left-1/2 z-10 transform -translate-x-1/2 -translate-y-1/2 text-white text-xs lg:text-lg font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out">
                       {pet.name}
+                    </span>
+                    <div className="w-16 h-16 lg:w-24 lg:h-24 xl:w-24 xl:h-24 group-hover:shadow-md group-hover:shadow-lime-500 rounded-full">
+                      <img
+                        className="border-4 rounded-full cursor-pointer hover:scale-105 transition-transform duration-200 min-h-10 max-h-28"
+                        src={pet.image}
+                        alt={pet.name}
+                        onClick={() => handlePetChange(pet.id)}
+                      />
                     </div>
                   </div>
                 ))}
@@ -100,7 +102,7 @@ export function Vaccines() {
                 disabled={
                   currentIndex >= Math.floor(user.pets.length / petsPerPage)
                 }
-                className="text-xxs md:text-sm mb-8 p-1 md:p-2 rounded-full  bg-black shadow-sm  hover:bg-lime-500  hover:shadow-2xl shadow-lime-500 hover:text-black transition duration-200 hover:scale-110 ease-in-out"
+                className="text-xxs md:text-sm p-1 md:p-2 rounded-full  bg-black shadow-sm  hover:bg-lime-500  hover:shadow-2xl shadow-lime-500 hover:text-black transition duration-200 hover:scale-110 ease-in-out"
               >
                 &#10095;
               </button>
@@ -109,8 +111,8 @@ export function Vaccines() {
         </div>
         <div className="flex justify-center">
           <img
-            className="w-12 lg:w-32 hover:invert"
-            src={addimages}
+            className="w-12 lg:w-32 hover:scale-110 duration-200 ease-in-out hover:brightness-150 mb-10"
+            src={vaccineAddIcon}
             alt="añadir vacuna"
             onClick={() => setIsFormVisible(!isFormVisible)}
           />
@@ -176,7 +178,12 @@ export function Vaccines() {
               )}
             </div>
           ))
-        : selectedPet && <p>No hay vacunas registradas para esta mascota</p>}
+        : selectedPet &&
+          vaccines.length === 0 && (
+            <p className="text-white">
+              No hay vacunas registradas para {selectedPet.name}
+            </p>
+          )}
     </main>
   );
 }
