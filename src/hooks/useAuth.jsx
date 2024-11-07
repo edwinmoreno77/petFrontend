@@ -6,6 +6,92 @@ export const useAuth = () => {
   const { actions } = useContext(Context);
   const { onChecking, onLogin, onLogout } = actions;
 
+  // REVALIDAR TOKEN - LOGIN MODIFICADO------------------
+  const authLogin = async (email, password) => {
+    onChecking();
+
+    try {
+      const response = await fetch("http://localhost:5004/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        Swal.fire({
+          icon: "error",
+          title: "Error de autenticación",
+          text: "Email o contraseña son inválidos",
+        });
+        onLogout();
+        return;
+      }
+
+      const result = await response.json();
+      const { data: user, token } = result;
+
+      // Guardar el token y la fecha de creación del token en localStorage
+      localStorage.setItem("token", token);
+      localStorage.setItem("token-init-date", new Date().getTime());
+
+      // Guardar también los datos del usuario en localStorage
+      localStorage.setItem("user", JSON.stringify(user));
+
+      onLogin(user);
+
+      return result;
+    } catch (error) {
+      console.error("Error al iniciar sesión:", error);
+      onLogout();
+    }
+  };
+
+  // REVALIDAR TOKEN- FUNCIÓN REVALIDAR TOKEN--------------------
+
+  const revalidateToken = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      onLogout();
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5004/renew", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!response.ok) {
+        onLogout();
+        return;
+      }
+
+      const { user, newToken } = await response.json();
+
+      localStorage.setItem("token", newToken);
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token-init-date", new Date().getTime());
+
+      onLogin({
+        id: user.id,
+        rut: user.rut,
+        name: user.name,
+        lastName: user.lastName,
+        email: user.email,
+        direction: user.direction,
+        comuna: user.comuna,
+        region: user.region,
+        cellphone: user.cellphone,
+        image: user.image,
+        pets: user.owned_pets,
+      });
+    } catch (error) {
+      console.error("Error revalidando el token:", error);
+      onLogout();
+    }
+  };
+
   const createUser = async (userData) => {
     try {
       onChecking();
@@ -68,66 +154,66 @@ export const useAuth = () => {
     }
   };
 
-  const authLogin = async (email, password) => {
-    onChecking();
+  // const authLogin = async (email, password) => {
+  //   onChecking();
 
-    try {
-      let url = `http://localhost:5004/login`;
-      let options = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      };
+  //   try {
+  //     let url = `http://localhost:5004/login`;
+  //     let options = {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ email, password }),
+  //     };
 
-      let response = await fetch(url, options);
+  //     let response = await fetch(url, options);
 
-      if (!response.ok) {
-        if (response.status === 401) {
-          Swal.fire({
-            icon: "error",
-            title: "Error de autenticación",
-            text: "Email o contraseña son inválidos",
-          });
-          onLogout();
-          return;
-        } else {
-          throw new Error(`message: ${response.statusText}`);
-        }
-      }
+  //     if (!response.ok) {
+  //       if (response.status === 401) {
+  //         Swal.fire({
+  //           icon: "error",
+  //           title: "Error de autenticación",
+  //           text: "Email o contraseña son inválidos",
+  //         });
+  //         onLogout();
+  //         return;
+  //       } else {
+  //         throw new Error(`message: ${response.statusText}`);
+  //       }
+  //     }
 
-      let result = await response.json();
-      const { data: user, token } = result;
+  //     let result = await response.json();
+  //     const { data: user, token } = result;
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("token-init-date", new Date().getTime());
+  //     localStorage.setItem("token", token);
+  //     localStorage.setItem("token-init-date", new Date().getTime());
 
-      onLogin({
-        id: user.id,
-        rut: user.rut,
-        name: user.name,
-        lastName: user.lastName,
-        email: user.email,
-        direction: user.direction,
-        comuna: user.comuna,
-        region: user.region,
-        cellphone: user.cellphone,
-        image: user.image,
-        pets: user.owned_pets,
-      });
+  //     onLogin({
+  //       id: user.id,
+  //       rut: user.rut,
+  //       name: user.name,
+  //       lastName: user.lastName,
+  //       email: user.email,
+  //       direction: user.direction,
+  //       comuna: user.comuna,
+  //       region: user.region,
+  //       cellphone: user.cellphone,
+  //       image: user.image,
+  //       pets: user.owned_pets,
+  //     });
 
-      return result;
-    } catch (error) {
-      console.log(error);
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: error,
-      });
-      onLogout(error);
-    }
-  };
+  //     return result;
+  //   } catch (error) {
+  //     console.log(error);
+  //     Swal.fire({
+  //       icon: "error",
+  //       title: "Oops...",
+  //       text: error,
+  //     });
+  //     onLogout(error);
+  //   }
+  // };
 
   const updateUser = async (userData) => {
     try {
@@ -230,8 +316,9 @@ export const useAuth = () => {
   };
 
   return {
-    createUser,
     authLogin,
+    revalidateToken,
+    createUser,
     updateUser,
     deleteUser,
   };

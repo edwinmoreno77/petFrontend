@@ -73,7 +73,10 @@ export function FormLogin() {
                   onClick={togglePasswordVisibility}
                   className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
                 >
-                  <IconEye showPassword={showPassword} />
+                  <IconEye
+                    showPassword={showPassword}
+                    togglePasswordVisibility={togglePasswordVisibility}
+                  />
                 </span>
               </div>
             </div>

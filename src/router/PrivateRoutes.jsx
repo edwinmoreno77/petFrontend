@@ -8,6 +8,7 @@ export const PrivateRoutes = ({ children }) => {
   const { userStatus } = store.userState;
 
   return userStatus === "authenticated" ? children : <Navigate to="/login" />;
+  // return localStorage.getItem("token") ? children : <Navigate to="/login" />;
 };
 
 PrivateRoutes.propTypes = {
