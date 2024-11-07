@@ -82,6 +82,7 @@ export function Vaccines() {
                   <div
                     key={pet.id}
                     className="relative group flex justify-center items-center p-1 md:p-2"
+                    onClick={() => handlePetChange(pet.id)}
                   >
                     <span className="absolute top-1/2 left-1/2 z-10 transform -translate-x-1/2 -translate-y-1/2 text-white text-xs lg:text-lg font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out">
                       {pet.name}
@@ -91,7 +92,6 @@ export function Vaccines() {
                         className="border-4 rounded-full cursor-pointer hover:scale-105 transition-transform duration-200 min-h-10 max-h-28"
                         src={pet.image}
                         alt={pet.name}
-                        onClick={() => handlePetChange(pet.id)}
                       />
                     </div>
                   </div>
