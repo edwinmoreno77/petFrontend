@@ -32,9 +32,9 @@ export function Home() {
   }, []);
 
   const currentDate = new Date();
-  const upcomingEvents = events.filter(
-    (event) => new Date(event.event_date) > currentDate
-  );
+  const upcomingEvents = events
+    .filter((event) => new Date(event.event_date) > currentDate)
+    .sort((a, b) => new Date(a.event_date) - new Date(b.event_date));
 
   return (
     <>
