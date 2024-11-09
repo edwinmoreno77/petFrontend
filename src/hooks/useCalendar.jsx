@@ -21,18 +21,15 @@ export const useCalendar = () => {
 
   const addEvent = async (user_id, newEvent, selectedDate) => {
     try {
-      const response = await fetch(
-        `http://localhost:5004/createEvents/${user_id}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            user_id: user_id,
-            description: newEvent,
-            event_date: selectedDate.toISOString(),
-          }),
-        }
-      );
+      const response = await fetch(`http://localhost:5004/createEvents`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: user_id,
+          description: newEvent,
+          event_date: selectedDate.toISOString(),
+        }),
+      });
 
       if (!response.ok) throw new Error("Error al guardar el evento");
 

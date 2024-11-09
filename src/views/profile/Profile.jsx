@@ -11,19 +11,21 @@ export const Profile = () => {
   const { user } = store.userState;
   const { onLogout } = actions;
 
-  const [selectedPet, setSelectedPet] = useState(user.pets[0] || null);
+  const [selectedPet, setSelectedPet] = useState(
+    user.owned_pets ? user.owned_pets[0] : null
+  );
 
   const handlerSelectedPet = (pet) => {
     setSelectedPet(pet);
   };
 
   useEffect(() => {
-    if (user.pets.length === 0) {
+    if (user?.owned_pets?.length === 0) {
       setSelectedPet(null);
-    } else if (!user.pets.includes(selectedPet)) {
-      setSelectedPet(user.pets[0]);
+    } else if (user.owned_pets && !user?.owned_pets?.includes(selectedPet)) {
+      setSelectedPet(user?.owned_pets[0]);
     }
-  }, [user.pets, selectedPet]);
+  }, [user.owned_pets, selectedPet]);
 
   return (
     <main className="container-fluid z-0 bg-image-motivo bg-black flex flex-col items-center justify-center  min-h-screen p-5 transition-all duration-200 ease-in-out">
@@ -33,10 +35,10 @@ export const Profile = () => {
       </section>
       <section className="flex flex-col z-10 justify-center items-center border-2 border-slate-800 shadow-slate-600 shadow-md p-1 md:p-5   duration-200 ease-in-out cursor-pointer text-center  w-full max-w-4xl xl:max-w-5xl rounded-xl bg-black text-white mb-4">
         <h4 className="p-1 text-xs md:text-sm lg:text-lg font-extrabold text-slate-300">
-          Mascotas: {user.pets.length}
+          Mascotas: {user.owned_pets?.length}
         </h4>
         <div className="flex justify-evenly items-center w-full p-6">
-          {user.pets?.length < 5 ? (
+          {user.owned_pets?.length < 5 ? (
             user.pets?.map((pet) => (
               <div
                 onClick={() => handlerSelectedPet(pet)}
@@ -57,7 +59,7 @@ export const Profile = () => {
             ))
           ) : (
             <CustomCarousel
-              pets={user.pets}
+              pets={user.owned_pets || []}
               handlerSelectedPet={handlerSelectedPet}
             />
           )}

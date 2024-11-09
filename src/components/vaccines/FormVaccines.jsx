@@ -35,7 +35,6 @@ export const FormVaccines = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Verificar que petId esté definido antes de enviar el formulario
     if (!formState.petId) {
       Swal.fire({
         icon: "error",
@@ -73,12 +72,12 @@ export const FormVaccines = () => {
 
   const handlePetNameChange = (e) => {
     const petName = e.target.value;
-    const selectedPet = user.pets.find((pet) => pet.name === petName);
+    const selectedPet = user.owned_pets.find((pet) => pet.name === petName);
 
     setFormState({
       ...formState,
       petName,
-      petId: selectedPet ? selectedPet.id : "", // Agregar el id de la mascota o una cadena vacía si no existe
+      petId: selectedPet ? selectedPet.id : "",
     });
     setSelectedPetAnimal(selectedPet ? selectedPet.animal : "");
   };
@@ -113,7 +112,7 @@ export const FormVaccines = () => {
                 <option value="" disabled>
                   Selecciona a tu mascota
                 </option>
-                {user.pets.map((pet) => (
+                {user?.owned_pets.map((pet) => (
                   <option key={pet.id} value={pet.name} />
                 ))}
               </datalist>

@@ -15,7 +15,7 @@ export function Vaccines() {
   const petsPerPage = 3;
 
   const handlePetChange = async (petId) => {
-    const selected = user.pets.find((pet) => pet.id === parseInt(petId));
+    const selected = user.owned_pets.find((pet) => pet.id === parseInt(petId));
     setSelectedPet(selected);
 
     // LLAMADA AL BACKEND, VACUNAS POR MASCOTA----------------------------
@@ -46,7 +46,7 @@ export function Vaccines() {
   };
 
   const nextPage = () => {
-    if (currentIndex < Math.floor(user.pets.length / petsPerPage)) {
+    if (currentIndex < Math.floor(user.owned_pets?.length / petsPerPage)) {
       setCurrentIndex(currentIndex + 1);
     }
   };
@@ -57,7 +57,7 @@ export function Vaccines() {
     }
   };
 
-  const displayedPets = user.pets.slice(
+  const displayedPets = user.owned_pets?.slice(
     currentIndex * petsPerPage,
     (currentIndex + 1) * petsPerPage
   );
@@ -78,7 +78,7 @@ export function Vaccines() {
                 &#10094;
               </button>
               <div className="flex overflow-hidden justify-center items-center w-full">
-                {displayedPets.map((pet) => (
+                {displayedPets?.map((pet) => (
                   <div
                     key={pet.id}
                     className="relative group flex justify-center items-center p-1 md:p-2"
@@ -100,7 +100,8 @@ export function Vaccines() {
               <button
                 onClick={nextPage}
                 disabled={
-                  currentIndex >= Math.floor(user.pets.length / petsPerPage)
+                  currentIndex >=
+                  Math.floor(user.owned_pets?.length / petsPerPage)
                 }
                 className="text-xxs md:text-sm p-1 md:p-2 rounded-full  bg-black shadow-sm  hover:bg-lime-500  hover:shadow-2xl shadow-lime-500 hover:text-black transition duration-200 hover:scale-110 ease-in-out"
               >

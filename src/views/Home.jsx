@@ -29,7 +29,7 @@ export function Home() {
 
   useEffect(() => {
     handlerEvent();
-  }, []);
+  }, [store.userState.user]);
 
   const currentDate = new Date();
   const upcomingEvents = events

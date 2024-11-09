@@ -30,6 +30,11 @@ const injectContext = (PassedComponent) => {
        * state.actions.loadSomeData(); <---- calling this function from the flux.js actions
        *
        **/
+      const user = localStorage.getItem("user");
+      const userObject = JSON.parse(user);
+      if (Object.keys(userObject).length > 0) {
+        state.actions.onLogin(userObject);
+      }
     }, []);
     // The initial value for the context is not null anymore, but the current state of this component,
     // the context will now have a getStore, getActions and setStore functions available, because they were declared

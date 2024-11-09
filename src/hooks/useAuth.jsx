@@ -6,7 +6,6 @@ export const useAuth = () => {
   const { actions } = useContext(Context);
   const { onChecking, onLogin, onLogout } = actions;
 
-  // REVALIDAR TOKEN - LOGIN MODIFICADO------------------
   const authLogin = async (email, password) => {
     onChecking();
 
@@ -44,50 +43,6 @@ export const useAuth = () => {
       return result;
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
-      onLogout();
-    }
-  };
-
-  // REVALIDAR TOKEN- FUNCIÓN REVALIDAR TOKEN--------------------
-
-  const revalidateToken = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      onLogout();
-      return;
-    }
-
-    try {
-      const response = await fetch("http://localhost:5004/renew", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (!response.ok) {
-        onLogout();
-        return;
-      }
-
-      const { user, newToken } = await response.json();
-
-      localStorage.setItem("token", newToken);
-      localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("token-init-date", new Date().getTime());
-
-      onLogin({
-        id: user.id,
-        rut: user.rut,
-        name: user.name,
-        lastName: user.lastName,
-        email: user.email,
-        direction: user.direction,
-        comuna: user.comuna,
-        region: user.region,
-        cellphone: user.cellphone,
-        image: user.image,
-        pets: user.owned_pets,
-      });
-    } catch (error) {
-      console.error("Error revalidando el token:", error);
       onLogout();
     }
   };
@@ -317,7 +272,6 @@ export const useAuth = () => {
 
   return {
     authLogin,
-    revalidateToken,
     createUser,
     updateUser,
     deleteUser,
