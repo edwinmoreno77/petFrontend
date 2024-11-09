@@ -107,6 +107,23 @@ export const Config = () => {
             <h1 className="font-extrabold mt-3 text-xl md:text-2xl">
               Cambiar Avatar
             </h1>
+            <div className="relative w-full my-3">
+              <input
+                className="w-full font-semibold border border-gray-300 rounded-lg p-2 pt-3 lg:pt-4 text-black focus:outline-none focus:ring-1 focus:ring-gray-400"
+                type="email"
+                name="email"
+                id="email"
+                value={formState.email}
+                placeholder=" "
+                required
+              />
+              <label
+                htmlFor="email"
+                className="absolute top-2 left-3 text-gray-500 text-sm transition-all transform -translate-y-1/2 px-1"
+              >
+                Correo:
+              </label>
+            </div>
             <div className="relative w-full my-2">
               <input
                 className="w-full border border-gray-300 rounded-lg p-2 pt-3 lg:pt-4 text-black focus:outline-none focus:ring-1 focus:ring-gray-400"
@@ -142,24 +159,6 @@ export const Config = () => {
               >
                 Apellido:
               </label>
-              <div className="relative w-full my-3">
-                <input
-                  className="w-full border border-gray-300 rounded-lg p-2 pt-3 lg:pt-4 text-black focus:outline-none focus:ring-1 focus:ring-gray-400"
-                  type="email"
-                  name="email"
-                  id="email"
-                  value={formState.email}
-                  onChange={onInputChange}
-                  placeholder=" "
-                  required
-                />
-                <label
-                  htmlFor="email"
-                  className="absolute top-2 left-3 text-gray-500 text-sm transition-all transform -translate-y-1/2 px-1"
-                >
-                  Correo:
-                </label>
-              </div>
             </div>
             <button
               onClick={handlerUpdateUser}
