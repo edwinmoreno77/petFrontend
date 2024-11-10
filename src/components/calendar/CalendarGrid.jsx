@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { useEffect } from "react";
 
 export const CalendarGrid = ({
   firstDay,
@@ -9,6 +10,11 @@ export const CalendarGrid = ({
   events,
   handleSelectedDate,
 }) => {
+  useEffect(() => {
+    handleSelectedDate(selectedDate.getDate() - 1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className="grid grid-cols-7 gap-1 md:gap-1 lg:gap-1 text-center">
       {["D", "L", "M", "M", "J", "V", "S"].map((day, index) => (
@@ -33,7 +39,7 @@ export const CalendarGrid = ({
         return (
           <button
             key={dayKey}
-            className={`p-1 m-0 text-lg lg:text-base md:p-2 md:m-3 lg:m-3 lg:p-2 rounded-full transition duration-200 ease-in ${
+            className={`p-1 sm:p-1 m-0 text-lg lg:text-base md:p-3 md:m-1 lg:m-3 lg:p-1 rounded-full transition duration-200 ease-in ${
               selectedDate?.getDate() === day + 1
                 ? "bg-lime-500 text-white"
                 : "hover:bg-paw hover:bg-slate-600 transition duration-300 ease-in"
