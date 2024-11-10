@@ -108,21 +108,9 @@ export const Config = () => {
               Cambiar Avatar
             </h1>
             <div className="relative w-full my-3">
-              <input
-                className="w-full font-semibold border border-gray-300 rounded-lg p-2 pt-3 lg:pt-4 text-black focus:outline-none focus:ring-1 focus:ring-gray-400"
-                type="email"
-                name="email"
-                id="email"
-                value={formState.email}
-                placeholder=" "
-                required
-              />
-              <label
-                htmlFor="email"
-                className="absolute top-2 left-3 text-gray-500 text-sm transition-all transform -translate-y-1/2 px-1"
-              >
-                Correo:
-              </label>
+              <span className="w-full cursor-default bg-black text-white text-xl font-bold text-center rounded-lg p-2 pt-3 lg:pt-4 focus:outline-none ring-lime-500 focus:ring-2">
+                {formState.email}
+              </span>
             </div>
             <div className="relative w-full my-2">
               <input
@@ -162,7 +150,7 @@ export const Config = () => {
             </div>
             <button
               onClick={handlerUpdateUser}
-              className={`bg-lime-400 w-full p-2 font-semibold shadow-md hover:brightness-110 ease-in-out duration-200 hover:scale-110 text-white rounded-md px-5 py-2 flex justify-center items-center ${
+              className={`bg-lime-400 w-full p-2 my-1 font-semibold shadow-md hover:brightness-110 ease-in-out duration-200 hover:scale-110 text-white rounded-md px-5 py-2 flex justify-center items-center ${
                 loading ? "opacity-50 cursor-not-allowed" : ""
               }`}
               disabled={loading}
@@ -175,13 +163,13 @@ export const Config = () => {
               <span>Guardar cambios</span>
             </button>
             <Link className="w-full" to={"/profile"}>
-              <button className="p-2 w-full my-2 rounded-md bg-black border-2 font-semibold hover:brightness-110 hover:scale-110 transition ease-in-out duration-200">
+              <button className="p-2 w-full my-3 rounded-md bg-black border-2 font-semibold hover:brightness-110 hover:scale-110 transition ease-in-out duration-200">
                 Volver
               </button>
             </Link>
             <button
               onClick={handlerDeleteUser}
-              className="p-3 w-full my-2 rounded-md border-2 border-black hover:border-red-500 text-red-500 font-bold hover:brightness-125 hover:scale-110 transition ease-in-out duration-200"
+              className="p-3 w-full my-1 rounded-md border-2 border-black hover:border-red-500 text-red-500 font-bold hover:brightness-125 hover:scale-110 transition ease-in-out duration-200"
             >
               Eliminar cuenta
             </button>
