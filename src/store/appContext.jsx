@@ -32,7 +32,7 @@ const injectContext = (PassedComponent) => {
        **/
       const user = localStorage.getItem("user");
       const userObject = JSON.parse(user);
-      if (Object.keys(userObject).length > 0) {
+      if (Object.keys(userObject || {}).length > 0) {
         state.actions.onLogin(userObject);
       }
     }, []);

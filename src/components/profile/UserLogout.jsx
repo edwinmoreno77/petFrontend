@@ -7,6 +7,7 @@ export const UserLogout = ({ user, onLogout }) => {
 
   const hadleLogout = () => {
     onLogout();
+    localStorage.clear();
     navigate("/");
   };
   return (
