@@ -67,7 +67,7 @@ export function Home() {
         </h1>
       </div>
 
-      <div className="flex flex-col justify-start items-start text-center w-full max-w-4xl xl:max-w-5xl rounded-xl bg-black text-white h-96">
+      <div className="flex flex-col justify-start items-start text-center w-full max-w-4xl xl:max-w-5xl rounded-xl bg-black text-white h-96 mb-10">
         <div className="flex flex-col lg:flex-row lg:justify-between w-full">
           <div className="flex flex-row justify-start">
             <img
