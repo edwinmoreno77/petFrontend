@@ -113,7 +113,7 @@ export function Dewormings() {
         </div>
         <div className="flex justify-center">
           <img
-            className="w-16 lg:w-32 hover:scale-110 duration-200 ease-in-out hover:brightness-150"
+            className="w-16 lg:w-32 hover:scale-110 duration-200 ease-in-out hover:brightness-150 mb-10"
             src={dewormingAddIcon}
             alt="añadir desparasitación"
             onClick={() => setIsFormVisible(!isFormVisible)}

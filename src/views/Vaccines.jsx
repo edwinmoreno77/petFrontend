@@ -111,7 +111,7 @@ export function Vaccines() {
         </div>
         <div className="flex justify-center">
           <img
-            className="w-12 lg:w-32 hover:scale-110 duration-200 ease-in-out hover:brightness-150 mb-10"
+            className="w-16 lg:w-32 hover:scale-110 duration-200 ease-in-out hover:brightness-150 mb-10"
             src={vaccineAddIcon}
             alt="añadir vacuna"
             onClick={() => setIsFormVisible(!isFormVisible)}
