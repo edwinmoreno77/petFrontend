@@ -1,8 +1,10 @@
-import vaccineAddIcon from "../assets/vaccineAddIcon.svg";
-import vaccineIcon from "../assets/vaccineIcon.svg";
 import { useContext, useState } from "react";
 import { Context } from "../store/appContext";
+import { useNavigate } from "react-router-dom";
 import { FormVaccines } from "../components/vaccines/FormVaccines";
+import vaccineAddIcon from "../assets/vaccineAddIcon.svg";
+import vaccineIcon from "../assets/vaccineIcon.svg";
+import Swal from "sweetalert2";
 
 export function Vaccines() {
   const { store } = useContext(Context);
@@ -12,22 +14,37 @@ export function Vaccines() {
   const [selectedVaccine, setSelectedVaccine] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const navigate = useNavigate();
   const petsPerPage = 3;
 
   const handlePetChange = async (petId) => {
     const selected = user.owned_pets.find((pet) => pet.id === parseInt(petId));
     setSelectedPet(selected);
 
-    // LLAMADA AL BACKEND, VACUNAS POR MASCOTA----------------------------
+    //CALL TO BACKEND, VACCINES BY PET----------------------------
     if (petId) {
       try {
+        const token = localStorage.getItem("token");
         const response = await fetch(
-          `http://localhost:5004/getVaccinesByPet/${petId}`
+          `http://localhost:5004/getVaccinesByPet/${petId}`,
+          {
+            headers: {
+              authorization: "Bearer " + token,
+            },
+          }
         );
         const data = await response.json();
 
-        if (response.ok) {
+        if (response.status == 200) {
           setVaccines(data.data);
+        } else if (response.status == 401) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Su sesión ha expirado",
+          }).then(() => {
+            navigate("/login");
+          });
         } else {
           console.error(data.message);
         }
@@ -122,7 +139,7 @@ export function Vaccines() {
 
       {isFormVisible && <FormVaccines />}
 
-      {/* MUESTRA INFORMACIÓN PRINCIPAL DE LAS VACUNAS DE LA MASCOTA SELECCIONADA */}
+      {/* SHOWS MAIN INFORMATION ABOUT VACCINES FOR SELECTED PET */}
       {selectedPet && vaccines.length > 0
         ? vaccines.map((vaccine, index) => (
             <div
@@ -149,7 +166,7 @@ export function Vaccines() {
                 </ul>
               </div>
 
-              {/* DETALLES DE LA VACUNA QUE SE MUESTRAN SOLO CUANDO LA SELECCIONAS--------------- */}
+              {/* SHOWS DETAILS ABOUT VACCINES IF YOU CLIC ON THE DIV--------------- */}
               {selectedVaccine === vaccine && (
                 <div className="flex flex-col justify-center w-full my-6 px-10">
                   <div>

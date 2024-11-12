@@ -1,23 +1,40 @@
 import { useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import calendar from "../assets/calendar.svg";
 import dayCalendarIcon from "../assets/dayCalendarIcon.svg";
+import Swal from "sweetalert2";
 
 export function Home() {
   const { store } = useContext(Context);
   const user = store.userState?.user;
   const [events, setEvents] = useState([]);
+  const navigate = useNavigate();
 
   const handlerEvent = async () => {
     if (user?.id) {
       try {
+        const token = localStorage.getItem("token");
         const response = await fetch(
-          `http://localhost:5004/getEventsByUserId/${user.id}`
+          `http://localhost:5004/getEventsByUserId/${user.id}`,
+          {
+            headers: {
+              authorization: "Bearer " + token,
+            },
+          }
         );
         const data = await response.json();
 
-        if (response.ok) {
+        if (response.status == 200) {
           setEvents(data);
+        } else if (response.status == 401) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Su sesión ha expirado",
+          }).then(() => {
+            navigate("/login");
+          });
         } else {
           console.error(data.message);
         }
@@ -62,7 +79,7 @@ export function Home() {
             <h1 className="font-extrabold text-lg">Tus próximos eventos:</h1>
           </div>
 
-          {/* MUESTRA LAS ACTIVIDADES PENDIENTES DEL USUARIO--------------------- */}
+          {/* SHOWS PENDING ACTIVITIES FOR THE USER--------------------- */}
           {events.length === 0 ? (
             <p className="text-center text-white font-bold">
               Sin eventos pendientes.
@@ -73,14 +90,14 @@ export function Home() {
                 key={event.id}
                 className="flex justify-start z-10 border-slate-800 p-2 my-2 text-center text-white font-bold hover:scale-105 duration-200 ease-in-out hover:brightness-75 cursor-pointer w-full rounded-xl bg-primary-green"
               >
-                {/* CONTENEDOR DEL ICONO CALENDARIO*/}
+                {/* CALENDAR ICON */}
                 <div className="relative w-10 h-10 mr-4">
                   <img
                     className="w-full h-full"
                     src={dayCalendarIcon}
                     alt="calendar"
                   />
-                  {/* TEXTO DIA DEL EVENTO */}
+                  {/* EVENT TEXT */}
                   <span className="absolute top-0 left-0 right-0 bottom-0 mt-3 text-center text-md font-extrabold text-gray-600">
                     {new Date(event.event_date).getDate()}
                   </span>
