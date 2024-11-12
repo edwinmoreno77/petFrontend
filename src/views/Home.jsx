@@ -54,7 +54,7 @@ export function Home() {
   };
 
   return (
-    <main className="container-fluid z-0 bg-image-motivo bg-black flex flex-col items-center min-h-screen p-5 mb-12">
+    <main className="container-fluid z-0 bg-image-motivo bg-black flex flex-col items-center min-h-screen p-5 pb-12">
       <div className="flex flex-row justify-evenly items-center my-8 z-10 border-slate-800 shadow-slate-600 shadow-md p-3 hover:scale-105 duration-200 ease-in-out cursor-pointer text-center w-full max-w-4xl xl:max-w-5xl rounded-xl bg-black text-white h-48">
         <div className="flex justify-center h-16 w-16 md:w-24 md:h-24">
           <Link to={"/profile"}>
