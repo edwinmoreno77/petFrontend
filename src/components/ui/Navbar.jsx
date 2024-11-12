@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import profile from "../../assets/profile.svg";
 import calendar from "../../assets/calendar.svg";
-import deworming from "../../assets/deworming.svg";
+import dewormingIcon from "../../assets/dewormingIcon.svg";
 import home from "../../assets/home.svg";
 import vaccineIcon from "../../assets/vaccineIcon.svg";
 import profileActive from "../../assets/profileActive.svg";
@@ -12,7 +12,7 @@ import vaccineActive from "../../assets/vaccineActive.svg";
 
 export const Navbar = () => {
   return (
-    <main className="fixed z-50 bottom-0 left-1/2 lg:left-0 transform -translate-x-1/2 lg:-translate-x-1 w-full lg:w-16 lg:h-full max-w-md lg:max-w-xs bg-black p-3 lg:p-2 rounded-t-2xl lg:rounded-t-none lg:rounded-e-lg">
+    <main className="fixed border-t-2 lg:border-t-0 lg:border-r-2 border-slate-800 shadow-slate-600 shadow-md z-50 bottom-0 left-1/2 lg:left-0 transform -translate-x-1/2 lg:-translate-x-1 w-full lg:w-20 lg:h-full max-w-md lg:max-w-xs bg-black p-4 lg:p-2 rounded-t-2xl lg:rounded-t-none lg:rounded-e-lg">
       <nav>
         <ul className="flex justify-evenly items-center gap-3 lg:gap-8 lg:flex-col">
           <NavLink to="home" className="group">
@@ -60,13 +60,13 @@ export const Navbar = () => {
             )}
           </NavLink>
 
-          <NavLink to="/deworming" className="group">
+          <NavLink to="/dewormings" className="group">
             {({ isActive }) => (
               <div className="relative">
                 <img
                   className="w-7 sm:w-9 md:w-11 lg:w-14 2xl:w-20 h-auto lg:hover:bg-lime-500 rounded-md lg:p-2"
-                  src={isActive ? dewormingActive : deworming}
-                  alt="Deworming"
+                  src={isActive ? dewormingActive : dewormingIcon}
+                  alt="Dewormings"
                 />
                 <span className="hidden lg:block absolute left-full top-1/2 -translate-y-1/2 ml-2 p-1 text-xs bg-gray-700 text-white rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   Desparasitaciones

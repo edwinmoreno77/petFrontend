@@ -7,6 +7,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         user: {},
         userErrorMessage: undefined,
       },
+      events: {},
     },
 
     actions: {
@@ -36,6 +37,9 @@ const getState = ({ getStore, getActions, setStore }) => {
             userErrorMessage: error,
           },
         });
+      },
+      onEvents: (events) => {
+        setStore({ events });
       },
     },
   };

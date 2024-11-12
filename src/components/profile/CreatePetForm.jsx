@@ -69,7 +69,7 @@ export const CreatePetForm = () => {
   };
 
   return (
-    <section className="mb-5">
+    <section className="mb-15 md:mb-5">
       <div className="flex justify-center items-center">
         <div className="flex justify-center items-center w-48">
           <img
@@ -186,7 +186,7 @@ export const CreatePetForm = () => {
           <button
             type="submit"
             onClick={(e) => handlerCreatePet(e, formState)}
-            className={`bg-lime-400 font-semibold shadow-md hover:brightness-110 ease-in-out duration-200 text-white rounded-md px-5 py-2 flex justify-center items-center ${
+            className={`bg-lime-400 transition  hover:scale-110  font-semibold shadow-md hover:brightness-110 ease-in-out duration-200 text-white rounded-md px-5 py-2 flex justify-center items-center ${
               loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
             disabled={loading}
@@ -198,9 +198,12 @@ export const CreatePetForm = () => {
             )}
             <span>Agregar</span>
           </button>
-          <button className="bg-slate-400 hover:brightness-110 py-2 px-5 rounded-lg font-semibold">
-            <Link to={"/profile"}>Volver</Link>
-          </button>
+          <Link
+            className="transition duration-200 ease-in-out hover:scale-110  border-2 hover:brightness-110 py-2 px-5 rounded-lg font-semibold"
+            to={"/profile"}
+          >
+            <button>Volver</button>
+          </Link>
         </div>
       </form>
     </section>

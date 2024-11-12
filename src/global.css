@@ -2,3 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+.bg-image-motivo {
+    background-image: url('./assets/motivo.png') fixed;
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    position: relative;
+}
+
+.bg-image-motivo::before {
+    content: '';
+    background-image: url('./assets/motivo.png');
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    pointer-events: none;
+}
