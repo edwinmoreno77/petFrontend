@@ -26,6 +26,7 @@ export const FormDewormings = ({ onDewormingAdded }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     if (!formState.petId) {
       Swal.fire({
@@ -33,6 +34,7 @@ export const FormDewormings = ({ onDewormingAdded }) => {
         title: "Oops...",
         text: "Selecciona una mascota válida antes de enviar",
       });
+      setLoading(false);
       return;
     }
 

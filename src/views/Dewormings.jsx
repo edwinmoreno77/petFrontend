@@ -132,14 +132,14 @@ export function Dewormings() {
             <div
               key={index}
               onClick={() => handleDewormingClick(deworming)}
-              className={`flex flex-col justify-center items-center z-10 border-slate-800 shadow-slate-600 shadow-md p-3 hover:scale-105 duration-200 hover:bg-primary-green ease-in-out cursor-pointer text-center w-full max-w-3xl rounded-xl bg-black text-white mb-3 ${
+              className={`flex flex-col justify-center items-center z-10 border-slate-800 shadow-slate-600 shadow-md p-1 hover:scale-105 duration-200 hover:bg-primary-green ease-in-out cursor-pointer text-center w-full max-w-3xl rounded-xl bg-black text-white mb-3 ${
                 selectedDeworming === deworming ? "h-auto" : "h-32"
               }`}
             >
               <div className="flex flex-row items-center justify-around w-full p-2 text-xs lg:text-base lg:p-8">
                 <div>
                   <img
-                    className="w-9 lg:w-16 hover:invert me-2"
+                    className="w-9 lg:w-16 hover:invert me-2 p-1"
                     src={dewormingIcon}
                     alt="deworming"
                   />
