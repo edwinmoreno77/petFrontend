@@ -2,7 +2,7 @@ import { CalendarHeader } from "../components/calendar/CalendarHeader";
 import { CalendarGrid } from "../components/calendar/CalendarGrid";
 import { EventsList } from "../components/calendar/EventsList";
 import { EventAdder } from "../components/calendar/EventAdder";
-import { useCalendarLogic } from "../hooks/useCalendarLogic";
+import { useCalendarLogic } from "../hooks/calendar//useCalendarLogic";
 
 export const Calendar = () => {
   const {

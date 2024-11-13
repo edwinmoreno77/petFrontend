@@ -1,4 +1,5 @@
 import { useState, useContext } from "react";
+import PropTypes from "prop-types";
 import { Context } from "../../store/appContext";
 import { useForm } from "../../hooks/useForm";
 import { useDeworming } from "../../hooks/useDeworming";
@@ -13,17 +14,19 @@ const dewormingFormFields = {
   nextDeworming: "",
 };
 
-export const FormDewormings = () => {
+export const FormDewormings = ({ onDewormingAdded }) => {
   const { createDeworming } = useDeworming();
   const { store } = useContext(Context);
   const { user } = store.userState;
   const [isModalOpen, setIsModalOpen] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const { formState, onInputChange, setFormState, onResetForm } =
     useForm(dewormingFormFields);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     if (!formState.petId) {
       Swal.fire({
@@ -31,6 +34,7 @@ export const FormDewormings = () => {
         title: "Oops...",
         text: "Selecciona una mascota válida antes de enviar",
       });
+      setLoading(false);
       return;
     }
 
@@ -48,9 +52,13 @@ export const FormDewormings = () => {
       if (response && response.success) {
         onResetForm();
         closeModal();
+
+        if (onDewormingAdded) onDewormingAdded();
       }
     } catch (error) {
       console.error("Error al enviar la desparasitación:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -179,9 +187,17 @@ export const FormDewormings = () => {
               </button>
               <button
                 type="submit"
-                className="submit-button bg-primary-green text-white font-semibold shadow-md hover:brightness-110 ease-in-out duration-200 rounded-md px-6 py-1 mb-3"
+                className={`flex justify-center items-center bg-primary-green text-white font-semibold shadow-md hover:brightness-110 ease-in-out duration-200 rounded-md px-6 py-1 mb-3 ${
+                  loading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+                disabled={loading}
               >
-                Registrar
+                {loading && (
+                  <span className="flex items-center">
+                    <div className="animate-spin h-5 w-5 border-4 border-t-transparent border-white rounded-full mr-3"></div>
+                  </span>
+                )}
+                <span>Registrar</span>
               </button>
             </div>
           </div>
@@ -189,4 +205,8 @@ export const FormDewormings = () => {
       </div>
     )
   );
+};
+
+FormDewormings.propTypes = {
+  onDewormingAdded: PropTypes.func,
 };

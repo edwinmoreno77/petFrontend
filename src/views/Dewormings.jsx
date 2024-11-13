@@ -17,41 +17,41 @@ export function Dewormings() {
   const navigate = useNavigate();
   const petsPerPage = 3;
 
-  const handlePetChange = async (petId) => {
-    const selected = user.owned_pets.find((pet) => pet.id === parseInt(petId));
-    setSelectedPet(selected);
-
-    //CALL TO BACKEND, DEWORMINGS BY PET----------------------------
-    if (petId) {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await fetch(
-          `http://localhost:5004/getDewormingsByPet/${petId}`,
-          {
-            headers: {
-              authorization: "Bearer " + token,
-            },
-          }
-        );
-        const data = await response.json();
-
-        if (response.status == 200) {
-          setDewormings(data.data);
-        } else if (response.status == 401) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Su sesión ha expirado",
-          }).then(() => {
-            navigate("/login");
-          });
-        } else {
-          console.error(data.message);
+  const fetchDewormings = async (petId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        `http://localhost:5004/getDewormingsByPet/${petId}`,
+        {
+          headers: {
+            authorization: "Bearer " + token,
+          },
         }
-      } catch (error) {
-        console.error("Error fetching dewormings:", error);
+      );
+      const data = await response.json();
+
+      if (response.status == 200) {
+        setDewormings(data.data);
+      } else if (response.status == 401) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Su sesión ha expirado",
+        }).then(() => {
+          navigate("/login");
+        });
+      } else {
+        console.error(data.message);
       }
+    } catch (error) {
+      console.error("Error fetching dewormings:", error);
     }
+  };
+
+  const handlePetChange = (petId) => {
+    const selected = user.pets.find((pet) => pet.id === parseInt(petId));
+    setSelectedPet(selected);
+    fetchDewormings(petId);
   };
 
   const handleDewormingClick = (deworming) => {
@@ -80,14 +80,13 @@ export function Dewormings() {
   );
 
   return (
-    <main className="container-fluid z-0 bg-image-motivo bg-black flex flex-col items-center min-h-screen p-5">
+    <main className="container-fluid z-0 bg-image-motivo bg-black flex flex-col items-center min-h-screen p-5 pb-20">
       <div className="flex flex-col lg:flex-row justify-around z-10 border-slate-800 shadow-slate-600 shadow-md p-3 hover:scale-105 duration-200 ease-in-out cursor-pointer text-center w-full max-w-3xl rounded-xl bg-black text-white mb-5 h-80">
         <div className="flex flex-col justify-center items-center p-3">
           <h1 className="font-extrabold md:text-2xl">
             Registro de Desparasitaciones
           </h1>
           <div className="flex flex-col md:flex-row md:items-center space-y-3 md:space-y-0 md:space-x-3 mt-6">
-            {/* CARROUSEL------------------------------------ */}
             <div className="flex items-center w-80 lg:w-96">
               <button
                 onClick={prevPage}
@@ -131,7 +130,7 @@ export function Dewormings() {
         </div>
         <div className="flex justify-center">
           <img
-            className="w-16 lg:w-32 hover:scale-110 duration-200 ease-in-out hover:brightness-150"
+            className="w-16 lg:w-32 hover:scale-110 duration-200 ease-in-out hover:brightness-150 mb-10"
             src={dewormingAddIcon}
             alt="añadir desparasitación"
             onClick={() => setIsFormVisible(!isFormVisible)}
@@ -139,22 +138,26 @@ export function Dewormings() {
         </div>
       </div>
 
-      {isFormVisible && <FormDewormings />}
+      {isFormVisible && (
+        <FormDewormings
+          petId={selectedPet?.id}
+          onDewormingAdded={() => fetchDewormings(selectedPet.id)}
+        />
+      )}
 
-      {/* SHOWS MAIN INFORMATION ABOUT DEWORMINGS FOR SELECTED PET */}
       {selectedPet && dewormings.length > 0
         ? dewormings.map((deworming, index) => (
             <div
               key={index}
               onClick={() => handleDewormingClick(deworming)}
-              className={`flex flex-col justify-center items-center z-10 border-slate-800 shadow-slate-600 shadow-md p-3 hover:scale-105 duration-200 hover:bg-primary-green ease-in-out cursor-pointer text-center w-full max-w-3xl rounded-xl bg-black text-white mb-3 ${
+              className={`flex flex-col justify-center items-center z-10 border-slate-800 shadow-slate-600 shadow-md p-1 hover:scale-105 duration-200 hover:bg-primary-green ease-in-out cursor-pointer text-center w-full max-w-3xl rounded-xl bg-black text-white mb-3 ${
                 selectedDeworming === deworming ? "h-auto" : "h-32"
               }`}
             >
               <div className="flex flex-row items-center justify-around w-full p-2 text-xs lg:text-base lg:p-8">
                 <div>
                   <img
-                    className="w-9 lg:w-16 hover:invert me-2"
+                    className="w-9 lg:w-16 hover:invert me-2 p-1"
                     src={dewormingIcon}
                     alt="deworming"
                   />
@@ -170,7 +173,6 @@ export function Dewormings() {
                 </ul>
               </div>
 
-              {/* SHOWS DETAILS ABOUT DEWORMINGS IF YOU CLIC ON THE DIV--------------- */}
               {selectedDeworming === deworming && (
                 <div className="flex flex-col justify-center w-full my-6 px-10">
                   <div>

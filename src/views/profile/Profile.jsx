@@ -10,10 +10,7 @@ export const Profile = () => {
   const { store, actions } = useContext(Context);
   const { user } = store.userState;
   const { onLogout } = actions;
-
-  const [selectedPet, setSelectedPet] = useState(
-    user.owned_pets ? user.owned_pets[0] : null
-  );
+  const [selectedPet, setSelectedPet] = useState(user.pets[0] || null);
 
   const handlerSelectedPet = (pet) => {
     setSelectedPet(pet);

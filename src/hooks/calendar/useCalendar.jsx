@@ -1,4 +1,10 @@
+import { useContext } from "react";
+import { Context } from "../../store/appContext";
+
 export const useCalendar = () => {
+  const { actions } = useContext(Context);
+  const { onEvents } = actions;
+
   const eventsByDb = async (user_id) => {
     try {
       const response = await fetch(
@@ -13,6 +19,7 @@ export const useCalendar = () => {
         acc[eventDateKey].push(event);
         return acc;
       }, {});
+      onEvents(formattedEvents);
       return formattedEvents;
     } catch (error) {
       console.log(error);

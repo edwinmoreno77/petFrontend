@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext } from "react";
-import { Context } from "../store/appContext";
-import { useCalendar } from "../hooks/useCalendar";
+import { Context } from "../../store/appContext";
+import { useCalendar } from "../calendar/useCalendar";
 
 export const useCalendarLogic = () => {
-  const { store } = useContext(Context);
+  const { store, actions } = useContext(Context);
   const { user } = store.userState;
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [events, setEvents] = useState({});
@@ -13,15 +13,13 @@ export const useCalendarLogic = () => {
   const { eventsByDb, addEvent, deleteEvent, updateEvent } = useCalendar();
 
   useEffect(() => {
-    if (user && user.id) {
-      const getEventsByDb = async () => {
-        const databaseEvents = await eventsByDb(user.id);
-        setEvents(databaseEvents);
-      };
-      getEventsByDb();
-    }
+    const loadEvents = async () => {
+      const databaseEvents = await eventsByDb(user.id);
+      setEvents(databaseEvents);
+    };
+    loadEvents();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.id]);
+  }, []);
 
   const daysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
   const currentYear = selectedDate.getFullYear();
@@ -37,7 +35,7 @@ export const useCalendarLogic = () => {
 
   const handleNewEventChange = (e) => setNewEvent(e.target.value);
 
-  const handleAddEvent = async () => {
+  async function handleAddEvent() {
     if (newEvent.trim()) {
       const newEventData = await addEvent(user.id, newEvent, selectedDate);
       setEvents((prevEvents) => {
@@ -48,15 +46,16 @@ export const useCalendarLogic = () => {
           ...updatedEvents[eventDateKey],
           newEventData,
         ];
+        actions.onEvents(updatedEvents);
         return updatedEvents;
       });
       setNewEvent("");
       setIsEditing(false);
       setEventToEdit(null);
     }
-  };
+  }
 
-  const handleDeleteEvent = async (eventId) => {
+  async function handleDeleteEvent(eventId) {
     const events = await deleteEvent(eventId, user.id);
     if (events) {
       setEvents((prevEvents) => {
@@ -67,21 +66,22 @@ export const useCalendarLogic = () => {
           );
           if (updatedEvents[date].length === 0) delete updatedEvents[date];
         }
+        actions.onEvents(updatedEvents);
         return updatedEvents;
       });
     }
-  };
+  }
 
-  const handleEditEvent = (id) => {
+  async function handleEditEvent(id) {
     const eventToEditObj = events[selectedDayKey].find(
       (event) => event.id === id
     );
     setNewEvent(eventToEditObj.description);
     setIsEditing(true);
     setEventToEdit(id);
-  };
+  }
 
-  const handleUpdateEvent = async () => {
+  async function handleUpdateEvent() {
     if (eventToEdit && newEvent.trim()) {
       const formattedEvents = await updateEvent(
         user.id,
@@ -89,12 +89,13 @@ export const useCalendarLogic = () => {
         newEvent,
         selectedDate
       );
+      actions.onEvents(formattedEvents);
       setEvents(formattedEvents);
       setNewEvent("");
       setIsEditing(false);
       setEventToEdit(null);
     }
-  };
+  }
 
   const handleSelectedDate = (day) => {
     setSelectedDate(new Date(currentYear, currentMonth, day + 1));
