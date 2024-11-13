@@ -49,7 +49,7 @@ export function Vaccines() {
   };
 
   const handlePetChange = (petId) => {
-    const selected = user.pets.find((pet) => pet.id === parseInt(petId));
+    const selected = user.owned_pets.find((pet) => pet.id === parseInt(petId));
     setSelectedPet(selected);
     fetchVaccines(petId);
   };

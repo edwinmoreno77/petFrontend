@@ -7,8 +7,14 @@ export const useCalendar = () => {
 
   const eventsByDb = async (user_id) => {
     try {
+      const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5004/getEventsByUserId/${user_id}`
+        `http://localhost:5004/getEventsByUserId/${user_id}`,
+        {
+          headers: {
+            authorization: "Bearer " + token,
+          },
+        }
       );
       if (!response.ok) throw new Error("Error al obtener los eventos");
 
@@ -28,9 +34,13 @@ export const useCalendar = () => {
 
   const addEvent = async (user_id, newEvent, selectedDate) => {
     try {
+      const token = localStorage.getItem("token");
       const response = await fetch(`http://localhost:5004/createEvents`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          authorization: "Bearer " + token,
+        },
         body: JSON.stringify({
           user_id: user_id,
           description: newEvent,
@@ -49,11 +59,15 @@ export const useCalendar = () => {
 
   const deleteEvent = async (eventId, user_id) => {
     try {
+      const token = localStorage.getItem("token");
       const response = await fetch(
         `http://localhost:5004/deleteEvent/${eventId}`,
         {
           method: "DELETE",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + token,
+          },
           body: JSON.stringify({ user_id }),
         }
       );
@@ -69,11 +83,15 @@ export const useCalendar = () => {
 
   const updateEvent = async (user_id, eventToEdit, newEvent, selectedDate) => {
     try {
+      const token = localStorage.getItem("token");
       const response = await fetch(
         `http://localhost:5004/updateEvent/${eventToEdit}`,
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + token,
+          },
           body: JSON.stringify({
             user_id: user_id,
             description: newEvent,
