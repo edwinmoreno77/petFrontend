@@ -14,27 +14,27 @@ export function Dewormings() {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const petsPerPage = 3;
 
-  const handlePetChange = async (petId) => {
+  const fetchDewormings = async (petId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5004/getDewormingsByPet/${petId}`
+      );
+      const data = await response.json();
+
+      if (response.ok) {
+        setDewormings(data.data);
+      } else {
+        console.error(data.message);
+      }
+    } catch (error) {
+      console.error("Error fetching dewormings:", error);
+    }
+  };
+
+  const handlePetChange = (petId) => {
     const selected = user.pets.find((pet) => pet.id === parseInt(petId));
     setSelectedPet(selected);
-
-    // LLAMADA AL BACKEND, DESPARACITACIONES POR MASCOTA----------------------------
-    if (petId) {
-      try {
-        const response = await fetch(
-          `http://localhost:5004/getDewormingsByPet/${petId}`
-        );
-        const data = await response.json();
-
-        if (response.ok) {
-          setDewormings(data.data);
-        } else {
-          console.error(data.message);
-        }
-      } catch (error) {
-        console.error("Error fetching dewormings:", error);
-      }
-    }
+    fetchDewormings(petId);
   };
 
   const handleDewormingClick = (deworming) => {
@@ -70,7 +70,6 @@ export function Dewormings() {
             Registro de Desparasitaciones
           </h1>
           <div className="flex flex-col md:flex-row md:items-center space-y-3 md:space-y-0 md:space-x-3 mt-6">
-            {/* CARROUSEL------------------------------------ */}
             <div className="flex items-center w-80 lg:w-96">
               <button
                 onClick={prevPage}
@@ -121,22 +120,26 @@ export function Dewormings() {
         </div>
       </div>
 
-      {isFormVisible && <FormDewormings />}
+      {isFormVisible && (
+        <FormDewormings
+          petId={selectedPet?.id}
+          onDewormingAdded={() => fetchDewormings(selectedPet.id)}
+        />
+      )}
 
-      {/* MUESTRA INFORMACIÓN PRINCIPAL DE LAS DESPARASITACIONES DE LA MASCOTA SELECCIONADA */}
       {selectedPet && dewormings.length > 0
         ? dewormings.map((deworming, index) => (
             <div
               key={index}
               onClick={() => handleDewormingClick(deworming)}
-              className={`flex flex-col justify-center items-center z-10 border-slate-800 shadow-slate-600 shadow-md p-3 hover:scale-105 duration-200 hover:bg-primary-green ease-in-out cursor-pointer text-center w-full max-w-3xl rounded-xl bg-black text-white mb-3 ${
+              className={`flex flex-col justify-center items-center z-10 border-slate-800 shadow-slate-600 shadow-md p-1 hover:scale-105 duration-200 hover:bg-primary-green ease-in-out cursor-pointer text-center w-full max-w-3xl rounded-xl bg-black text-white mb-3 ${
                 selectedDeworming === deworming ? "h-auto" : "h-32"
               }`}
             >
               <div className="flex flex-row items-center justify-around w-full p-2 text-xs lg:text-base lg:p-8">
                 <div>
                   <img
-                    className="w-9 lg:w-16 hover:invert me-2"
+                    className="w-9 lg:w-16 hover:invert me-2 p-1"
                     src={dewormingIcon}
                     alt="deworming"
                   />
@@ -152,7 +155,6 @@ export function Dewormings() {
                 </ul>
               </div>
 
-              {/* DETALLES DE LA DESPARASITACIÓN QUE SE MUESTRAN SOLO CUANDO LA SELECCIONAS--------------- */}
               {selectedDeworming === deworming && (
                 <div className="flex flex-col justify-center w-full my-6 px-10">
                   <div>
