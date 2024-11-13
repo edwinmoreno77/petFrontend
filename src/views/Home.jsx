@@ -5,11 +5,14 @@ import calendar from "../assets/calendar.svg";
 import dayCalendarIcon from "../assets/dayCalendarIcon.svg";
 import { Pagination } from "../components/common/Pagination";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+
 export function Home() {
   const { store } = useContext(Context);
   const user = store.userState?.user;
   const [events, setEvents] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
   const eventsPerPage = 4;
 
   const handlerEvent = async () => {
