@@ -1,15 +1,14 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import crear_cuenta from "../assets/crear_cuenta_pc_2.png";
-// import landing from "../assets/landing.jpg";
+import landing2 from "../assets/landing2.jpg";
 import logo from "../assets/logo.png";
 
 export const LandingPage = () => {
   return (
-    <main className="container-fluid bg-black min-h-screen flex flex-col items-center font-sans bg-image-motivo z-0">
-      {/* Navbar */}
-      <nav className="w-full fixed top-0 z-10 bg-opacity-90 backdrop-filter backdrop-blur-lg border-b border-gray-700">
-        <div className="container-fluid mx-auto px-6 py-4 flex justify-between md:ms-16 md:me-16 items-center">
+    <main className=" bg-black min-h-screen flex flex-col items-center font-sans bg-image-motivo z-0">
+      <nav className="w-full z-10 fixed bg-black bg-opacity-60 border-b border-gray-700">
+        <div className="mx-auto px-6 py-1 flex justify-between lg:ms-16 lg:me-16 items-center">
           <Link
             to="/home"
             className=" flex justify-between items-center gap-3 md:gap-5 text-3xl font-extrabold text-white"
@@ -17,7 +16,7 @@ export const LandingPage = () => {
             <div className="h-10 w-10 md:h-16 md:w-16">
               <img className="hover:brightness-150" src={logo} alt="logo" />
             </div>
-            <span className="text-base md:text-4xl hover:opacity-90 transition-opacity duration-300">
+            <span className="text-base md:text-4xl hover:opacity-90 transition-opacity duration-300 text-lime-500">
               PetCenter
             </span>
           </Link>
@@ -38,14 +37,13 @@ export const LandingPage = () => {
         </div>
       </nav>
 
-      {/* Hero Section */}
       <section
-        className="relative w-full h-screen bg-cover bg-center pt-20"
-        // style={{
-        //   backgroundImage: `url('${crear_cuenta}')`,
-        // }}
+        className="container-fluid relative w-full h-screen bg-fixed bg-cover bg-top"
+        style={{
+          backgroundImage: `url('${landing2}')`,
+        }}
       >
-        <div className="absolute inset-0 bg-black bg-opacity-0 flex flex-col justify-center items-center text-white text-center px-4">
+        <div className="absolute inset-0 bg-black bg-opacity-70 flex flex-col justify-center items-center text-white text-center px-4">
           <motion.h1
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -73,32 +71,42 @@ export const LandingPage = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
       <div className="container-fluid bg-white">
-        <section className="py-16 w-full text-center">
+        <section className="py-10 w-full text-center">
           <motion.h2
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            transition={{ duration: 1 }}
+            transition={{ duration: 1.5 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold mb-10 text-black"
+            className="text-2xl md:text-4xl lg:text-6xl font-extrabold mb-4 md:mb-10 text-lime-500"
           >
-            Testimonios de Clientes Felices
+            ¡NO MÁS PAPELEO!
+          </motion.h2>
+          <motion.h2
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 3 }}
+            viewport={{ once: true }}
+            className="text-2xl md:text-4xl lg:text-5xl font-extrabold mb-10 text-gray-500"
+          >
+            digitaliza los controles de tu mascota.
           </motion.h2>
           <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 px-6">
-            <motion.h1
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1.6 }}
-              viewport={{ once: true }}
-              className="p-6 rounded-lg bg-white text-5xl font-extrabold"
-            >
-              Control de Vacunas
-            </motion.h1>
+            <div className="flex items-center justify-center">
+              <motion.h1
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 1 }}
+                viewport={{ once: true }}
+                className="p-6 rounded-lg text-lime-500 bg-white text-2xl md:text-4xl lg:text-6xl font-extrabold"
+              >
+                CONTROL DE VACUNAS
+              </motion.h1>
+            </div>
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1.6 }}
+              transition={{ duration: 3 }}
               viewport={{ once: true }}
               className="p-6 rounded-lg bg-white"
             >
@@ -111,13 +119,12 @@ export const LandingPage = () => {
           </div>
         </section>
 
-        {/* Testimonials Section 2 */}
-        <section className="py-16  w-full text-center">
+        <section className="container-fluid py-16 z-10 w-full text-center">
           <div className=" mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 px-6">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1.6 }}
+              transition={{ duration: 3 }}
               viewport={{ once: true }}
               className="p-6 rounded-lg  bg-white"
             >
@@ -127,25 +134,22 @@ export const LandingPage = () => {
                 alt=""
               />
             </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1.6 }}
-              viewport={{ once: true }}
-              className="p-6 rounded-lg  bg-white"
-            >
-              <img
-                className="object-cover h-full w-full"
-                src={crear_cuenta}
-                alt=""
-              />
-            </motion.div>
+            <div className="flex items-center justify-center">
+              <motion.h1
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 1 }}
+                viewport={{ once: true }}
+                className="p-6 rounded-lg text-lime-500 bg-white text-2xl md:text-4xl lg:text-6xl font-extrabold"
+              >
+                CONTROL DE DESPARASITACIONES
+              </motion.h1>
+            </div>
           </div>
         </section>
       </div>
 
-      {/* Contact Section */}
-      <footer className="w-full py-16 text-center bg-black text-white">
+      <footer className="w-full container-fluid  py-16 text-center bg-black text-white">
         <motion.h2
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -160,12 +164,14 @@ export const LandingPage = () => {
           ¡Estamos aquí para ayudarte y para cuidar de tu mascota!
         </p>
         <motion.button
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0.8, scale: 0.8 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="px-8 py-4 bg-lime-500 rounded-full text-lg font-semibold hover:bg-gray-800 transition"
+          className="px-8 py-4  transition"
         >
-          Escríbenos
+          <div className="w-28 h-28 md:w-36 md:h-36">
+            <img className="object-cover w-full h-full" src={logo} alt="" />
+          </div>
         </motion.button>
       </footer>
     </main>
