@@ -1,10 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Swal from 'sweetalert2'
 import { useForm } from "../../hooks/useForm";
-import { createUser } from "../../api/authRegister";
 import { citiesByRegion } from "../../const/citiesByRegion";
+import { validExtensions } from "../../utils/validateExtension";
 import add from "../../assets/addImages.svg";
+import { useAuth } from "../../hooks/useAuth";
+import { Context } from "../../store/appContext";
+import { EyeIcon } from "@heroicons/react/16/solid";
 
 const registerFormFields = {
   name: "",
@@ -20,56 +22,46 @@ const registerFormFields = {
 };
 
 export const FormRegister = () => {
-
+  const { createUser } = useAuth();
   const [availableComunas, setAvailableComunas] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const { formState, onInputChange, setFormState, onResetForm } =
     useForm(registerFormFields);
+  const [viewPassword, setViewPassword] = useState(false);
+
+  const { store } = useContext(Context);
+  const { userStatus } = store.userState;
+
+  const navigate = useNavigate();
+  const inputFileRef = useRef(null);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
 
-    if (file) {
-      const validExtensions = ["png", "jpg", "gif", "jpeg"];
-      const extension = file.name.split(".")[1];
-      if (!validExtensions.includes(extension)) {
-        return Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "La imagen debe ser de tipo: png, jpg, gif, jpeg ",
-        });
-      }
-
+    if (file && validExtensions(file)) {
       setSelectedImage(URL.createObjectURL(file));
       setFormState({ ...formState, image: file });
     }
   };
 
-  useEffect(() => {
-    if (formState.region) {
-      setAvailableComunas(citiesByRegion[formState.region] || []);
-    } else {
-      setAvailableComunas([]);
-    }
-  }, [formState.region]);
-
-  const inputFileRef = useRef(null);
-
   const handleClick = () => {
     inputFileRef.current.click();
   };
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    formState.region
+      ? setAvailableComunas(citiesByRegion[formState.region] || [])
+      : setAvailableComunas([]);
+  }, [formState.region]);
 
-  //TODO: hook handler error messages
   const handlerCreateUser = async (e, formState) => {
     e.preventDefault();
 
-    const form = e.target.closest('form');
+    const form = e.target.closest("form");
 
     if (!form.checkValidity()) {
       form.reportValidity();
-      return; 
+      return;
     }
 
     const formData = new FormData();
@@ -78,42 +70,22 @@ export const FormRegister = () => {
       formData.append(key, formState[key]);
     });
 
-    const message = await createUser(formData);
-
-    if (message.message == "User already exists") {
-      
-      return Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: message.message,
-      });
-
-    } else if (message.message == "User created successfully") {
-
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: message.message,
-        showConfirmButton: false,
-        timer: 2000
-      });
+    const response = await createUser(formData);
+    if (response && response.user) {
       onResetForm();
-      navigate("/perfil");
-
-    } else {
-      return Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: message.message,
-      });
+      navigate("/profile");
     }
   };
 
+  const handleViewPassword = () => {
+    setViewPassword(!viewPassword);
+  };
+
   return (
-    <form className="bg-white w-80 md:w-6/12 lg:min-w-1/4 shadow-lg rounded-2xl my-2">
-      <div className="flex justify-center font-bold mt-3 2xl:my-7">
+    <form className="bg-white w-80 md:w-6/12 lg:min-w-1/4 shadow-lg rounded-2xl mt-2 mb-20 lg:mb-5">
+      <div className="flex justify-center font-bold mt-3 2xl:my-5">
         <div
-          className="flex items-center justify-center bg-slate-100 w-28 h-28 2xl:h-40 2xl:w-40 rounded-lg shadow-inner ease-in-out duration-200 hover:scale-105 cursor-pointer"
+          className="flex items-center justify-center bg-slate-100 w-28 h-28 2xl:h-36 2xl:w-36 rounded-lg shadow-inner shadow-gray-500/50 ease-in-out duration-200 hover:scale-105 cursor-pointer"
           onClick={handleClick}
         >
           <img
@@ -121,7 +93,7 @@ export const FormRegister = () => {
             alt="image"
             className={`object-cover ${
               selectedImage
-                ? "w-full h-full border-x-2 border-y-2 border-slate-600 rounded-lg shadow-md hover:shadow-xl hover:brightness-105"
+                ? "w-full h-full border-x-2 border-y-2 border-slate-600 rounded-lg shadow-md  hover:shadow-xl hover:brightness-105"
                 : ""
             }`}
           />
@@ -134,12 +106,12 @@ export const FormRegister = () => {
           onChange={handleImageUpload}
         />
       </div>
-      <div className="flex flex-col justify-center px-3 py-2 md:py-1">
+      <div className="flex flex-col justify-center px-5 py-2 md:py-1">
         <label className="text-xs" htmlFor="name">
           Nombre:
         </label>
         <input
-          className="shadow-inner p-1 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-600"
+          className=" border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           type="text"
           id="name"
           name="name"
@@ -151,7 +123,7 @@ export const FormRegister = () => {
           Apellido:
         </label>
         <input
-          className="shadow-inner p-1 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-600"
+          className=" border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           type="text"
           id="lastName"
           name="lastName"
@@ -163,7 +135,7 @@ export const FormRegister = () => {
           Rut:
         </label>
         <input
-          className="shadow-inner p-1 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-600"
+          className=" border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           type="text"
           id="rut"
           name="rut"
@@ -177,7 +149,7 @@ export const FormRegister = () => {
           Correo:
         </label>
         <input
-          className="shadow-inner p-1 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-600"
+          className=" border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           type="email"
           id="email"
           name="email"
@@ -189,22 +161,35 @@ export const FormRegister = () => {
         <label className="text-xs" htmlFor="password">
           Contraseña:
         </label>
-        <input
-          className="shadow-inner p-1 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-600"
-          type="password"
-          id="password"
-          name="password"
-          placeholder="******"
-          value={formState.password}
-          onChange={onInputChange}
-          autoComplete="true"
-          required
-        />
+        <div className="relative">
+          <input
+            className="w-full border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400 pr-10"
+            type={viewPassword ? "text" : "password"}
+            id="password"
+            name="password"
+            placeholder="******"
+            value={formState.password}
+            onChange={onInputChange}
+            autoComplete="true"
+            required
+          />
+          <span onClick={handleViewPassword}>
+            {viewPassword ? (
+              <EyeIcon
+                className={`absolute right-3 top-1/2 transform -translate-y-1/2 hover:brightness-125 text-lime-400 cursor-pointer w-5 h-5`}
+              />
+            ) : (
+              <EyeIcon
+                className={`absolute right-3 top-1/2 transform -translate-y-1/2 hover:brightness-125 text-gray-400 cursor-pointer w-5 h-5`}
+              />
+            )}
+          </span>
+        </div>
         <label className="text-xs" htmlFor="region">
           Region:
         </label>
         <select
-          className="shadow-inner text-xs p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-600"
+          className=" border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           id="region"
           name="region"
           value={formState.region}
@@ -214,23 +199,23 @@ export const FormRegister = () => {
           <option className="text-xs" disabled value="">
             Selecciona una región
           </option>
-          <option className="text-xs" value="Arica y Parinacota">
-            Arica y Parinacota
+          <option className="text-xs" value="Región de Arica y Parinacota">
+            Región de Arica y Parinacota
           </option>
-          <option className="text-xs" value="Tarapacá">
-            Tarapacá
+          <option className="text-xs" value="Región de Tarapacá">
+            Región de Tarapacá
           </option>
-          <option className="text-xs" value="Antofagasta">
-            Antofagasta
+          <option className="text-xs" value="Región de Antofagasta">
+            Región de Antofagasta
           </option>
-          <option className="text-xs" value="Atacama">
-            Atacama
+          <option className="text-xs" value="Región de Atacama">
+            Región de Atacama
           </option>
-          <option className="text-xs" value="Coquimbo">
-            Coquimbo
+          <option className="text-xs" value="Región de Coquimbo">
+            Región de Coquimbo
           </option>
-          <option className="text-xs" value="Valparaíso">
-            Valparaíso
+          <option className="text-xs" value="Región de Valparaíso">
+            Región de Valparaíso
           </option>
           <option
             className="text-xs"
@@ -274,7 +259,7 @@ export const FormRegister = () => {
           Comuna:
         </label>
         <select
-          className="shadow-inner text-xs p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-600"
+          className=" border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           id="comuna"
           name="comuna"
           title="comuna"
@@ -295,7 +280,7 @@ export const FormRegister = () => {
           Dirección:
         </label>
         <input
-          className="shadow-inner p-1 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-600"
+          className=" border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           type="text"
           id="direction"
           name="direction"
@@ -308,7 +293,7 @@ export const FormRegister = () => {
           Telefono:
         </label>
         <input
-          className="shadow-inner p-1 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-600"
+          className=" border border-gray-300 rounded-lg shadow-inner shadow-gray-500/50 p-1 2xl:p-1.5 focus:outline-none focus:ring-1 focus:ring-gray-400"
           type="text"
           id="cellphone"
           name="cellphone"
@@ -322,15 +307,24 @@ export const FormRegister = () => {
             to={"/login"}
             className="underline font-semibold text-lime-600 hover:brightness-125 cursor-pointer"
           >
-            inicia seseión
+            inicia sesión
           </Link>
         </p>
         <button
           type="submit"
           onClick={(e) => handlerCreateUser(e, formState)}
-          className="bg-lime-400 font-semibold shadow-md hover:brightness-110  ease-in-out duration-200 text-white rounded-md mx-4 my-3 px-1 py-2"
+          className={`bg-lime-400 font-semibold shadow-md hover:brightness-110 ease-in-out duration-200 text-white rounded-md mx-4 my-3 px-1 py-2 flex justify-center items-center
+            ${
+              userStatus === "checking" ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+          disabled={userStatus === "checking"}
         >
-          Crear Cuenta
+          {userStatus === "checking" && (
+            <span className="flex items-center">
+              <div className="animate-spin h-5 w-5 border-4 border-t-transparent border-white rounded-full mr-3"></div>
+            </span>
+          )}
+          <span>Crear Cuenta</span>
         </button>
       </div>
     </form>
