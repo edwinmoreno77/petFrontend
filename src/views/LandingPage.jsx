@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import crear_cuenta from "../assets/crear_cuenta_pc_2.png";
 import landing2 from "../assets/landing2.jpg";
+import vaccines from "../assets/vaccinesVideo.mp4";
+import calendar from "../assets/calendarVideo.mp4";
+import dewormings from "../assets/dewormingsVideo.mp4";
 import logo from "../assets/logo.png";
 
 export const LandingPage = () => {
   return (
-    <main className=" bg-black min-h-screen flex flex-col items-center font-sans bg-image-motivo z-0">
+    <main className=" bg-black min-h-screen flex flex-col items-center font-sans z-0 ">
       <nav className="w-full z-10 fixed bg-black bg-opacity-60 border-b border-gray-700">
         <div className="mx-auto px-6 py-1 flex justify-between lg:ms-16 lg:me-16 items-center">
           <Link
@@ -31,7 +33,7 @@ export const LandingPage = () => {
               to="/register"
               className="px-2 py-1 md:px-4 md:py-2 bg-lime-500 text-gray-900 font-semibold rounded-md transition-colors duration-300 hover:brightness-150"
             >
-              Registro de usuario
+              Registrarse
             </Link>
           </div>
         </div>
@@ -89,16 +91,16 @@ export const LandingPage = () => {
             viewport={{ once: true }}
             className="text-2xl md:text-4xl lg:text-5xl font-extrabold mb-10 text-gray-500"
           >
-            digitaliza los controles de tu mascota.
+            Digitaliza los controles de tus mascotas.
           </motion.h2>
-          <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 px-6">
+          <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-0 px-6">
             <div className="flex items-center justify-center">
               <motion.h1
                 initial={{ opacity: 0, x: -50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1 }}
                 viewport={{ once: true }}
-                className="p-6 rounded-lg text-lime-500 bg-white text-2xl md:text-4xl lg:text-6xl font-extrabold"
+                className="p-6 rounded-lg text-lime-500 bg-white text-2xl md:text-3xl lg:text-4xl xl:text-6xl font-extrabold"
               >
                 CONTROL DE VACUNAS
               </motion.h1>
@@ -110,46 +112,84 @@ export const LandingPage = () => {
               viewport={{ once: true }}
               className="p-6 rounded-lg bg-white"
             >
-              <img
-                src={crear_cuenta}
+              <video
+                src={vaccines}
                 className="object-cover h-full w-full"
-                alt=""
+                autoPlay
+                loop
+                muted
+                playsInline
               />
             </motion.div>
           </div>
         </section>
 
-        <section className="container-fluid py-16 z-10 w-full text-center">
-          <div className=" mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 px-6">
+        <section className="container-fluid py-0 md:py-16 z-10 w-full text-center">
+          <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-0 px-6">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 3 }}
               viewport={{ once: true }}
-              className="p-6 rounded-lg  bg-white"
+              className="p-6 rounded-lg bg-white order-2 md:order-1"
             >
-              <img
-                src={crear_cuenta}
+              <video
+                src={dewormings}
                 className="object-cover h-full w-full"
-                alt=""
+                autoPlay
+                loop
+                muted
+                playsInline
               />
             </motion.div>
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center order-1 md:order-2">
               <motion.h1
                 initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1 }}
                 viewport={{ once: true }}
-                className="p-6 rounded-lg text-lime-500 bg-white text-2xl md:text-4xl lg:text-6xl font-extrabold"
+                className="p-6 rounded-lg text-lime-500 bg-white text-2xl md:text-3xl lg:text-4xl xl:text-6xl font-extrabold"
               >
                 CONTROL DE DESPARASITACIONES
               </motion.h1>
             </div>
           </div>
         </section>
+
+        <section className="py-10 w-full text-center">
+          <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-0 px-6">
+            <div className="flex items-center justify-center ">
+              <motion.h1
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 1 }}
+                viewport={{ once: true }}
+                className="p-6 rounded-lg text-lime-500 bg-white text-2xl md:text-3xl lg:text-4xl xl:text-6xl font-extrabold"
+              >
+                CONTROL DE CITAS
+              </motion.h1>
+            </div>
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 3 }}
+              viewport={{ once: true }}
+              className="p-1 rounded-lg bg-white"
+            >
+              <video
+                src={calendar}
+                className="object-cover h-full w-full"
+                autoPlay
+                loop
+                muted
+                playsInline
+              />
+            </motion.div>
+          </div>
+        </section>
       </div>
 
-      <footer className="w-full container-fluid  py-16 text-center bg-black text-white">
+      <footer className="w-full container-fluid  py-16 text-center bg-black text-white bg-image-motivo">
         <motion.h2
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
