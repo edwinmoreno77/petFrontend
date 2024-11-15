@@ -1,17 +1,32 @@
 import { useContext } from "react";
 import Swal from "sweetalert2";
 import { Context } from "../store/appContext";
+import { useNavigate } from "react-router-dom";
 
 export const usePet = () => {
   const { actions } = useContext(Context);
   const { onLogin } = actions;
+  const navigate = useNavigate();
 
   const createPet = async (petData) => {
     try {
+      const token = localStorage.getItem("token");
       const response = await fetch("http://localhost:5004/createPet", {
         method: "POST",
+        headers: { authorization: "Bearer " + token },
         body: petData,
       });
+
+      if (response.status === 401) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Su sesión ha expirado. Por favor, inicie sesión nuevamente.",
+        }).then(() => {
+          navigate("/login");
+        });
+        return;
+      }
 
       if (!response.ok) {
         if (response.status == 409) {
@@ -63,6 +78,7 @@ export const usePet = () => {
 
   const deletePet = async (petId, userId) => {
     try {
+      const token = localStorage.getItem("token");
       const result = await Swal.fire({
         title: "¿Estás seguro?",
         text: "No podrás revertir esto!",
@@ -79,9 +95,21 @@ export const usePet = () => {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            authorization: "Bearer " + token,
           },
           body: JSON.stringify({ petId, userId }),
         });
+
+        if (response.status === 401) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Su sesión ha expirado. Por favor, inicie sesión nuevamente.",
+          }).then(() => {
+            navigate("/login");
+          });
+          return;
+        }
 
         if (!response.ok) {
           throw new Error(`Error: ${response.statusText}`);

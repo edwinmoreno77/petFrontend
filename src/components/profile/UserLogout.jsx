@@ -1,9 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { Context } from "../../store/appContext";
 import logout from "../../assets/logout.svg";
 import PropTypes from "prop-types";
 
-export const UserLogout = ({ user, onLogout }) => {
+export const UserLogout = (onLogout) => {
   const navigate = useNavigate();
+  const { store } = useContext(Context);
+  const { user } = store.userState;
 
   const hadleLogout = () => {
     onLogout();

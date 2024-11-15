@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
 import { FormVaccines } from "../components/vaccines/FormVaccines";
@@ -7,8 +7,9 @@ import vaccineIcon from "../assets/vaccineIcon.svg";
 import Swal from "sweetalert2";
 
 export function Vaccines() {
-  const { store } = useContext(Context);
+  const { store, actions } = useContext(Context);
   const { user } = store.userState;
+  const { pets } = store;
   const [selectedPet, setSelectedPet] = useState(null);
   const [vaccines, setVaccines] = useState([]);
   const [selectedVaccine, setSelectedVaccine] = useState(null);
@@ -16,6 +17,12 @@ export function Vaccines() {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const navigate = useNavigate();
   const petsPerPage = 3;
+
+  useEffect(() => {
+    if (user?.id) {
+      actions.fetchPets(user.id, navigate);
+    }
+  }, [user]);
 
   const fetchVaccines = async (petId) => {
     try {
@@ -49,7 +56,7 @@ export function Vaccines() {
   };
 
   const handlePetChange = (petId) => {
-    const selected = user.owned_pets.find((pet) => pet.id === parseInt(petId));
+    const selected = pets.find((pet) => pet.id === parseInt(petId));
     setSelectedPet(selected);
     fetchVaccines(petId);
   };
@@ -59,7 +66,7 @@ export function Vaccines() {
   };
 
   const nextPage = () => {
-    if (currentIndex < Math.floor(user.owned_pets?.length / petsPerPage)) {
+    if (currentIndex < Math.floor(pets?.length / petsPerPage)) {
       setCurrentIndex(currentIndex + 1);
     }
   };
@@ -70,7 +77,7 @@ export function Vaccines() {
     }
   };
 
-  const displayedPets = user.owned_pets?.slice(
+  const displayedPets = pets?.slice(
     currentIndex * petsPerPage,
     (currentIndex + 1) * petsPerPage
   );
@@ -112,8 +119,7 @@ export function Vaccines() {
               <button
                 onClick={nextPage}
                 disabled={
-                  currentIndex >=
-                  Math.floor(user.owned_pets?.length / petsPerPage)
+                  currentIndex >= Math.floor(pets?.length / petsPerPage)
                 }
                 className="text-xxs md:text-sm p-1 md:p-2 rounded-full  bg-black shadow-sm  hover:bg-lime-500  hover:shadow-2xl shadow-lime-500 hover:text-black transition duration-200 hover:scale-110 ease-in-out"
               >

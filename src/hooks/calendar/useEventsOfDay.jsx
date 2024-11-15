@@ -22,10 +22,9 @@ export const useEventsOfDay = () => {
 
       setEventsOfTheDay(todayEvents);
     };
-
-    fetchEvents();
+    if (user?.id) fetchEvents();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [store.userState.user]);
 
   return { eventsOfTheDay };
 };

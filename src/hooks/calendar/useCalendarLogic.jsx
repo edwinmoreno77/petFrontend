@@ -14,12 +14,14 @@ export const useCalendarLogic = () => {
 
   useEffect(() => {
     const loadEvents = async () => {
-      const databaseEvents = await eventsByDb(user.id);
-      setEvents(databaseEvents);
+      if (user?.id) {
+        const databaseEvents = await eventsByDb(user.id);
+        setEvents(databaseEvents);
+      }
     };
+
     loadEvents();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user?.id]);
 
   const daysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
   const currentYear = selectedDate.getFullYear();
