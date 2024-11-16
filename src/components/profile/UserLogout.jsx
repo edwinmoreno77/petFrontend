@@ -2,15 +2,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { Context } from "../../store/appContext";
 import logout from "../../assets/logout.svg";
-import PropTypes from "prop-types";
 
-export const UserLogout = (onLogout) => {
+export const UserLogout = () => {
   const navigate = useNavigate();
-  const { store } = useContext(Context);
+  const { store, actions } = useContext(Context);
   const { user } = store.userState;
 
   const hadleLogout = () => {
-    onLogout();
+    actions.onLogout();
     localStorage.clear();
     navigate("/");
   };
@@ -21,12 +20,12 @@ export const UserLogout = (onLogout) => {
           <Link to={"/home"}>
             <img
               className="object-cover h-full w-full rounded-full transition ease-in-out duration-200 border-2 hover:border-4 border-lime-500 shadow-md hover:shadow-lime-500 hover:scale-110"
-              src={user.image}
+              src={user?.image}
               alt="user image"
             />
           </Link>
         </div>
-        <h1 className="font-extrabold text-xl md:text-2xl">{user.name}</h1>
+        <h1 className="font-extrabold text-xl md:text-2xl">{user?.name}</h1>
       </div>
       <span onClick={hadleLogout} className="p-5 font-extrabold text-sm">
         <img
@@ -37,9 +36,4 @@ export const UserLogout = (onLogout) => {
       </span>
     </div>
   );
-};
-
-UserLogout.propTypes = {
-  user: PropTypes.object.isRequired,
-  onLogout: PropTypes.func.isRequired,
 };

@@ -1,22 +1,9 @@
 import PropTypes from "prop-types";
-import { useEffect, useContext } from "react";
-import { Context } from "../../store/appContext";
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { usePet } from "../../hooks/usePet";
 
-export const PetCard = () => {
+export const PetCard = ({ pet, user }) => {
   const { deletePet } = usePet();
-  const { store, actions } = useContext(Context);
-  const { user } = store.userState;
-  const { pets } = store;
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (user?.id) {
-      actions.fetchPets(user.id, navigate);
-    }
-  }, [user]);
 
   return (
     <section className="mb-8">
@@ -29,9 +16,9 @@ export const PetCard = () => {
             className="w-64 h-64 md:w-full md:h-full rounded-lg"
           >
             <img
-              src={pets.image}
+              src={pet.image}
               className="w-full h-full object-cover shadow-xl rounded-lg"
-              alt={pets.name}
+              alt={pet.name}
             />
           </motion.div>
         </div>
@@ -41,13 +28,13 @@ export const PetCard = () => {
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="w-full md:w-7/12 text-center md:pl-5"
         >
-          <h3 className="text-3xl font-bold my-5">{pets.name}</h3>
-          <p className="text-lg">Animal: {pets.animal}</p>
-          <p className="text-lg">Raza: {pets.race}</p>
-          <p className="text-lg">Cumpleaños: {pets.birthday}</p>
+          <h3 className="text-3xl font-bold my-5">{pet.name}</h3>
+          <p className="text-lg">Animal: {pet.animal}</p>
+          <p className="text-lg">Raza: {pet.race}</p>
+          <p className="text-lg">Cumpleaños: {pet.birthday}</p>
           <div className="flex justify-evenly items-center mt-9">
             <button
-              onClick={() => deletePet(pets.id, user.id)}
+              onClick={() => deletePet(pet.id, user.id)}
               className="flex gap-1 border-2 border-black hover:border-red-800 text-red-800 font-bold transition ease-in-out hover:brightness-125 py-2 px-4 rounded-lg my-5"
             >
               Eliminar
@@ -76,6 +63,6 @@ export const PetCard = () => {
 };
 
 PetCard.propTypes = {
-  pets: PropTypes.object.isRequired,
+  pet: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
 };

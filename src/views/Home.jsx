@@ -78,13 +78,13 @@ export function Home() {
           <Link to={"/profile"}>
             <img
               className="object-cover h-full w-full rounded-full transition ease-in-out duration-200 border-2 hover:border-4 border-lime-500 shadow-md hover:shadow-lime-500 hover:scale-110"
-              src={user.image}
+              src={user?.image}
               alt="user image"
             />
           </Link>
         </div>
         <h1 className="font-extrabold text-xl md:text-2xl">
-          {user ? `Bienvenid@, ${user.name}!` : "Cargando..."}
+          {user ? `Bienvenid@, ${user?.name}!` : "Cargando..."}
         </h1>
       </div>
 

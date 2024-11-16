@@ -11,14 +11,13 @@ export const Profile = () => {
   const { store, actions } = useContext(Context);
   const { user } = store.userState;
   const { pets } = store;
-  const { onLogout } = actions;
   const navigate = useNavigate();
   const [selectedPet, setSelectedPet] = useState(
     pets?.length > 0 ? pets[0] : null
   );
 
-  const handlerSelectedPet = (pets) => {
-    setSelectedPet(pets);
+  const handlerSelectedPet = (pet) => {
+    setSelectedPet(pet);
   };
 
   useEffect(() => {
@@ -38,7 +37,7 @@ export const Profile = () => {
   return (
     <main className="container-fluid z-0 bg-image-motivo bg-black flex flex-col items-center justify-center  min-h-screen p-5 transition-all duration-200 ease-in-out">
       <section className="flex flex-col z-10 border-2 border-slate-800 shadow-slate-600 shadow-md justify-center items-center p-3 duration-200 ease-in-out cursor-pointer text-center  w-full max-w-4xl xl:max-w-5xl rounded-xl bg-black text-white mb-4">
-        <UserLogout user={user} onLogout={onLogout} />
+        <UserLogout />
         <ConfigurationOptions />
       </section>
       <section className="flex flex-col z-10 justify-center items-center border-2 border-slate-800 shadow-slate-600 shadow-md p-1 md:p-5   duration-200 ease-in-out cursor-pointer text-center  w-full max-w-4xl xl:max-w-5xl rounded-xl bg-black text-white mb-4">
@@ -47,19 +46,19 @@ export const Profile = () => {
         </h4>
         <div className="flex justify-evenly items-center w-full p-6">
           {pets?.length < 5 ? (
-            pets?.map((pets) => (
+            pets?.map((pet) => (
               <div
-                onClick={() => handlerSelectedPet(pets)}
-                key={pets.id}
+                onClick={() => handlerSelectedPet(pet)}
+                key={pet.id}
                 className="relative group flex justify-center items-center p-1 md:p-2"
               >
                 <span className="absolute top-1/2 left-1/2 z-10 transform -translate-x-1/2 -translate-y-1/2 text-white text-xs lg:text-lg font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out">
-                  {pets.name}
+                  {pet.name}
                 </span>
                 <div className="w-14 h-14 md:w-24 md:h-24 lg:w-24 lg:h-24 xl:w-36 xl:h-36 group-hover:shadow-md group-hover:shadow-lime-500 rounded-full ">
                   <img
                     className="object-cover w-full h-full group-hover:opacity-80 group-hover:blur-sm group-hover:brightness-50 rounded-full border-4 group-hover:shadow-md group-hover:shadow-lime-500 group-hover:scale-105 duration-200 ease-in-out"
-                    src={pets.image}
+                    src={pet.image}
                     alt="pets"
                   />
                 </div>
@@ -75,7 +74,7 @@ export const Profile = () => {
       </section>
       <section className="flex flex-col z-10 justify-center items-center border-2 border-slate-800 shadow-slate-600 shadow-md p-10 transition-all duration-200 ease-in-out text-center  w-full max-w-4xl xl:max-w-5xl  rounded-xl bg-black text-white mb-16 min-h-[600px]">
         {selectedPet ? (
-          <PetCard key={selectedPet.id} pets={selectedPet} user={user} />
+          <PetCard key={selectedPet.id} pet={selectedPet} user={user} />
         ) : (
           <Link
             to={"/profile/addpets"}

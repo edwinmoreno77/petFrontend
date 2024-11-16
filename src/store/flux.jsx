@@ -11,6 +11,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       events: {},
       pets: [],
+      vaccines: [],
     },
 
     actions: {
@@ -23,6 +24,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
         });
       },
+
       onLogin: (user) => {
         setStore({
           userState: {
@@ -32,6 +34,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
         });
       },
+
       onLogout: (error) => {
         setStore({
           userState: {
@@ -41,9 +44,11 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
         });
       },
+
       onEvents: (events) => {
         setStore({ events });
       },
+
       fetchPets: async (id, navigate) => {
         try {
           const token = localStorage.getItem("token");

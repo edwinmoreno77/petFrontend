@@ -1,3 +1,5 @@
+import { Context } from "../store/appContext";
+import { useContext } from "react";
 import { CalendarHeader } from "../components/calendar/CalendarHeader";
 import { CalendarGrid } from "../components/calendar/CalendarGrid";
 import { EventsList } from "../components/calendar/EventsList";
@@ -5,10 +7,11 @@ import { EventAdder } from "../components/calendar/EventAdder";
 import { useCalendarLogic } from "../hooks/calendar//useCalendarLogic";
 
 export const Calendar = () => {
+  const { store } = useContext(Context);
+  const { events } = store;
   const {
     //variables
     days,
-    events,
     firstDay,
     newEvent,
     isEditing,

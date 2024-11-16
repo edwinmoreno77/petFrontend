@@ -1,21 +1,36 @@
 import { useContext } from "react";
 import { Context } from "../../store/appContext";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 export const useCalendar = () => {
-  const { actions } = useContext(Context);
+  const { store, actions } = useContext(Context);
   const { onEvents } = actions;
+  const { user } = store.userState;
+  const navigate = useNavigate();
 
-  const eventsByDb = async (user_id) => {
+  const eventsByDb = async () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5004/getEventsByUserId/${user_id}`,
+        `http://localhost:5004/getEventsByUserId/${user.id}`,
         {
           headers: {
             authorization: "Bearer " + token,
           },
         }
       );
+      if (response.status === 401) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Su sesión ha expirado",
+        }).then(() => {
+          navigate("/login");
+        });
+        return;
+      }
+
       if (!response.ok) throw new Error("Error al obtener los eventos");
 
       const data = await response.json();
@@ -32,11 +47,11 @@ export const useCalendar = () => {
     }
   };
 
-  const addEvent = async (user_id, newEvent, selectedDate) => {
+  const addEvent = async (newEvent, selectedDate) => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5004/createEvents/${user_id}`,
+        `http://localhost:5004/createEvents/${user.id}`,
         {
           method: "POST",
           headers: {
@@ -44,7 +59,7 @@ export const useCalendar = () => {
             authorization: "Bearer " + token,
           },
           body: JSON.stringify({
-            user_id: user_id,
+            user_id: user.id,
             description: newEvent,
             event_date: selectedDate.toISOString(),
           }),

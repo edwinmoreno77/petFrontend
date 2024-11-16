@@ -14,7 +14,7 @@ export const CalendarGrid = ({
     if (selectedDate.getDate() !== selectedDate.getDate() - 1) {
       handleSelectedDate(selectedDate.getDate() - 1);
     }
-  }, [selectedDate]);
+  }, []);
 
   return (
     <div className="grid grid-cols-7 gap-1 md:gap-1 lg:gap-1 text-center">
