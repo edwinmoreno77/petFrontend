@@ -31,7 +31,7 @@ export const PetCard = ({ pet, user }) => {
           <h3 className="text-3xl font-bold my-5">{pet.name}</h3>
           <p className="text-lg">Animal: {pet.animal}</p>
           <p className="text-lg">Raza: {pet.race}</p>
-          <p className="text-lg">Cumpleaños: {pet.birthday}</p>
+          <p className="text-lg">Fecha de nacimiento: {pet.birthday}</p>
           <div className="flex justify-evenly items-center mt-9">
             <button
               onClick={() => deletePet(pet.id, user.id)}
