@@ -18,7 +18,7 @@ const vaccineFormFields = {
 export const FormVaccines = ({ onVaccineAdded }) => {
   const { createVaccine } = useVaccine();
   const { store } = useContext(Context);
-  const { user } = store.userState;
+  const { pets } = store;
   const inputFileRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [selectedPetAnimal, setSelectedPetAnimal] = useState("");
@@ -80,7 +80,7 @@ export const FormVaccines = ({ onVaccineAdded }) => {
 
   const handlePetNameChange = (e) => {
     const petName = e.target.value;
-    const selectedPet = user.owned_pets.find((pet) => pet.name === petName);
+    const selectedPet = pets.find((pet) => pet.name === petName);
 
     setFormState({
       ...formState,
@@ -120,7 +120,7 @@ export const FormVaccines = ({ onVaccineAdded }) => {
                 <option value="" disabled>
                   Selecciona a tu mascota
                 </option>
-                {user?.owned_pets.map((pet) => (
+                {pets.map((pet) => (
                   <option key={pet.id} value={pet.name} />
                 ))}
               </datalist>
