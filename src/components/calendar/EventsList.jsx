@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { motion } from "framer-motion";
 
 export const EventsList = ({
   events,
@@ -10,8 +11,11 @@ export const EventsList = ({
     <ul className="mb-2">
       {events[selectedDayKey] && events[selectedDayKey].length > 0 ? (
         events[selectedDayKey].map((event) => (
-          <li
+          <motion.li
             key={event.id}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
             className="p-2 mb-2 bg-gray-100 rounded shadow-sm flex justify-between items-center text-black"
           >
             <span className="text-gray-600 text-sm md:text-base font-serif">
@@ -31,7 +35,7 @@ export const EventsList = ({
                 🗑️
               </button>
             </div>
-          </li>
+          </motion.li>
         ))
       ) : (
         <li className="text-gray-500">No hay eventos para este día.</li>

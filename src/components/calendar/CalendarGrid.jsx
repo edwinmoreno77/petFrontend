@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 
@@ -17,7 +18,13 @@ export const CalendarGrid = ({
   }, []);
 
   return (
-    <div className="grid grid-cols-7 gap-1 md:gap-1 lg:gap-1 text-center">
+    <motion.div
+      key={`${selectedDate.getFullYear()}-${selectedDate.getMonth()}`}
+      initial={{ opacity: 0.5, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className="grid grid-cols-7 gap-1 md:gap-1 lg:gap-1 text-center"
+    >
       {["D", "L", "M", "M", "J", "V", "S"].map((day, index) => (
         <div key={index} className="font-medium text-gray-500">
           {day}
@@ -56,7 +63,7 @@ export const CalendarGrid = ({
           </button>
         );
       })}
-    </div>
+    </motion.div>
   );
 };
 
