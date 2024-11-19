@@ -39,7 +39,7 @@ export const useCalendarLogic = () => {
 
   async function handleAddEvent() {
     if (newEvent.trim()) {
-      const newEventData = await addEvent(user.id, newEvent, selectedDate);
+      const newEventData = await addEvent(newEvent, selectedDate);
       setEvents((prevEvents) => {
         const updatedEvents = { ...prevEvents };
         const eventDateKey = selectedDate.toDateString();

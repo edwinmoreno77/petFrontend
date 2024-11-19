@@ -61,7 +61,7 @@ export const useCalendar = () => {
           body: JSON.stringify({
             user_id: user.id,
             description: newEvent,
-            event_date: selectedDate.toISOString(),
+            event_date_str: selectedDate.toISOString(),
           }),
         }
       );
@@ -113,7 +113,7 @@ export const useCalendar = () => {
           body: JSON.stringify({
             user_id: user_id,
             description: newEvent,
-            date: selectedDate.toISOString(),
+            date: selectedDate.toISOString,
           }),
         }
       );
