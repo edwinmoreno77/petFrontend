@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export const usePet = () => {
   const { actions } = useContext(Context);
+
   const { onLogin } = actions;
   const navigate = useNavigate();
 

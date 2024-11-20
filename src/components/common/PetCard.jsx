@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { motion } from "framer-motion";
 import { usePet } from "../../hooks/usePet";
 
-export const PetCard = ({ pet, user }) => {
+export const PetCard = ({ pet, user, setSelectedPet }) => {
   const { deletePet } = usePet();
 
   return (
@@ -34,7 +34,10 @@ export const PetCard = ({ pet, user }) => {
           <p className="text-lg">Fecha de nacimiento: {pet.birthday}</p>
           <div className="flex justify-evenly items-center mt-9">
             <button
-              onClick={() => deletePet(pet.id, user.id)}
+              onClick={async () => {
+                await deletePet(pet.id, user.id);
+                setSelectedPet(null);
+              }}
               className="flex gap-1 border-2 border-black hover:border-red-800 text-red-800 font-bold transition ease-in-out hover:brightness-125 py-2 px-4 rounded-lg my-5"
             >
               Eliminar
@@ -65,4 +68,5 @@ export const PetCard = ({ pet, user }) => {
 PetCard.propTypes = {
   pet: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
+  setSelectedPet: PropTypes.func.isRequired,
 };

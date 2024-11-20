@@ -74,7 +74,12 @@ export const Profile = () => {
       </section>
       <section className="flex flex-col z-10 justify-center items-center border-2 border-slate-800 shadow-slate-600 shadow-md p-10 transition-all duration-200 ease-in-out text-center  w-full max-w-4xl xl:max-w-5xl  rounded-xl bg-black text-white mb-16 min-h-[600px]">
         {selectedPet ? (
-          <PetCard key={selectedPet.id} pet={selectedPet} user={user} />
+          <PetCard
+            key={selectedPet.id}
+            pet={selectedPet}
+            user={user}
+            setSelectedPet={setSelectedPet}
+          />
         ) : (
           <Link
             to={"/profile/addpets"}
