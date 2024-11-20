@@ -7,6 +7,7 @@ import add from "../../assets/addImages.svg";
 import { useAuth } from "../../hooks/useAuth";
 import { Context } from "../../store/appContext";
 import { EyeIcon } from "@heroicons/react/16/solid";
+import { EyeSlashIcon } from "@heroicons/react/24/solid";
 
 const registerFormFields = {
   name: "",
@@ -179,7 +180,7 @@ export const FormRegister = () => {
                 className={`absolute right-3 top-1/2 transform -translate-y-1/2 hover:brightness-125 text-lime-400 cursor-pointer w-5 h-5`}
               />
             ) : (
-              <EyeIcon
+              <EyeSlashIcon
                 className={`absolute right-3 top-1/2 transform -translate-y-1/2 hover:brightness-125 text-gray-400 cursor-pointer w-5 h-5`}
               />
             )}
