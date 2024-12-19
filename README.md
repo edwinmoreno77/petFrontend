@@ -29,7 +29,7 @@
 - Inicia la aplicación:
 
   ```
-  npm start
+  npm run dev
   ```
 
 # Uso
