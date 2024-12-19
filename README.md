@@ -3,6 +3,11 @@
 ## Introducción
 
  Pet Center es un proyecto diseñado para gestionar el cuidado y administración de mascotas en un entorno digital. Con esta plataforma, los usuarios pueden registrar, organizar y realizar un seguimiento de información relacionada con sus mascotas y servicios asociados.
+ 
+ <div style="display: flex; justify-content: center; gap: 10px;">
+  <img src="https://github.com/edwinmoreno77/Pet-Center/blob/main/src/assets/petCenterLogin_mobile.gif" alt="login" width="200">
+  <img src="https://github.com/edwinmoreno77/Pet-Center/blob/main/src/assets/calendarGif_petCenter.gif" alt="calendar" width="600">
+</div>
 
 ### Instalación
 
